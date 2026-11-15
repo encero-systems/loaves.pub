@@ -1,0 +1,122 @@
+{
+  "name": "crates-io/tower-lsp-macros",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "tower-lsp-macros",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/tower-lsp-macros"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Eyal Kalderon <ebkalderon@gmail.com>"
+        ],
+        "description": "Internal procedural macros for tower-lsp",
+        "documentation": "",
+        "homepage": "https://github.com/ebkalderon/tower-lsp",
+        "license": "MIT OR Apache-2.0",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/ebkalderon/tower-lsp",
+        "rust-version": "1.56.0"
+      },
+      "adopted": "2026-11-15T19:29:20Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:01de2760ab0e4c9c48dc2255da7a2ca68eac8ec1b072228057b9eb72e3556135",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/proc-macro2",
+          "name": "proc-macro2",
+          "optional": false,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/quote",
+          "name": "quote",
+          "optional": false,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "full"
+          ],
+          "loaf": "crates-io/syn",
+          "name": "syn",
+          "optional": false,
+          "req": "^2"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 474,
+          "content": "content/sha256/a265e9d0c54bbb918dcb9e620246cb3077c12998e73db123c235d0623108d26c",
+          "digest": "sha256:a265e9d0c54bbb918dcb9e620246cb3077c12998e73db123c235d0623108d26c",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 360,
+          "content": "content/sha256/4c2af0faec7544945d5901035fff7b71bcb9c93dc089827e4b8cc681f4dbcb52",
+          "digest": "sha256:4c2af0faec7544945d5901035fff7b71bcb9c93dc089827e4b8cc681f4dbcb52",
+          "format": "text",
+          "origin": "registry",
+          "path": "LICENSE",
+          "role": "license-notice"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "registry",
+        "readme": "registry"
+      },
+      "keywords": [],
+      "manifest": "crates-io/tower-lsp-macros/0.9.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-15T19:29:20Z",
+          "archive": "sha256:01de2760ab0e4c9c48dc2255da7a2ca68eac8ec1b072228057b9eb72e3556135",
+          "manifest": "crates-io/tower-lsp-macros/0.9.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "tower_lsp_macros",
+        "type": "proc-macro"
+      },
+      "upstream": {
+        "checksum": "sha256:84fd902d4e0b9a4b27f2f440108dc034e1758628a9b702f8ec61ad66355422fa",
+        "package": "tower-lsp-macros",
+        "registry": "crates-io",
+        "version": "0.9.0"
+      },
+      "vcs": {
+        "commit": "7b580128faa39b907db8f40bc53924181887acde",
+        "path": "tower-lsp-macros",
+        "system": "git"
+      },
+      "version": "0.9.0",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}
