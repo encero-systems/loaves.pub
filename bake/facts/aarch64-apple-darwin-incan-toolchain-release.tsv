@@ -1,0 +1,2 @@
+rustix	1.1.5	alloc,default,event,fs,mm,net,param,process,std,termios,time	release	target	bake/incan-toolchain/rustix/roots.json
+serde_json	1.0.151	default,raw_value,std,unbounded_depth	release	target	bake/incan-toolchain/serde_json/roots.json
