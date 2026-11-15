@@ -1,12 +1,12 @@
 """
 Compiled units as registry assets: one Oven store entry, packed into one deterministic archive.
 
-`incan oven compile-closure` leaves every unit it compiled in its store, one entry per unit, and lists them in the
-`units` of its `closure.json`: the Loaf, version, domain, features and profile, the unit identity (the entry's receipt
-identity) and the entry identity. An asset is one unit. Its archive holds what Oven's import verifies, and nothing
-else: the entry's `artifact.json`, its `payload`, and each file `artifact.json` lists under `artifacts/`, written with
-the rules of a source Loaf archive. Store bookkeeping (`last-used`, locks, byte caches) is no part of an entry. The
-binding an asset is filed under is the entry's `intent`: toolchain, target, profile and features.
+`oven compile-closure` writes a result directory: `closure.json` (`incan.oven.closure/1`), which lists every unit it
+compiled with its Loaf, version, features, domain, profile, target, unit identity and library, and `entries/`, one
+directory per unit named by its identity. An asset is one unit. Its archive holds the entry's `artifact.json`, its
+library once, as `payload` (installing it checks the digest and writes it back to the unit's `artifact` path), and every
+other file under its `artifacts/`, written with the rules of a source Loaf archive. The binding an asset is filed under
+is the closure's Rust compiler and the unit's target, profile and features.
 """
 
 from std.fs import Path
@@ -22,16 +22,22 @@ from tar import TarEntry, write_archive
 
 pub const UNIT_ARTIFACT: str = "application/vnd.incan.unit.v1"
 pub const UNIT_LAYER: str = "application/vnd.incan.unit.v1.tar"
+pub const CLOSURE_SCHEMA: str = "incan.oven.closure/1"
 
 
 @derive(Clone)
 pub model CompiledUnit:
-    """One unit a closure compiled: its Loaf and version, its unit identity and the store entry holding it."""
+    """
+    One unit a closure compiled: its Loaf and version, its unit identity (which also names its store entry), the digest
+    and result-relative path of its library, and the binding it was compiled under.
+    """
 
     pub loaf: str
     pub version: str
     pub unit: str
-    pub entry: str
+    pub payload: str
+    pub library: str
+    pub binding: Binding
 
 
 @derive(Clone)
@@ -48,54 +54,79 @@ pub model Packed:
     pub path: str
 
 
-pub def closure_units(closure: str) -> Result[list[CompiledUnit], str]:
-    """The `units` of a `closure.json`; a closure that refused anything has no units to publish."""
-    value = read_json(closure + "/closure.json")?
+pub def closure_units(result: str) -> Result[list[CompiledUnit], str]:
+    """
+    The `units` of a compile-closure result's `closure.json`. A closure that refused anything has no units to publish,
+    and every unit is checked before any is packed.
+    """
+    label = result + "/closure.json"
+    value = read_json(label)?
+    if string_member(value, "schema") != CLOSURE_SCHEMA:
+        return Err(f"{label}: schema must be {CLOSURE_SCHEMA}, the result `oven compile-closure` writes")
     refused = member(value, "refused")
     if refused.is_array() and refused.len() > 0:
-        return Err(f"{closure}/closure.json: the closure refused {canonical(refused)?}")
+        return Err(f"{label}: the closure refused {canonical(refused)?}")
+    rustc = string_member(member(value, "toolchain"), "rustc")
     match member(value, "units").as_array():
         Some(items) =>
             mut out: list[CompiledUnit] = []
             for item in items:
-                unit = CompiledUnit(
-                    loaf=string_member(item, "loaf"),
-                    version=string_member(item, "version"),
-                    unit=string_member(item, "unit"),
-                    entry=string_member(item, "entry"),
-                )
-                if not unit.loaf.startswith("crates-io/") or len(unit.version) == 0:
-                    return Err(f"{closure}/closure.json: unit {canonical(item)?} names no adopted crates.io Loaf")
-                if not is_sha256_identity(unit.unit) or not is_sha256_identity(unit.entry):
-                    return Err(f"{closure}/closure.json: unit {unit.loaf} {unit.version} has no `sha256:` identities")
-                out.append(unit)
+                out.append(compiled_unit(item, rustc, label)?)
             return Ok(out)
-        None => return Err(f"{closure}/closure.json: no `units`; it was written by a compile-closure that predates them")
+        None => return Err(f"{label}: no `units`")
 
 
-pub def pack_unit(store: str, unit: CompiledUnit, out: str) -> Result[Packed, str]:
+def compiled_unit(item: JsonValue, rustc: str, label: str) -> Result[CompiledUnit, str]:
+    """One listed unit, read and checked: an adopted Loaf, one identity, a library inside its own entry, a binding."""
+    loaf = string_member(item, "loaf")
+    version = string_member(item, "version")
+    if not loaf.startswith("crates-io/") or len(version) == 0:
+        return Err(f"{label}: unit {canonical(item)?} names no adopted crates.io Loaf")
+    where = f"{label}: {loaf} {version}"
+    unit = string_member(item, "entry")
+    if not is_sha256_identity(unit) or string_member(item, "unit") != unit:
+        return Err(f"{where}: `entry` and `unit` must be the same `sha256:` identity")
+    mut payload = string_member(item, "payload_digest")
+    if not payload.startswith("sha256:"):
+        payload = "sha256:" + payload
+    if not is_sha256_identity(payload):
+        return Err(f"{where}: `payload_digest` must be a SHA-256 digest")
+    library = string_member(item, "artifact")
+    entry_files = "entries/sha256-" + unit[7:] + "/artifacts/"
+    if not library.startswith(entry_files) or len(library) == len(entry_files) or library[len(entry_files):].contains("/"):
+        return Err(f"{where}: `artifact` must name a file directly in {entry_files}")
+    binding = validate_binding(JsonValue.object({
+        "toolchain": JsonValue.string(rustc),
+        "target": member(item, "target"),
+        "profile": member(item, "profile"),
+        "features": member(item, "features"),
+    }), where)?
+    return Ok(CompiledUnit(loaf=loaf, version=version, unit=unit, payload=payload, library=library, binding=binding))
+
+
+pub def pack_unit(result: str, unit: CompiledUnit, out: str) -> Result[Packed, str]:
     """
     Pack one store entry as `<out>/<archive hex>.tar`.
 
-    Every file is checked against the digest `artifact.json` gives it before it is packed, so an archive never carries
-    an entry the store itself would refuse.
+    The entry's `artifact.json` must name the unit, and its library must have the digest the closure gives it, so an
+    archive never carries another unit's bytes.
     """
     label = f"{unit.loaf} {unit.version}"
-    directory = store + "/entries/sha256-" + unit.entry[7:]
+    directory = result + "/entries/sha256-" + unit.unit[7:]
     artifact_bytes = read_bytes(directory + "/artifact.json")?
     artifact = parse_json(artifact_bytes, directory + "/artifact.json")?
-    if string_member(artifact, "identity") != unit.entry or string_member(artifact, "receipt_identity") != unit.unit:
-        return Err(f"{label}: store entry {unit.entry} does not hold unit {unit.unit}")
-    binding = validate_binding(member(artifact, "intent"), f"{label} intent")?
-    payload_bytes = read_bytes(directory + "/payload")?
-    payload = string_member(member(artifact, "payload"), "digest")
-    if digest_bytes(payload_bytes) != payload:
-        return Err(f"{label}: the entry's payload is not {payload}")
+    if string_member(artifact, "entry") != unit.unit:
+        return Err(f"{label}: store entry sha256-{unit.unit[7:]} does not hold unit {unit.unit}")
+    payload_bytes = read_bytes(result + "/" + unit.library)?
+    if digest_bytes(payload_bytes) != unit.payload:
+        return Err(f"{label}: its library is not {unit.payload}")
     mut entries: list[TarEntry] = [
         TarEntry(path="artifact.json", executable=false, data=artifact_bytes),
         TarEntry(path="payload", executable=false, data=payload_bytes),
     ]
-    entries = entries + materialized_files(artifact, directory, label)?
+    # The library travels once, as `payload`.
+    library = "artifacts/" + unit.library.split("/artifacts/")[1]
+    entries = entries + artifact_files(directory + "/artifacts", "artifacts", library, label)?
     archive = write_archive(entries)?
     digest = digest_bytes(archive)
     path = out + "/" + digest[7:] + ".tar"
@@ -106,30 +137,30 @@ pub def pack_unit(store: str, unit: CompiledUnit, out: str) -> Result[Packed, st
         name=unit.loaf[10:],
         version=unit.version,
         unit=unit.unit,
-        entry=unit.entry,
-        payload=payload,
-        binding=binding,
+        entry=unit.unit,
+        payload=unit.payload,
+        binding=unit.binding,
         archive=digest,
         path=path,
     ))
 
 
-pub def pack_closure(closure: str, only: list[str], out: str) -> Result[list[Packed], str]:
+pub def pack_closure(result: str, only: list[str], out: str) -> Result[list[Packed], str]:
     """
     Pack every unit a closure compiled into `out`, or with `only` just the units of those `NAME@VERSION`s, each of which
     must match a unit the closure compiled.
     """
     mut packed: list[Packed] = []
     mut matched: list[str] = []
-    for unit in closure_units(closure)?:
+    for unit in closure_units(result)?:
         selector = unit.loaf[10:] + "@" + unit.version
         if len(only) > 0 and not only.contains(selector):
             continue
         matched.append(selector)
-        packed.append(pack_unit(closure + "/closure-store/store", unit, out)?)
+        packed.append(pack_unit(result, unit, out)?)
     for selector in only:
         if not matched.contains(selector):
-            return Err(f"--only names {selector}, which {closure} did not compile")
+            return Err(f"--only names {selector}, which {result} did not compile")
     return Ok(packed)
 
 
@@ -169,22 +200,27 @@ def selection_key(item: Packed) -> str:
     return item.name + "\t" + item.version + "\t" + item.binding.key()
 
 
-def materialized_files(artifact: JsonValue, directory: str, label: str) -> Result[list[TarEntry], str]:
-    """The files `artifact.json` lists, read from `artifacts/` and checked against their digests."""
+def artifact_files(directory: str, prefix: str, skip: str, label: str) -> Result[list[TarEntry], str]:
+    """
+    Every file under an entry's `artifacts/` but `skip`, at its path below the entry. The archive digest covers their
+    bytes, and the second compile in another root must give the same archive, so a file that depends on the machine is
+    refused.
+    """
     mut out: list[TarEntry] = []
-    match member(artifact, "materialized_files").as_array():
-        Some(files) =>
-            for file in files:
-                relative = string_member(file, "relative_path")
-                if len(relative) == 0 or relative.startswith("/") or relative.contains(".."):
-                    return Err(f"{label}: artifact.json lists the file `{relative}`")
-                data = read_bytes(directory + "/artifacts/" + relative)?
-                if digest_bytes(data) != string_member(file, "digest"):
-                    return Err(f"{label}: artifacts/{relative} does not have the digest artifact.json gives it")
-                executable = member(file, "executable").as_bool().unwrap_or(false)
-                out.append(TarEntry(path="artifacts/" + relative, executable=executable, data=data))
-            return Ok(out)
-        None => return Err(f"{label}: artifact.json lists no `materialized_files`")
+    match Path(directory).iterdir():
+        Ok(children) =>
+            for child in children:
+                path = prefix + "/" + child.name()
+                if path == skip:
+                    continue
+                if child.is_dir():
+                    out = out + artifact_files(directory + "/" + child.name(), path, skip, label)?
+                elif child.is_file():
+                    out.append(TarEntry(path=path, executable=false, data=read_bytes(directory + "/" + child.name())?))
+                else:
+                    return Err(f"{label}: {path} is neither a file nor a directory")
+        Err(error) => return Err(f"{label}: {directory}: {error.message()}")
+    return Ok(out)
 
 
 pub def unit_tag(version: str, binding: Binding) -> Result[str, str]:

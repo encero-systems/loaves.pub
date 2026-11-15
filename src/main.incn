@@ -19,10 +19,10 @@ loaves-pub: the interim registry's tool. Admission (`check`), projection (`build
                           [--propose] [--actor ACTOR] [--root DIR]
     loaves-pub native-convert --trace DIR --libraries static=a,static=b --cc PATH --cxx PATH --sysroot DIR
     loaves-pub push-source NAME VERSION [--revision N] --cache DIR --blobs DIR --work DIR [--registry HOST] [--namespace NS]
-    loaves-pub pack-units CLOSURE_DIR --out DIR [--only NAME@VERSION,...] [--reproduces CLOSURE_DIR]
+    loaves-pub pack-units RESULT --out DIR [--only NAME@VERSION,...] [--reproduces RESULT]
     loaves-pub push-units DIR --builder KIND --attestation REF --toolchain ID --proposals DIR --work DIR [--registry HOST] [--namespace NS]
     loaves-pub admit-assets DIR --work DIR [--actor ACTOR] [--root DIR]
-    loaves-pub fetch-sources LOCK.json --blobs DIR --work DIR [--registry HOST] [--namespace NS]
+    loaves-pub fetch-sources LOCK --blobs DIR --work DIR [--registry HOST] [--namespace NS]
     loaves-pub describe-packages --work DIR [--registry HOST] [--namespace NS] [--root DIR]
     loaves-pub site --formatted DIR --templates DIR --checkpoint COMMIT --out DIR [--root DIR]
 
@@ -59,7 +59,7 @@ from adoption import (
     revision_keeps_sources,
 )
 from canonical import canonical, digest_bytes, digest_text, is_sha256_identity, pretty
-from closure import blob_path, crates_io_lines, find_line, plan_closure, prepare, reproduce
+from closure import blob_path, crates_io_lines, find_line, locked_archives, plan_closure, prepare, reproduce
 from cratesio import index_urls, verify_checksums
 from drop import drop_contradictions, drop_proposals, drop_refusals, proposal_subjects
 from buildscript import Selection, build_roots, record_proposal
@@ -992,14 +992,14 @@ def push_source(invocation: Invocation) -> Result[None, str]:
 
 def pack_units(invocation: Invocation) -> Result[None, str]:
     """
-    Pack the units one `incan oven compile-closure` run compiled, one archive each, and list them in `units.json`.
+    Pack the units one `oven compile-closure` run compiled, one archive each, and list them in `units.json`.
 
     `--only` keeps the units of the named `NAME@VERSION`s; each must match a unit the closure compiled. `--reproduces`
     names a second compile of the same closure in another root, and every unit must come out of it with the same unit
     identity, entry and archive bytes: a unit that depends on where it was compiled is refused before it is published.
     """
     if len(invocation.positional) != 1:
-        return Err("usage: loaves-pub pack-units CLOSURE_DIR --out DIR [--only NAME@VERSION,...] [--reproduces CLOSURE_DIR]")
+        return Err("usage: loaves-pub pack-units RESULT --out DIR [--only NAME@VERSION,...] [--reproduces RESULT]")
     out = make_directory(invocation.require("out")?)?
     mut only: list[str] = []
     for item in invocation.option("only").unwrap_or("").split(","):
@@ -1135,28 +1135,22 @@ def describe_packages(invocation: Invocation) -> Result[None, str]:
 
 def fetch_sources(invocation: Invocation) -> Result[None, str]:
     """
-    Put the source Loaf archive of every unit a resolution lock names into `--blobs`, pulled from the registry without
-    credentials and checked against the digest the lock gives it; an archive already there is kept.
+    Put the source Loaf archive of every crates.io Loaf a lock pins into `--blobs`, pulled from the registry without
+    credentials and checked against the digest the lock gives it; an archive already there is kept. The lock is an
+    oven.lock or a resolution (`locked_archives`), and `--blobs` is then what `oven compile-closure --sources` reads.
     """
     if len(invocation.positional) != 1:
-        return Err("usage: loaves-pub fetch-sources LOCK.json --blobs DIR --work DIR [--registry HOST] [--namespace NS]")
-    lock = parse_event(read_text(Path(invocation.positional[0]), invocation.positional[0])?, "lock")?
+        return Err("usage: loaves-pub fetch-sources LOCK --blobs DIR --work DIR [--registry HOST] [--namespace NS]")
+    label = invocation.positional[0]
+    archives = locked_archives(read_text(Path(label), label)?, label)?
     blobs = canonical_path(make_directory(invocation.require("blobs")? + "/sha256")?)?
     registry = registry_of(invocation)?
-    match member(lock, "units").as_array():
-        Some(units) =>
-            for unit in units:
-                loaf = string_member(unit, "loaf")
-                digest = string_member(unit, "archive_digest")
-                if not loaf.startswith("crates-io/") or not is_sha256_identity(digest):
-                    return Err(f"lock: unit {canonical(unit)?} names no crates.io Loaf archive")
-                destination = blobs + "/" + digest[7:] + ".tar"
-                if not Path(destination).is_file():
-                    anonymous_fetch(registry, repository(registry, "crates-io", loaf[10:]), digest, destination)?
-                    version = string_member(unit, "version")
-                    println(f"fetched: {loaf} {version} {digest}")
-            return Ok(None)
-        None => return Err("lock: no `units`")
+    for archive in archives:
+        destination = blobs + "/" + archive.digest[7:] + ".tar"
+        if not Path(destination).is_file():
+            anonymous_fetch(registry, repository(registry, "crates-io", archive.loaf[10:]), archive.digest, destination)?
+            println(f"fetched: {archive.loaf} {archive.version} {archive.digest}")
+    return Ok(None)
 
 
 def registry_of(invocation: Invocation) -> Result[Registry, str]:

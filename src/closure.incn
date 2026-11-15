@@ -11,7 +11,8 @@ store. Nothing is appended to the log until the plan is complete and ordered.
 """
 
 from std.fs import Path
-from std.json import JsonValue, parse_jsonl
+from std.json import JsonValue, parse, parse_jsonl
+from std.toml import TomlValue
 
 from adoption import (
     Adoption,
@@ -25,8 +26,8 @@ from adoption import (
     translate,
     unpack_crate,
 )
-from canonical import digest_bytes, digest_text
-from events import read_text, string_member
+from canonical import canonical, digest_bytes, digest_text, is_sha256_identity
+from events import member, read_text, string_member
 from host import download
 from registry import crates_io_sparse_url, registry_name, sparse_index_path
 from semver import Version, compare, parse_requirement, parse_version, satisfies
@@ -328,3 +329,83 @@ def make_parent(path: Path, label: str) -> Result[None, str]:
     match path.parent().mkdir(parents=true, exist_ok=true):
         Ok(_) => return Ok(None)
         Err(error) => return Err(f"{label}: {error.message()}")
+
+
+@derive(Clone)
+pub model LockedArchive:
+    """One source Loaf archive a lock pins: the Loaf, its version and the archive's digest."""
+
+    pub loaf: str
+    pub version: str
+    pub digest: str
+
+
+pub def locked_archives(text: str, label: str) -> Result[list[LockedArchive], str]:
+    """
+    The crates.io source archives a lock pins. The lock is an `oven.lock` (format 1, what `oven compile-closure`
+    compiles), whose `[[loaf]]` entries name each archive by `checksum`, or a resolution (`incan.oven.loaf-resolution/1`,
+    the lock beside a fact's graph), whose `units` name it by `archive_digest`.
+    """
+    if text.strip().startswith("{"):
+        return resolution_archives(text, label)
+    match TomlValue.parse(text):
+        Ok(document) => return oven_lock_archives(document, label)
+        Err(error) => return Err(f"{label}: neither a resolution nor an oven.lock: {error.message()}")
+
+
+def oven_lock_archives(document: TomlValue, label: str) -> Result[list[LockedArchive], str]:
+    """Every registry entry of an oven.lock; an entry the toolchain itself supplies has no archive to fetch."""
+    match document.get_optional[int]("format"):
+        Ok(found) =>
+            if found.unwrap_or(0) != 1:
+                return Err(f"{label}: an oven.lock this tool reads is format 1")
+        Err(error) => return Err(f"{label}: `format`: {error.message()}")
+    mut out: list[LockedArchive] = []
+    match document.get_value_key("loaf"):
+        Ok(value) =>
+            match value.as_array():
+                Ok(entries) =>
+                    for entry in entries:
+                        match oven_lock_archive(entry, label)?:
+                            Some(found) => out.append(found)
+                            None => pass
+                Err(error) => return Err(f"{label}: `loaf` is an array of tables: {error.message()}")
+        Err(_) => pass
+    return Ok(out)
+
+
+def oven_lock_archive(entry: TomlValue, label: str) -> Result[Option[LockedArchive], str]:
+    """One `[[loaf]]` entry: a crates.io Loaf names its archive by `checksum`; any other Loaf has none to fetch."""
+    name = toml_text(entry, "name", label)?
+    if not name.startswith("crates-io/"):
+        return Ok(None)
+    version = toml_text(entry, "version", label)?
+    digest = toml_text(entry, "checksum", label)?
+    if len(version) == 0 or not is_sha256_identity(digest):
+        return Err(f"{label}: {name} {version} names no `sha256:` checksum for its source archive")
+    return Ok(Some(LockedArchive(loaf=name, version=version, digest=digest)))
+
+
+def toml_text(entry: TomlValue, key: str, label: str) -> Result[str, str]:
+    match entry.get_optional[str](key):
+        Ok(found) => return Ok(found.unwrap_or(""))
+        Err(error) => return Err(f"{label}: `{key}`: {error.message()}")
+
+
+def resolution_archives(text: str, label: str) -> Result[list[LockedArchive], str]:
+    """Every unit of a resolution, by its `archive_digest`."""
+    mut document = JsonValue.null()
+    match parse(text):
+        Ok(value) => document = value
+        Err(error) => return Err(f"{label}: {error.message()}")
+    mut out: list[LockedArchive] = []
+    match member(document, "units").as_array():
+        Some(units) =>
+            for unit in units:
+                loaf = string_member(unit, "loaf")
+                digest = string_member(unit, "archive_digest")
+                if not loaf.startswith("crates-io/") or not is_sha256_identity(digest):
+                    return Err(f"{label}: unit {canonical(unit)?} names no crates.io Loaf archive")
+                out.append(LockedArchive(loaf=loaf, version=string_member(unit, "version"), digest=digest))
+            return Ok(out)
+        None => return Err(f"{label}: no `units`")
