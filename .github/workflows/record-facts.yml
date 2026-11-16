@@ -31,6 +31,12 @@ permissions:
   contents: read
 
 env:
+  # The compiler whose `incan oven compile-closure` compiles a build script's build dependencies for the host, from the
+  # GHCR package the toolchain workflow pushes (`toolchain/incan:<commit>-<triple>`), by the digest of each target's
+  # image, so a tag pushed again cannot change what a script links against.
+  CLOSURE_INCAN: 5ee13ce39b0955d028781f8941b77212c2c6258c
+  CLOSURE_INCAN_LINUX: sha256:56cd927aca5b06a5a2394629e97fe3ecbf955d34b5c9dab57d6f590ca7c069d9
+  CLOSURE_INCAN_MACOS: sha256:a2a8dbd1f5002cca11fe2b17cddd21579de145a7f8306916110ef0f7a5966ef6
   RUST_TOOLCHAIN: 1.98.0
 
 jobs:
@@ -59,23 +65,18 @@ jobs:
           oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/loaves-pub:$key-$TARGET" --output "$RUNNER_TEMP/tool" \
             || { echo "::error::no loaves-pub binary for tool key $key yet; the check workflow publishes it when it passes"; exit 1; }
           tar -xzf "$RUNNER_TEMP/tool/loaves-pub.tar.gz" -C "$RUNNER_TEMP/tool"
-      # A build script with build dependencies links against them, compiled by Oven from their adopted archives: the
-      # compiler is the one the bake workflow pins, so both read its commit and image digests from bake.yml.
+      # A build script with build dependencies links against them, compiled by Oven from their adopted archives.
       - name: Download the compiler that compiles build dependencies
-        id: closure
         run: |
-          commit="$(sed -n 's/^  CLOSURE_INCAN: //p' tool/.github/workflows/bake.yml)"
-          variable=CLOSURE_INCAN_LINUX
-          [ "$TARGET" = aarch64-apple-darwin ] && variable=CLOSURE_INCAN_MACOS
-          digest="$(sed -n "s/^  $variable: //p" tool/.github/workflows/bake.yml)"
-          echo "commit=$commit" >> "$GITHUB_OUTPUT"
+          digest="$CLOSURE_INCAN_LINUX"
+          [ "$TARGET" = aarch64-apple-darwin ] && digest="$CLOSURE_INCAN_MACOS"
           oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/incan@$digest" --output "$RUNNER_TEMP/incan"
           tar -xzf "$RUNNER_TEMP/incan/incan.tar.gz" -C "$RUNNER_TEMP/incan"
       - name: Check out that compiler's sources
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           repository: encero-systems/incan
-          ref: ${{ steps.closure.outputs.commit }}
+          ref: ${{ env.CLOSURE_INCAN }}
           path: incan
           persist-credentials: false
       - name: Install the Rust toolchain the build scripts are compiled with
