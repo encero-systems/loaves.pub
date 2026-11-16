@@ -129,8 +129,8 @@ jobs:
             INCAN_SYSROOT="$sysroot" INCAN_HOME="$home" INCAN_NO_BANNER=1 "$home/bin/incan" toolchain install \
               "$RUNNER_TEMP/bundle/toolchain.tar.zst"
           done
-          [ "$(readlink "$RUNNER_TEMP/first/home/toolchains/*/sysroot")" != \
-            "$(readlink "$RUNNER_TEMP/second/home/toolchains/*/sysroot")" ] \
+          [ "$(readlink "$RUNNER_TEMP/first/home/toolchains/"*/sysroot)" != \
+            "$(readlink "$RUNNER_TEMP/second/home/toolchains/"*/sysroot)" ] \
             || { echo "::error::both homes link the same sysroot"; exit 1; }
       - name: Fetch the locks' source Loaf archives
         run: |
