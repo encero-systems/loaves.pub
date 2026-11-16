@@ -111,18 +111,27 @@ jobs:
           RUSTUP_HOME="$RUNNER_TEMP/rustup-src" CARGO_HOME="$RUNNER_TEMP/cargo-src" \
             rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --component rust-src
       - name: Install the bundle into one fresh home per root
+        # A home's sysroot is fixed when the bundle is installed (`INCAN_SYSROOT`), and every compile in that home runs
+        # its `rustc`: the first root links the default rustup's toolchain, the second the copy at the other path.
         run: |
           for root in first second; do
             home="$RUNNER_TEMP/$root/home"
-            rust=()
-            [ "$root" = second ] && rust=(RUSTUP_HOME="$RUNNER_TEMP/rustup-src" CARGO_HOME="$RUNNER_TEMP/cargo-src")
+            if [ "$root" = first ]; then
+              sysroot="$(rustup run "$RUST_TOOLCHAIN" rustc --print sysroot)"
+            else
+              sysroot="$(RUSTUP_HOME="$RUNNER_TEMP/rustup-src" CARGO_HOME="$RUNNER_TEMP/cargo-src" \
+                rustup run "$RUST_TOOLCHAIN" rustc --print sysroot)"
+            fi
             mkdir -p "$home/bin"
             cp "$RUNNER_TEMP/bundle/incan" "$RUNNER_TEMP/bundle/incan-lsp" "$home/bin/"
             chmod +x "$home/bin/incan" "$home/bin/incan-lsp"
             ln -s incan "$home/bin/oven"
-            env "${rust[@]}" INCAN_HOME="$home" INCAN_NO_BANNER=1 "$home/bin/incan" toolchain install \
+            INCAN_SYSROOT="$sysroot" INCAN_HOME="$home" INCAN_NO_BANNER=1 "$home/bin/incan" toolchain install \
               "$RUNNER_TEMP/bundle/toolchain.tar.zst"
           done
+          [ "$(readlink "$RUNNER_TEMP/first/home/toolchains/*/sysroot")" != \
+            "$(readlink "$RUNNER_TEMP/second/home/toolchains/*/sysroot")" ] \
+            || { echo "::error::both homes link the same sysroot"; exit 1; }
       - name: Fetch the locks' source Loaf archives
         run: |
           : > "$RUNNER_TEMP/locks.txt"
@@ -142,13 +151,14 @@ jobs:
           ONLY: ${{ inputs.only }}
           INCAN_NO_BANNER: "1"
         run: |
+          # Where a link record's compiler may be found (RFC 119 rule 6): the first of these directories holding the
+          # executable with the recorded digest. On macOS that is the runner's own Command Line Tools.
+          export INCAN_OVEN_LINK_OWNERS=/Library/Developer/CommandLineTools
           locks=()
           while read -r lock; do locks+=("$lock"); done < "$RUNNER_TEMP/locks.txt"
           for root in first second; do
-            rust=()
-            [ "$root" = second ] && rust=(RUSTUP_HOME="$RUNNER_TEMP/rustup-src" CARGO_HOME="$RUNNER_TEMP/cargo-src")
             mkdir -p "$RUNNER_TEMP/$root/work"
-            (cd "$RUNNER_TEMP/$root/work" && env "${rust[@]}" INCAN_HOME="$RUNNER_TEMP/$root/home" \
+            (cd "$RUNNER_TEMP/$root/work" && INCAN_HOME="$RUNNER_TEMP/$root/home" \
               "$RUNNER_TEMP/$root/home/bin/oven" compile-closure "${locks[@]}" --profile "$PROFILE" \
               --sources "$RUNNER_TEMP/sources" --index "$GITHUB_WORKSPACE/index" --out "$RUNNER_TEMP/$root/result")
           done
