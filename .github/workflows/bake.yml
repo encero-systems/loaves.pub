@@ -2,10 +2,12 @@ name: bake
 
 # Compile shards of adopted Loaves on a GitHub-hosted runner and push every unit they compiled to the GitHub Container
 # Registry as an asset, under a build-provenance attestation over the unit archives. A shard is a directory under
-# `bake/` holding the root requests (`roots.json`) and the resolution Oven compiles them under (`lock.json`); one run
-# compiles the shards it is given in turn, so a unit two shards share is compiled once per root and reused after.
+# `bake/` holding `oven.lock` files (`*.oven.lock`, format 1), each written by `oven lock` with the registry, revision
+# and archive digest of every crates.io entry. One run compiles every lock of the shards it is given in one
+# `oven compile-closure`: each lock is its own graph with its own feature unification, and a unit two locks share is
+# compiled once.
 #
-# Every shard is compiled twice, in two roots, and `pack-units --reproduces` refuses the run unless both give every unit
+# The closure is compiled twice, in two roots, and `pack-units --reproduces` refuses the run unless both give every unit
 # the same identity, entry and archive bytes: a unit that depends on where it was compiled is never published.
 #
 # Compiling runs third-party code: every proc macro in a closure executes inside rustc. So the `compile` job holds no
@@ -28,22 +30,22 @@ on:
   workflow_dispatch:
     inputs:
       shards:
-        description: "Space-separated directories under bake/, each with roots.json and lock.json"
+        description: "Space-separated directories under bake/, each holding *.oven.lock files"
         required: true
       target:
-        description: "The target every shard is compiled for, on a runner of that platform"
+        description: "The target every lock is compiled for, on a runner of that platform"
         required: true
         default: aarch64-apple-darwin
         type: choice
-        options: [aarch64-apple-darwin, x86_64-unknown-linux-gnu]
+        options: [aarch64-apple-darwin]
       profile:
-        description: "The profile every shard is compiled in"
+        description: "The profile every lock is compiled in"
         required: true
-        default: debug
+        default: release
         type: choice
         options: [debug, release]
       only:
-        description: "Comma-separated NAME@VERSION units to publish; every unit the shards compiled when empty"
+        description: "Comma-separated NAME@VERSION units to publish; every unit the closure compiled when empty"
         required: false
         default: ""
       label:
@@ -55,18 +57,19 @@ permissions:
   contents: read
 
 env:
-  # The compiler whose `oven compile-closure` lists the units it compiled, downloaded from the GHCR package the toolchain
-  # workflow pushes (`toolchain/incan:<commit>-<triple>`), by the digest of each target's image, so a tag pushed again
-  # cannot change what compiles a unit. The tool itself is the binary the check workflow published for this commit's
-  # tool key (`toolchain/loaves-pub:<tool key>-<triple>`; see check.yml). The record-facts workflow reads all three.
-  CLOSURE_INCAN: 5ee13ce39b0955d028781f8941b77212c2c6258c
-  CLOSURE_INCAN_LINUX: sha256:56cd927aca5b06a5a2394629e97fe3ecbf955d34b5c9dab57d6f590ca7c069d9
-  CLOSURE_INCAN_MACOS: sha256:a2a8dbd1f5002cca11fe2b17cddd21579de145a7f8306916110ef0f7a5966ef6
+  # The Incan toolchain bundle whose `oven compile-closure` compiles the closure: `incan`, `incan-lsp` and
+  # `toolchain.tar.zst`, pulled from the GHCR package `toolchain/incan` by the digest of the target's image, so a tag
+  # pushed again cannot change what compiles a unit. `BAKE_INCAN` is the commit the bundle was built from, the
+  # toolchain every asset of the run names. A target is offered above once its bundle is pinned here. The tool itself is
+  # the binary the check workflow published for this commit's tool key (`toolchain/loaves-pub:<tool key>-<triple>`; see
+  # check.yml).
+  BAKE_INCAN: ""
+  BAKE_INCAN_MACOS: ""
   RUST_TOOLCHAIN: 1.98.0
 
 jobs:
   compile:
-    runs-on: ${{ inputs.target == 'x86_64-unknown-linux-gnu' && 'ubuntu-latest' || 'macos-latest' }}
+    runs-on: macos-latest
     permissions:
       contents: read
     env:
@@ -87,17 +90,19 @@ jobs:
           persist-credentials: false
       - name: Install oras
         uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1.2.4
-      - name: Download the tool and the closure compiler
+      - name: Download the tool and the toolchain bundle
+        # oras checks every file it pulls against the digest the pinned manifest lists for it.
         run: |
+          [ -n "$BAKE_INCAN" ] && [ -n "$BAKE_INCAN_MACOS" ] || { echo "::error::no toolchain bundle pinned for $TARGET"; exit 1; }
           key="$(git -C tool ls-tree HEAD -- build.sh loaf.toml src tests .github/workflows/check.yml | git hash-object --stdin)"
           oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/loaves-pub:$key-$TARGET" \
             --output "$RUNNER_TEMP/tool" \
             || { echo "::error::no loaves-pub binary for tool key $key yet; the check workflow publishes it when it passes"; exit 1; }
           tar -xzf "$RUNNER_TEMP/tool/loaves-pub.tar.gz" -C "$RUNNER_TEMP/tool"
-          digest="$CLOSURE_INCAN_LINUX"
-          [ "$TARGET" = aarch64-apple-darwin ] && digest="$CLOSURE_INCAN_MACOS"
-          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/incan@$digest" --output "$RUNNER_TEMP/incan"
-          tar -xzf "$RUNNER_TEMP/incan/incan.tar.gz" -C "$RUNNER_TEMP/incan"
+          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/incan@$BAKE_INCAN_MACOS" --output "$RUNNER_TEMP/bundle"
+          for file in incan incan-lsp toolchain.tar.zst; do
+            [ -f "$RUNNER_TEMP/bundle/$file" ] || { echo "::error::the pinned bundle has no $file"; exit 1; }
+          done
       - name: Install the Rust toolchain the units are compiled with, twice
         # The second root compiles with a second copy at another path that also carries rust-src, so the gate below
         # proves a unit depends on neither where the toolchain is installed nor which components it has.
@@ -105,57 +110,72 @@ jobs:
           rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal
           RUSTUP_HOME="$RUNNER_TEMP/rustup-src" CARGO_HOME="$RUNNER_TEMP/cargo-src" \
             rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal --component rust-src
-      - name: Fetch the shards' source Loaf archives
+      - name: Install the bundle into one fresh home per root
+        # A home's sysroot is fixed when the bundle is installed (`INCAN_SYSROOT`), and every compile in that home runs
+        # its `rustc`: the first root links the default rustup's toolchain, the second the copy at the other path.
         run: |
-          for shard in $SHARDS; do
-            "$RUNNER_TEMP/tool/loaves-pub" fetch-sources "tool/bake/$shard/lock.json" \
-              --blobs "$RUNNER_TEMP/blobs" --work "$RUNNER_TEMP/fetch"
+          for root in first second; do
+            home="$RUNNER_TEMP/$root/home"
+            if [ "$root" = first ]; then
+              sysroot="$(rustup run "$RUST_TOOLCHAIN" rustc --print sysroot)"
+            else
+              sysroot="$(RUSTUP_HOME="$RUNNER_TEMP/rustup-src" CARGO_HOME="$RUNNER_TEMP/cargo-src" \
+                rustup run "$RUST_TOOLCHAIN" rustc --print sysroot)"
+            fi
+            mkdir -p "$home/bin"
+            cp "$RUNNER_TEMP/bundle/incan" "$RUNNER_TEMP/bundle/incan-lsp" "$home/bin/"
+            chmod +x "$home/bin/incan" "$home/bin/incan-lsp"
+            ln -s incan "$home/bin/oven"
+            INCAN_SYSROOT="$sysroot" INCAN_HOME="$home" INCAN_NO_BANNER=1 "$home/bin/incan" toolchain install \
+              "$RUNNER_TEMP/bundle/toolchain.tar.zst"
           done
-      - name: Check out the closure compiler's sources
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-        with:
-          repository: encero-systems/incan
-          ref: ${{ env.CLOSURE_INCAN }}
-          path: incan
-          persist-credentials: false
-      - name: Compile each shard twice, in two roots, and pack the units that reproduce
+          [ "$(readlink "$RUNNER_TEMP/first/home/toolchains/"*/sysroot)" != \
+            "$(readlink "$RUNNER_TEMP/second/home/toolchains/"*/sysroot)" ] \
+            || { echo "::error::both homes link the same sysroot"; exit 1; }
+      - name: Fetch the locks' source Loaf archives
+        run: |
+          : > "$RUNNER_TEMP/locks.txt"
+          for shard in $SHARDS; do
+            found=0
+            for lock in "tool/bake/$shard"/*.oven.lock; do
+              [ -f "$lock" ] || continue
+              found=1
+              echo "$GITHUB_WORKSPACE/$lock" >> "$RUNNER_TEMP/locks.txt"
+              "$RUNNER_TEMP/tool/loaves-pub" fetch-sources "$lock" \
+                --blobs "$RUNNER_TEMP/sources/blobs" --work "$RUNNER_TEMP/fetch"
+            done
+            [ "$found" = 1 ] || { echo "::error::bake/$shard holds no *.oven.lock"; exit 1; }
+          done
+      - name: Compile the closure twice, in two roots, and pack the units that reproduce
         env:
           ONLY: ${{ inputs.only }}
           INCAN_NO_BANNER: "1"
         run: |
-          # Where a C-compiling unit's fact may find its executable's owner (RFC 119 rule 6): on macOS the runner's own
-          # Command Line Tools. A fact recorded under another owner does not apply here.
-          if [ "$RUNNER_OS" = macOS ]; then export INCAN_OVEN_LINK_OWNERS=/Library/Developer/CommandLineTools; fi
-          commit="$(git -C index rev-parse HEAD)"
-          first_rustc="$(rustup which --toolchain "$RUST_TOOLCHAIN" rustc)"
-          second_rustc="$(RUSTUP_HOME="$RUNNER_TEMP/rustup-src" CARGO_HOME="$RUNNER_TEMP/cargo-src" rustup which --toolchain "$RUST_TOOLCHAIN" rustc)"
-          mkdir -p "$RUNNER_TEMP/units" "$RUNNER_TEMP/proposals"
-          for shard in $SHARDS; do
-            for root in first second; do
-              rustc="$first_rustc"
-              [ "$root" = second ] && rustc="$second_rustc"
-              INCAN_HOME="$RUNNER_TEMP/$root/home" "$RUNNER_TEMP/incan/incan" oven compile-closure \
-                --pin "$GITHUB_WORKSPACE/index" --index-commit "$commit" \
-                --roots "tool/bake/$shard/roots.json" --lock "tool/bake/$shard/lock.json" --profile "$PROFILE" \
-                --out "$RUNNER_TEMP/$root/closure/closure.json" --blobs "$RUNNER_TEMP/blobs/sha256" --rustc "$rustc"
-            done
-            # A shard whose closure refuses a unit (one that does not compile, or misses a fact) publishes nothing and
-            # is listed at the end; the other shards still bake. Units that compiled but differ between the roots
-            # fail the run below.
-            if ! jq -e '.refused | length == 0' "$RUNNER_TEMP/first/closure/closure.json" > /dev/null; then
-              jq -r --arg shard "$shard" '.refused[] | "\($shard)\t\(.loaf) \(.version)\t\(.reason | split("\n")[0] | .[0:300])"' \
-                "$RUNNER_TEMP/first/closure/closure.json" >> "$RUNNER_TEMP/proposals/refused-shards.tsv"
-              continue
-            fi
-            out="$RUNNER_TEMP/units/$(echo "$shard" | tr '/' '-')"
-            "$RUNNER_TEMP/tool/loaves-pub" pack-units "$RUNNER_TEMP/first/closure" --out "$out" --only "$ONLY" \
-              --reproduces "$RUNNER_TEMP/second/closure"
+          # Where a link record's compiler may be found (RFC 119 rule 6): the first of these directories holding the
+          # executable with the recorded digest. On macOS that is the runner's own Command Line Tools.
+          export INCAN_OVEN_LINK_OWNERS=/Library/Developer/CommandLineTools
+          locks=()
+          while read -r lock; do locks+=("$lock"); done < "$RUNNER_TEMP/locks.txt"
+          for root in first second; do
+            mkdir -p "$RUNNER_TEMP/$root/work"
+            (cd "$RUNNER_TEMP/$root/work" && INCAN_HOME="$RUNNER_TEMP/$root/home" \
+              "$RUNNER_TEMP/$root/home/bin/oven" compile-closure "${locks[@]}" --profile "$PROFILE" \
+              --sources "$RUNNER_TEMP/sources" --index "$GITHUB_WORKSPACE/index" --out "$RUNNER_TEMP/$root/result")
           done
-          if [ -s "$RUNNER_TEMP/proposals/refused-shards.tsv" ]; then
-            echo "::warning::$(cut -f1 "$RUNNER_TEMP/proposals/refused-shards.tsv" | sort -u | wc -l) shard(s) refused; see refused-shards.tsv in the asset-proposals artifact"
-            cat "$RUNNER_TEMP/proposals/refused-shards.tsv"
+          # A unit the closure refuses (one that does not compile, or misses a fact) and every unit that links it is
+          # listed in the artifact, and nothing is published: pack-units takes only a closure that refused nothing.
+          mkdir -p "$RUNNER_TEMP/units" "$RUNNER_TEMP/proposals"
+          jq -r '.refused[] | "\(.loaf)\t\(.version)\t\(.reason | split("\n")[0] | .[0:300])"' \
+            "$RUNNER_TEMP/first/result/closure.json" > "$RUNNER_TEMP/proposals/refused.tsv"
+          if [ -s "$RUNNER_TEMP/proposals/refused.tsv" ]; then
+            echo "::error::$(wc -l < "$RUNNER_TEMP/proposals/refused.tsv") unit(s) refused; see refused.tsv in the packed-units artifact"
+            cat "$RUNNER_TEMP/proposals/refused.tsv"
+            exit 1
           fi
+          "$RUNNER_TEMP/tool/loaves-pub" pack-units "$RUNNER_TEMP/first/result" --out "$RUNNER_TEMP/units/closure" \
+            --only "$ONLY" --reproduces "$RUNNER_TEMP/second/result"
       - name: Hand the packed units to the publish job
+        if: ${{ !cancelled() }}
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: packed-units
@@ -166,7 +186,7 @@ jobs:
 
   publish:
     needs: compile
-    runs-on: ${{ inputs.target == 'x86_64-unknown-linux-gnu' && 'ubuntu-latest' || 'macos-latest' }}
+    runs-on: macos-latest
     permissions:
       contents: read
       packages: write
@@ -194,29 +214,20 @@ jobs:
         with:
           name: packed-units
           path: ${{ runner.temp }}
-      - name: Collect one copy of each archive to attest
-        # Shards that share a unit pack the same bytes under the same name.
-        run: |
-          mkdir -p "$RUNNER_TEMP/attest" "$RUNNER_TEMP/proposals"
-          for archive in "$RUNNER_TEMP"/units/*/*.tar; do
-            [ -e "$RUNNER_TEMP/attest/$(basename "$archive")" ] || cp "$archive" "$RUNNER_TEMP/attest/"
-          done
       - name: Attest the unit archives
         id: attest
         uses: actions/attest-build-provenance@e8998f949152b193b063cb0ec769d69d929409be # v2.4.0
         with:
-          subject-path: ${{ runner.temp }}/attest/*.tar
+          subject-path: ${{ runner.temp }}/units/closure/*.tar
       - name: Push the units
         env:
           LOAVES_PUB_REGISTRY_USER: ${{ github.actor }}
           LOAVES_PUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ATTESTATION: ${{ steps.attest.outputs.attestation-url }}
         run: |
-          for units in "$RUNNER_TEMP"/units/*/; do
-            "$RUNNER_TEMP/tool/loaves-pub" push-units "$units" --builder registry --attestation "$ATTESTATION" \
-              --toolchain "incan@$CLOSURE_INCAN" \
-              --proposals "$RUNNER_TEMP/proposals" --work "$RUNNER_TEMP/push"
-          done
+          "$RUNNER_TEMP/tool/loaves-pub" push-units "$RUNNER_TEMP/units/closure" --builder registry \
+            --attestation "$ATTESTATION" --toolchain "incan@$BAKE_INCAN" \
+            --proposals "$RUNNER_TEMP/proposals" --work "$RUNNER_TEMP/push"
       - name: Upload the asset proposals
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:

@@ -10,13 +10,14 @@ from std.testing import assert_eq, assert_true
 from admission import admit_asset, replay, require_toolchain
 from adoption import Adoption, adoption_payload, render_adopted_manifest
 from canonical import canonical, digest_bytes, digest_text
+from closure import locked_archives
 from events import append_event, load_events, write_text
 from projection import render_projections
 from host import environment_value
 from oci import source_tag
 from registry import Binding, Record, record_key
 from tar import read_archive
-from units import CompiledUnit, Packed, closure_units, pack_unit, reproduction_differences, unit_tag
+from units import Packed, closure_units, pack_closure, reproduction_differences, unit_tag
 
 
 def error_of[T](result: Result[T, str]) -> str:
@@ -262,71 +263,108 @@ def test_a_binding_tag_is_the_version_tag_and_twelve_hex_digits_of_the_binding()
     assert_eq(unit_tag("2.1.0+zstd.1.5.7", binding).unwrap(), "2.1.0_zstd.1.5.7-" + digest[7:19])
 
 
-def entry_with(directory: str, rlib: bytes) -> CompiledUnit:
-    """A store entry as compile-closure leaves it, bookkeeping files included."""
-    payload = b"{\"loaf\":\"crates-io/leaf\"}"
-    tool = b"#!/bin/sh\n"
-    entry = digest_text("entry")
+def result_unit(library: str) -> JsonValue:
+    """One unit as `oven compile-closure` lists it in `incan.oven.closure/1`."""
     unit = digest_text("unit")
-    artifact = JsonValue.object({
-        "identity": JsonValue.string(entry),
-        "receipt_identity": JsonValue.string(unit),
-        "intent": binding_json("debug"),
-        "payload": JsonValue.object({"digest": JsonValue.string(digest_bytes(payload))}),
-        "materialized_files": JsonValue.array([
-            JsonValue.object({
-                "relative_path": JsonValue.string("libleaf.rlib"),
-                "digest": JsonValue.string(digest_bytes(b"rlib")),
-                "executable": JsonValue.bool(false),
-            }),
-            JsonValue.object({
-                "relative_path": JsonValue.string("bin/tool"),
-                "digest": JsonValue.string(digest_bytes(tool)),
-                "executable": JsonValue.bool(true),
-            }),
-        ]),
+    return JsonValue.object({
+        "entry": JsonValue.string(unit),
+        "unit": JsonValue.string(unit),
+        "payload_digest": JsonValue.string(digest_bytes(b"rlib")[7:]),
+        "loaf": JsonValue.string("crates-io/leaf"),
+        "version": JsonValue.string("1.2.0"),
+        "registry": JsonValue.string("loaves.pub"),
+        "revision": JsonValue.int(1),
+        "features": JsonValue.array([JsonValue.string("default")]),
+        "domain": JsonValue.string("target"),
+        "kind": JsonValue.string("lib"),
+        "profile": JsonValue.string("release"),
+        "target": JsonValue.string("aarch64-apple-darwin"),
+        "name": JsonValue.string("leaf-0123456789abcdef"),
+        "artifact": JsonValue.string(library),
+        "dependencies": JsonValue.array([]),
+        "refusal": JsonValue.string(""),
     })
-    base = directory + "/store/entries/sha256-" + entry[7:]
-    Path(base + "/artifacts/bin").mkdir(parents=true, exist_ok=true).unwrap()
-    write_text(Path(base + "/artifact.json"), canonical(artifact).unwrap(), "artifact.json").unwrap()
-    Path(base + "/payload").write_bytes(payload).unwrap()
-    Path(base + "/artifacts/libleaf.rlib").write_bytes(rlib).unwrap()
-    Path(base + "/artifacts/bin/tool").write_bytes(tool).unwrap()
-    Path(base + "/last-used").write_bytes(b"1759780000").unwrap()
-    Path(base + "/.active.lock").write_bytes(b"").unwrap()
-    return CompiledUnit(loaf="crates-io/leaf", version="1.2.0", unit=unit, entry=entry)
 
 
-def test_a_store_entry_packs_into_one_deterministic_archive_without_bookkeeping() -> None:
-    store = scratch("pack")
-    unit = entry_with(store, b"rlib")
-    first = pack_unit(store + "/store", unit, store).unwrap()
-    second = pack_unit(store + "/store", unit, store).unwrap()
-    assert_eq(first.archive, second.archive)
-    assert_eq(first.name, "leaf")
-    assert_eq(first.binding.profile, "debug")
-    entries = read_archive(Path(first.path).read_bytes().unwrap()).unwrap()
+def result_with(directory: str, rlib: bytes, refused: str) -> str:
+    """A compile-closure result directory holding one unit: its closure.json and its store entry."""
+    unit = digest_text("unit")
+    entry = "entries/sha256-" + unit[7:]
+    library = entry + "/artifacts/libleaf-0123456789abcdef.rlib"
+    record = result_unit(library)
+    closure = JsonValue.object({
+        "schema": JsonValue.string("incan.oven.closure/1"),
+        "profile": JsonValue.string("release"),
+        "toolchain": JsonValue.object({
+            "rustc": JsonValue.string("rustc 1.98.0 (88d9e12ae 2026-08-18)"),
+            "target": JsonValue.string("aarch64-apple-darwin"),
+        }),
+        "units": JsonValue.array([record]),
+        "refused": parse(refused).unwrap(),
+    })
+    write_text(Path(directory + "/closure.json"), canonical(closure).unwrap(), "closure.json").unwrap()
+    Path(directory + "/" + entry + "/artifacts").mkdir(parents=true, exist_ok=true).unwrap()
+    write_text(Path(directory + "/" + entry + "/artifact.json"), canonical(record).unwrap(), "artifact.json").unwrap()
+    Path(directory + "/" + library).write_bytes(rlib).unwrap()
+    Path(directory + "/" + entry + "/artifacts/leaf.incngraph").write_bytes(b"graph").unwrap()
+    Path(directory + "/" + entry + "/artifacts/library.portable-inputs").write_bytes(b"inputs").unwrap()
+    return directory
+
+
+def test_a_store_entry_packs_into_one_deterministic_archive() -> None:
+    result = result_with(scratch("pack"), b"rlib", "[]")
+    first = pack_closure(result, [], result).unwrap()
+    second = pack_closure(result, [], result).unwrap()
+    assert_eq(len(first), 1)
+    assert_eq(first[0].archive, second[0].archive)
+    assert_eq(first[0].name, "leaf")
+    assert_eq(first[0].entry, digest_text("unit"))
+    # The binding is the closure's Rust compiler and the unit's own target, profile and features.
+    assert_eq(canonical(first[0].binding.to_json()).unwrap(), canonical(binding_json("release")).unwrap())
     mut paths: list[str] = []
-    for entry in entries:
+    for entry in read_archive(Path(first[0].path).read_bytes().unwrap()).unwrap():
         paths.append(entry.path)
-        if entry.path == "artifacts/bin/tool":
-            assert_true(entry.executable)
-    assert_eq(", ".join(paths), "artifact.json, artifacts/bin/tool, artifacts/libleaf.rlib, payload")
-    corrupt_store = scratch("corrupt")
-    other = entry_with(corrupt_store, b"not the rlib")
+        if entry.path == "payload":
+            assert_eq(digest_bytes(entry.data), digest_bytes(b"rlib"))
     assert_eq(
-        error_of(pack_unit(corrupt_store + "/store", other, corrupt_store)),
-        "crates-io/leaf 1.2.0: artifacts/libleaf.rlib does not have the digest artifact.json gives it",
+        ", ".join(paths),
+        "artifact.json, artifacts/leaf.incngraph, artifacts/library.portable-inputs, payload",
     )
+    corrupt = result_with(scratch("corrupt"), b"not the rlib", "[]")
+    assert_eq(error_of(pack_closure(corrupt, [], corrupt)), "crates-io/leaf 1.2.0: its library is not " + digest_bytes(b"rlib"))
 
 
-def test_a_closure_without_units_predates_them() -> None:
-    closure = scratch("closure")
-    write_text(Path(closure + "/closure.json"), "{\"externs\":{},\"refused\":[]}", "closure.json").unwrap()
+def test_a_result_publishes_only_what_compile_closure_wrote_whole() -> None:
+    refused = result_with(scratch("refused"), b"rlib", "[{\"loaf\":\"crates-io/zstd-sys\",\"reason\":\"link work\"}]")
+    assert_true(error_of(closure_units(refused)).contains("the closure refused"))
+    other = scratch("schema")
+    write_text(Path(other + "/closure.json"), "{\"externs\":{},\"refused\":[]}", "closure.json").unwrap()
     assert_eq(
-        error_of(closure_units(closure)),
-        closure + "/closure.json: no `units`; it was written by a compile-closure that predates them",
+        error_of(closure_units(other)),
+        other + "/closure.json: schema must be incan.oven.closure/1, the result `oven compile-closure` writes",
     )
+    # A library outside the unit's own entry is refused before anything is read.
+    outside = scratch("outside")
+    record = result_unit("entries/sha256-" + digest_text("another")[7:] + "/artifacts/libleaf.rlib")
+    closure = "{\"schema\":\"incan.oven.closure/1\",\"toolchain\":{\"rustc\":\"rustc 1.98.0\"},\"refused\":[],\"units\":[" + canonical(record).unwrap() + "]}"
+    write_text(Path(outside + "/closure.json"), closure, "closure.json").unwrap()
+    assert_true(error_of(closure_units(outside)).contains("`artifact` must name a file directly in entries/sha256-"))
+
+
+def test_a_lock_names_the_archives_to_fetch() -> None:
+    lock = (
+        "format = 1\nmode = \"lowest\"\n\n[[loaf]]\nname = \"crates-io/leaf\"\nversion = \"1.2.0\"\norigin = \"registry\"\n"
+        + "registry = \"loaves.pub\"\nrevision = 1\nchecksum = \"" + digest_text("leaf") + "\"\ndependencies = []\n\n"
+        + "[[loaf]]\nname = \"std.json\"\nversion = \"0.6.0\"\norigin = \"toolchain\"\ndependencies = []\n"
+    )
+    archives = locked_archives(lock, "oven.lock").unwrap()
+    assert_eq(len(archives), 1)
+    assert_eq(archives[0].loaf, "crates-io/leaf")
+    assert_eq(archives[0].digest, digest_text("leaf"))
+    assert_true(error_of(locked_archives(lock.replace("checksum", "unchecked"), "oven.lock")).contains("names no `sha256:` checksum"))
+    assert_true(error_of(locked_archives("format = 2\n", "oven.lock")).contains("format 1"))
+    resolution = "{\"schema\":\"incan.oven.loaf-resolution/1\",\"units\":[{\"loaf\":\"crates-io/leaf\",\"version\":\"1.2.0\",\"archive_digest\":\"" + digest_text("leaf") + "\"}]}"
+    assert_eq(locked_archives(resolution, "lock.json").unwrap()[0].digest, digest_text("leaf"))
 
 
 def packed_as(unit: str, archive: str) -> Packed:
