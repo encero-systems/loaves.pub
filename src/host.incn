@@ -8,6 +8,8 @@ from Rust's standard library here and nowhere else. Downloads go through the hos
 from rust::std::env import args, current_dir, current_exe, var
 from rust::std::fs import canonicalize, read_link
 from rust::std::process import Command, exit, id as process_identifier
+from rust::std::io import Cursor, Read
+from rust::flate2::read import GzDecoder
 
 
 pub def process_id() -> int:
@@ -112,3 +114,19 @@ pub def download(url: str, destination: str) -> Result[None, str]:
                 return Ok(None)
             return Err(f"download failed: {url}")
         Err(error) => return Err(f"curl could not run: {error}")
+
+
+pub def gunzip_bounded(data: bytes, limit: int) -> Result[bytes, str]:
+    """
+    The gzip stream `data` decompressed, refused once it passes `limit` bytes: the decoder stops reading at one byte
+    past the bound, so an archive that expands without end costs no more than the bound.
+    """
+    bound: u64 = (limit + 1).saturating_resize[u64]()
+    mut reader = GzDecoder.new(Cursor.new(data)).take(bound)
+    mut out: bytes = b""
+    match reader.read_to_end(out):
+        Ok(_) =>
+            if len(out) > limit:
+                return Err(f"decompresses past {limit} bytes")
+            return Ok(out)
+        Err(error) => return Err(f"not gzip: {error}")

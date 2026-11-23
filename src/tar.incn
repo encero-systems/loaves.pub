@@ -2,8 +2,11 @@
 POSIX tar: reading a crates.io package archive and writing a source Loaf archive.
 
 Reading accepts what package archives contain: ustar and GNU headers, GNU long names, and pax extended headers that
-carry a `path`. Directories are skipped; any other entry kind is refused rather than guessed at. Integrity is the
-caller's business: an archive is read only after its digest has been checked, so header checksums are not re-checked.
+carry a `path` or a `size`. Directories are skipped; any other entry kind (a link, a device, a FIFO) is refused rather
+than guessed at, and so is a pax size that disagrees with its header, a path that is not relative printable ASCII
+with plain components, and two paths that name one file where case folds (`path_problem`, `checked_paths`), as
+crates.io itself refuses them, without relying on it having done so. Integrity is the caller's business: an archive
+is read only after its digest has been checked, so header checksums are not re-checked.
 
 Writing produces the one deterministic form RFC 125 fixes for source Loaves: uncompressed ustar, entries sorted by
 path bytes, regular files only, mode 0644 or 0755, mtime 0, uid and gid 0, empty owner names, a pax `path` record
@@ -32,6 +35,7 @@ pub def read_archive(data: bytes) -> Result[list[TarEntry], str]:
     stream = BytesIO(data)
     mut entries: list[TarEntry] = []
     mut pending_path: Option[str] = None
+    mut pending_size: Option[str] = None
     while stream.remaining() >= BLOCK:
         header = read_exact(stream, BLOCK, "a header")?
         if is_zero(header)?:
@@ -60,18 +64,26 @@ pub def read_archive(data: bytes) -> Result[list[TarEntry], str]:
             pending_path = Some(before_nul(decode_text(content, "a GNU long name")?))
             continue
         if typeflag == "x":
-            pending_path = pax_path(content)?
+            pending_path = pax_value(content, "path")?
+            pending_size = pax_value(content, "size")?
             continue
         if typeflag == "g":
             continue
+        # A pax `size` that disagrees with the header's is two readings of one entry; refuse rather than pick one.
+        match pending_size:
+            Some(stated) =>
+                if stated != str(size):
+                    return Err(f"{path}: its pax size {stated} disagrees with its header's {size}")
+            None => pass
         pending_path = None
+        pending_size = None
         if typeflag == "5":
             continue
         if typeflag == "0" or typeflag == "" or typeflag == "7":
             entries.append(TarEntry(path=path, executable=(mode & 73) != 0, data=content))
             continue
         return Err(f"{path}: entry type `{typeflag}` is neither a regular file nor a directory")
-    return Ok(entries)
+    return checked_paths(entries)
 
 
 pub def write_archive(entries: list[TarEntry]) -> Result[bytes, str]:
@@ -179,7 +191,7 @@ def last_component(path: str, width: int) -> str:
     return name
 
 
-def pax_record(key: str, value: str) -> bytes:
+pub def pax_record(key: str, value: str) -> bytes:
     """One pax record, `<length> <key>=<value>\\n`, where the length counts its own digits."""
     body = " " + key + "=" + value + "\n"
     base = len(body.encode())
@@ -189,8 +201,8 @@ def pax_record(key: str, value: str) -> bytes:
     return (str(length) + body).encode()
 
 
-def pax_path(content: bytes) -> Result[Option[str], str]:
-    """The `path` a pax extended header sets, if it sets one."""
+def pax_value(content: bytes, key: str) -> Result[Option[str], str]:
+    """The value a pax extended header sets for `key`, if it sets one."""
     text = decode_text(content, "a pax header")?
     mut found: Option[str] = None
     for line in text.split("\n"):
@@ -198,9 +210,40 @@ def pax_path(content: bytes) -> Result[Option[str], str]:
         if len(pieces) < 2:
             continue
         record = " ".join(pieces[1:])
-        if record.startswith("path="):
-            found = Some(record[5:])
+        if record.startswith(key + "="):
+            found = Some(record[len(key) + 1:])
     return Ok(found)
+
+
+pub def path_problem(path: str) -> Option[str]:
+    """
+    Why an archive path cannot be extracted as written, or `None`. A path is relative, its components are neither
+    empty, `.` nor `..`, and it is printable ASCII without a backslash: a name no platform reads two ways, and every
+    archive adopted so far has only such names.
+    """
+    if len(path) == 0 or path.startswith("/"):
+        return Some("is not a relative path")
+    for character in path:
+        if character < " " or character > "~" or character == "\\":
+            return Some("holds a character other than printable ASCII, or a backslash")
+    for component in path.split("/"):
+        if component == "" or component == "." or component == "..":
+            return Some("has an empty, `.` or `..` component")
+    return None
+
+
+def checked_paths(entries: list[TarEntry]) -> Result[list[TarEntry], str]:
+    """Refuse a path no file system extracts as written, and two paths a case-folding file system takes for one file."""
+    mut folded: Dict[str, str] = {}
+    for entry in entries:
+        match path_problem(entry.path):
+            Some(problem) => return Err(f"{entry.path}: {problem}")
+            None => pass
+        key = entry.path.lower()
+        if key in folded:
+            return Err(f"{entry.path}: names the same file as `{folded[key]}` where case folds")
+        folded[key] = entry.path
+    return Ok(entries)
 
 
 def padding(size: int) -> int:
@@ -297,3 +340,25 @@ def write_bytes(out: _BytesIO, data: bytes) -> Result[None, str]:
     match out.write(data):
         Ok(_) => return Ok(None)
         Err(error) => return Err(f"writing an archive: {error.message()}")
+
+
+@derive(Clone)
+pub model RawEntry:
+    """One header of any entry type and its data, as `raw_archive` writes it."""
+
+    pub name: str
+    pub typeflag: str
+    pub data: bytes
+
+
+pub def raw_archive(entries: list[RawEntry]) -> Result[bytes, str]:
+    """
+    An archive of headers of any type, in the order given: what a test writes a malformed archive with, since
+    `write_archive` writes only the regular files it accepts.
+    """
+    out = BytesIO()
+    for entry in entries:
+        write_header(out, entry.name, "", "0000644", len(entry.data), entry.typeflag)?
+        write_data(out, entry.data)?
+    write_bytes(out, zeros(2 * BLOCK))?
+    return Ok(out.getvalue())

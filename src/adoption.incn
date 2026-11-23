@@ -18,7 +18,7 @@ The result renders as the `loaf.toml` in RFC 119's Rust facet grammar and travel
 unchanged, in a deterministic source Loaf archive whose digest is the Loaf's identity.
 """
 
-from std.compression import gzip
+from host import gunzip_bounded
 from std.json import JsonValue, parse
 from std.toml import TomlValue
 
@@ -31,6 +31,8 @@ from target import normalize_target
 # The adoption tool version each new revision records (RFC 125, "Determinism"): rebuilding an archive takes the tool at
 # the version that made it. It changes with anything that changes the bytes adoption writes.
 pub const ADOPTION_VERSION: str = "1"
+# The most a `.crate` may decompress to: crates.io's own `max_unpack_size`, 512 MiB.
+pub const MAX_UNPACKED: int = 536870912
 
 
 pub def conventional_root() -> str:
@@ -185,11 +187,14 @@ pub def loaf_name(package: str) -> str:
 
 
 pub def unpack_crate(package: str, version: str, archive: bytes) -> Result[list[TarEntry], str]:
-    """The files of a `.crate`, relative to the package root; every entry must sit under `<package>-<version>/`."""
+    """
+    The files of a `.crate`, relative to the package root; every entry must sit under `<package>-<version>/`. The
+    archive may decompress to at most `MAX_UNPACKED` bytes, crates.io's own bound, and decompression stops there.
+    """
     mut raw = b""
-    match gzip.decompress(archive):
+    match gunzip_bounded(archive, MAX_UNPACKED):
         Ok(data) => raw = data
-        Err(error) => return Err(f"{package} {version}: the .crate is not gzip: {error.message()}")
+        Err(problem) => return Err(f"{package} {version}: the .crate {problem}")
     prefix = f"{package}-{version}/"
     mut files: list[TarEntry] = []
     for entry in read_archive(raw)?:

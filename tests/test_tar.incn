@@ -1,0 +1,85 @@
+"""
+Reading archives under crates.io's own extraction rules (encero-systems/loaves.pub#19), each malformed case written
+here and refused by the one reader `adopt` and `check` share.
+"""
+
+from std.compression import gzip
+from std.testing import assert_eq, assert_true
+
+from adoption import unpack_crate
+from host import gunzip_bounded
+from tar import RawEntry, TarEntry, pax_record, path_problem, raw_archive, read_archive, write_archive
+
+
+def refusal(entries: list[RawEntry]) -> str:
+    match read_archive(raw_archive(entries).unwrap()):
+        Ok(_) => return ""
+        Err(message) => return message
+
+
+def file(name: str, data: bytes) -> RawEntry:
+    return RawEntry(name=name, typeflag="0", data=data)
+
+
+def problem(path: str) -> str:
+    match path_problem(path):
+        Some(reason) => return reason
+        None => return ""
+
+
+def test_links_devices_and_fifos_are_refused() -> None:
+    for kind in ["1", "2", "3", "4", "6"]:
+        assert_eq(refusal([RawEntry(name="entry", typeflag=kind, data=b"x")]), f"entry: entry type `{kind}` is neither a regular file nor a directory")
+
+
+def test_a_pax_size_that_disagrees_with_its_header_is_refused() -> None:
+    disagreeing = [RawEntry(name="PaxHeader", typeflag="x", data=pax_record("size", "5")), file("file", b"abc")]
+    assert_eq(refusal(disagreeing), "file: its pax size 5 disagrees with its header's 3")
+    agreeing = [RawEntry(name="PaxHeader", typeflag="x", data=pax_record("size", "3")), file("file", b"abc")]
+    assert_eq(refusal(agreeing), "")
+
+
+def test_a_path_that_does_not_extract_as_written_is_refused() -> None:
+    assert_eq(problem("/etc/passwd"), "is not a relative path")
+    for path in ["a/../b", "a//b", "./a", "a/", ".."]:
+        assert_eq(problem(path), "has an empty, `.` or `..` component")
+    for path in ["a\\b", "café", "a\tb"]:
+        assert_eq(problem(path), "holds a character other than printable ASCII, or a backslash")
+    assert_eq(problem("src/lib.rs"), "")
+    assert_eq(refusal([file("a/../../b", b"x")]), "a/../../b: has an empty, `.` or `..` component")
+
+
+def test_two_paths_one_file_system_takes_for_one_file_are_refused() -> None:
+    assert_eq(refusal([file("README.md", b"a"), file("readme.md", b"b")]), "readme.md: names the same file as `README.md` where case folds")
+
+
+def kilobyte() -> bytes:
+    mut text = ""
+    for _ in range(1000):
+        text = text + "a"
+    return text.encode()
+
+
+def test_decompression_stops_at_its_bound() -> None:
+    data = gzip.compress(kilobyte()).unwrap()
+    assert_eq(len(gunzip_bounded(data, 1000).unwrap()), 1000)
+    match gunzip_bounded(data, 999):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_eq(message, "decompresses past 999 bytes")
+    match gunzip_bounded(b"not gzip", 999):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_true(message.startswith("not gzip"))
+
+
+def test_a_crate_entry_that_escapes_its_package_directory_is_refused() -> None:
+    tar = raw_archive([file("leaf-1.0.0/../../evil", b"x")]).unwrap()
+    match unpack_crate("leaf", "1.0.0", gzip.compress(tar).unwrap()):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_eq(message, "leaf-1.0.0/../../evil: has an empty, `.` or `..` component")
+
+
+def test_a_well_formed_archive_still_reads_back() -> None:
+    entries = [TarEntry(path="Cargo.toml", executable=false, data=b"[package]\n"), TarEntry(path="src/lib.rs", executable=false, data=b"")]
+    read = read_archive(write_archive(entries).unwrap()).unwrap()
+    assert_eq(len(read), 2)
+    assert_eq(read[1].path, "src/lib.rs")
