@@ -654,6 +654,7 @@ def test_the_policy_is_published_with_the_catalog() -> None:
     assert_true(not is_reserved_scope("acme"))
     assert_true(canonical(policy.get("reserved-scopes").unwrap()).unwrap().contains("\"incan\""))
     assert_eq(canonical(policy.get("adoption-scopes").unwrap()).unwrap(), "[\"c\",\"crates-io\"]")
+    assert_eq(canonical(policy.get("release-age-floor-hours").unwrap()).unwrap(), "72")
     for scope in adoption_scopes():
         assert_true(is_reserved_scope(scope))
     assert_true(is_toolchain_identity(supported_toolchains()[0]))

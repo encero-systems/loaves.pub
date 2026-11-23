@@ -45,7 +45,7 @@ loaves-pub check --crates-io-index <snapshot> --blobs <blob store>
 git commit && git push
 ```
 
-`--cache` keeps the crates.io index files and `.crate` archives adoption downloads, each checked against its crates.io checksum before it is read; `--blobs` receives every source Loaf archive as `sha256/<hex>.tar`. A requirement no adopted version meets is met by the newest crates.io version satisfying it, preferring one that is not yanked. `--features a,b` asks the named versions for those features as well as their defaults, for a package whose defaults do not compile on their own (moka needs `sync` or `future`); take the features its `[package.metadata.docs.rs]` builds with. Report the resulting `index` HEAD as for a harvest.
+`--cache` keeps the crates.io index files and `.crate` archives adoption downloads, each checked against its crates.io checksum before it is read; `--blobs` receives every source Loaf archive as `sha256/<hex>.tar`. A requirement no adopted version meets is met by the newest crates.io version satisfying it that intake lets in, preferring one that is not yanked: intake holds back a version younger than the release-age floor, a patch release that adds a dependency, and a crate in a yank burst ([docs/policy.md](docs/policy.md)). A version named explicitly is refused for the same reasons, which the refusal names; pass `--accept-hazards` only after reading them. `--features a,b` asks the named versions for those features as well as their defaults, for a package whose defaults do not compile on their own (moka needs `sync` or `future`); take the features its `[package.metadata.docs.rs]` builds with. Report the resulting `index` HEAD as for a harvest.
 
 ## Recording build facts
 

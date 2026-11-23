@@ -4,10 +4,11 @@ Adopting package versions together with everything they depend on.
 Admission refuses an `adopt` event whose dependencies are not adopted yet, so versions are adopted in dependency
 order, after the whole closure is planned. The closure is what a consumer of each named version builds with its
 default features, on any target: the walk follows the features every dependent enables on a dependency. A
-requirement is met by a version already adopted or planned; otherwise by the newest crates.io version satisfying it,
-preferring one that is not yanked. Each planned version is downloaded once into the cache and verified against the crates.io
-checksum before it is read, then translated, and its source Loaf archive is stored under its digest in the blob
-store. Nothing is appended to the log until the plan is complete and ordered.
+requirement is met by a version already adopted or planned; otherwise by the newest crates.io version satisfying it
+that intake lets in (src/intake.incn), preferring one that is not yanked. A version named explicitly must pass intake
+too, unless the caller accepts its hazards. Each planned version is downloaded once into the cache and verified
+against the crates.io checksum before it is read, then translated, and its source Loaf archive is stored under its
+digest in the blob store. Nothing is appended to the log until the plan is complete and ordered.
 """
 
 from std.fs import Path
@@ -30,6 +31,7 @@ from canonical import canonical, digest_bytes, digest_text, is_sha256_identity
 from events import member, read_text, string_member
 from host import download
 from registry import crates_io_sparse_url, registry_name, sparse_index_path
+from intake import intake_problems
 from semver import Version, compare, parse_requirement, parse_version, satisfies
 
 
@@ -126,6 +128,8 @@ pub def plan_closure(
     targets: list[list[str]],
     cache: str,
     blobs: str,
+    now: int,
+    accept_hazards: bool,
 ) -> Result[list[Planned], str]:
     """
     Every version to adopt for `targets`, dependencies first.
@@ -172,7 +176,13 @@ pub def plan_closure(
         if not grew:
             continue
         if key not in adopted and key not in planned:
-            item = prepare(cache, blobs, find_line(crates_io_lines(cache, package)?, package, version)?)?
+            lines = crates_io_lines(cache, package)?
+            line = find_line(lines, package, version)?
+            # A version chosen for a requirement passed intake already; one named explicitly is checked here.
+            problems = intake_problems(lines, line, now)?
+            if len(problems) > 0 and not accept_hazards:
+                return Err(f"{package} {version}: " + "; ".join(problems) + "; pass --accept-hazards to adopt it anyway")
+            item = prepare(cache, blobs, line)?
             planned[key] = item
             remember(known, package, version)
             println(f"planned: {package} {version}")
@@ -190,7 +200,7 @@ pub def plan_closure(
             dependency = activation.dependency
             mut choice = newest_meeting(known, dependency.package, dependency.req)?
             if len(choice) == 0:
-                choice = choose(crates_io_lines(cache, dependency.package)?, dependency.package, dependency.req)?
+                choice = choose(crates_io_lines(cache, dependency.package)?, dependency.package, dependency.req, now)?
                 remember(known, dependency.package, choice)
             mut next = [dependency.package, choice]
             for feature in activation.features:
@@ -243,35 +253,47 @@ pub def find_line(lines: list[JsonValue], package: str, version: str) -> Result[
     return Err(f"crates.io publishes no {package} {version}")
 
 
-def choose(lines: list[JsonValue], package: str, requirement: str) -> Result[str, str]:
-    """The newest version satisfying `requirement`, preferring one that is not yanked."""
+pub def choose(lines: list[JsonValue], package: str, requirement: str, now: int) -> Result[str, str]:
+    """
+    The newest version satisfying `requirement` that intake lets in (src/intake.incn), preferring one that is not
+    yanked; refused with every passed-over version's reason when none qualifies.
+    """
     comparators = parse_requirement(requirement)?
-    mut best: Option[Version] = None
-    mut best_text = ""
-    mut best_yanked = true
+    mut satisfying: list[JsonValue] = []
     for line in lines:
-        text = string_member(line, "vers")
-        match parse_version(text):
+        match parse_version(string_member(line, "vers")):
             Ok(version) =>
-                if not satisfies(version, comparators):
-                    continue
-                yanked = flag(line, "yanked")
-                mut better = false
-                match best:
-                    Some(current) =>
-                        if best_yanked and not yanked:
-                            better = true
-                        elif best_yanked == yanked and compare(version, current) > 0:
-                            better = true
-                    None => better = true
-                if better:
-                    best = Some(version)
-                    best_text = text
-                    best_yanked = yanked
+                if satisfies(version, comparators):
+                    satisfying = insert_preferred(satisfying, line)?
             Err(_) => pass
-    if len(best_text) == 0:
+    if len(satisfying) == 0:
         return Err(f"no crates.io version of {package} satisfies `{requirement}`")
-    return Ok(best_text)
+    mut passed_over: list[str] = []
+    for line in satisfying:
+        problems = intake_problems(lines, line, now)?
+        if len(problems) == 0:
+            return Ok(string_member(line, "vers"))
+        passed_over.append(string_member(line, "vers") + ": " + "; ".join(problems))
+    listed = " | ".join(passed_over)
+    return Err(f"no crates.io version of {package} satisfying `{requirement}` passes intake: {listed}")
+
+
+def insert_preferred(ordered: list[JsonValue], line: JsonValue) -> Result[list[JsonValue], str]:
+    """`ordered` with `line` in preference order: versions not yanked first, newest first within each."""
+    version = parse_version(string_member(line, "vers"))?
+    yanked = flag(line, "yanked")
+    mut out: list[JsonValue] = []
+    mut placed = false
+    for other in ordered:
+        other_yanked = flag(other, "yanked")
+        newer = compare(version, parse_version(string_member(other, "vers"))?) > 0
+        if not placed and ((not yanked and other_yanked) or (yanked == other_yanked and newer)):
+            out.append(line)
+            placed = true
+        out.append(other)
+    if not placed:
+        out.append(line)
+    return Ok(out)
 
 
 def met(known: Dict[str, list[str]], package: str, requirement: str) -> Result[bool, str]:
