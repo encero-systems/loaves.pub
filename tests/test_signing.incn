@@ -163,24 +163,39 @@ def test_a_statement_signs_the_event_s_canonical_body_and_an_advisory_its_line_p
     events = load_events(root).unwrap()
     feed = read_feed(root).unwrap().unwrap()
     published = events[0].body.get("id").unwrap().as_str().unwrap()
-    assert_eq("sha256:" + sha256_hex(feed.entries[1].payload), published)
+    assert_eq("sha256:" + sha256_hex(base64.b64decode(feed.entries[1].payload).unwrap()), published)
     advisory = events[1].body.get("id").unwrap().as_str().unwrap()
     assert_eq(
-        feed.entries[2].payload,
+        base64.b64decode(feed.entries[2].payload).unwrap(),
         advisory_payload(advisory[7:], "crates-io/widget", "1.0.0", "publish", "Versions before 1.0.1 drop the last byte."),
     )
-    assert_eq(event_payload(events[1]).unwrap(), feed.entries[2].payload)
+    assert_eq(base64.b64encode(event_payload(events[1]).unwrap()), feed.entries[2].payload)
 
 
-def test_an_advisory_whose_payload_a_mirror_changed_fails_its_signature() -> None:
+def test_an_advisory_whose_payload_a_mirror_changed_is_refused() -> None:
     ssl = openssl().unwrap()
     directory = scratch("tamper")
     root = directory.root()
-    online = signed_log(directory, ssl)
+    signed_log(directory, ssl)
     mut lines = feed_lines(root)
     changed = advisory_payload("x", "crates-io/widget", "1.0.0", "withdraw", "Every version is fine.")
     original = read_feed(root).unwrap().unwrap().entries[2].payload
-    lines[3] = lines[3].replace(base64.b64encode(original), base64.b64encode(changed))
+    lines[3] = lines[3].replace(original, base64.b64encode(changed))
+    write_feed_lines(root, lines)
+    assert_eq(checked(root, false), f"refused: {FEED_PATH}: entry 3: statement 2 does not sign events/000002-advisory-crates-io-widget-1.0.0.json")
+
+
+def test_a_signature_that_does_not_verify_is_refused() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("forged")
+    root = directory.root()
+    online = signed_log(directory, ssl)
+    mut lines = feed_lines(root)
+    signature = read_feed(root).unwrap().unwrap().entries[2].signature
+    mut forged = signature[0:126] + "00"
+    if forged == signature:
+        forged = signature[0:126] + "11"
+    lines[3] = lines[3].replace(signature, forged)
     write_feed_lines(root, lines)
     assert_eq(checked(root, false), f"refused: {FEED_PATH}: entry 3: the signature does not verify under key {ssl.public_key(online).unwrap().id}")
 
@@ -235,7 +250,7 @@ def test_a_statement_that_no_longer_matches_its_event_is_refused() -> None:
     # The edited event is consistent with its own id, which the feed never signed.
     body["id"] = JsonValue.string(event_id(JsonValue.object(body)).unwrap())
     write_text(path, pretty(JsonValue.object(body)).unwrap() + "\n", file_name).unwrap()
-    assert_eq(checked(root, false), f"refused: {FEED_PATH}: statement 1 does not sign events/{file_name}")
+    assert_eq(checked(root, false), f"refused: {FEED_PATH}: entry 2: statement 1 does not sign events/{file_name}")
 
 
 def test_a_key_the_root_never_delegated_signs_nothing() -> None:
@@ -307,7 +322,7 @@ def fixture_verdict(feed: str) -> str:
 def test_the_published_fixture_verifies_and_each_variant_is_refused_by_its_rule() -> None:
     assert_true(fixture_verdict("audit/v1.json").endswith(" at 7 of 7 envelope(s), 0 event(s) awaiting signature"))
     assert_true(fixture_verdict("earlier/v1.json").startswith("refused: audit/v1.json: signs 2 of 4 event(s)"))
-    assert_true(fixture_verdict("variants/payload-changed.json").endswith("entry 3: the signature does not verify under key 5991e3d24321715953aa8c257e374c1d78a4f3e308767b55b703da4f2ec0a034"))
+    assert_true(fixture_verdict("variants/payload-changed.json").endswith("entry 3: statement 2 does not sign events/000002-advisory-crates-io-widget-1.0.0.json"))
     assert_true(fixture_verdict("variants/envelope-omitted.json").endswith("entry 2: sequence must be 2; the feed omits, repeats or reorders nothing"))
     assert_true(fixture_verdict("variants/head-changed.json").endswith("checkpoint: head is not the log accumulator at 7"))
     assert_true(fixture_verdict("variants/revoked-key-signs.json").endswith("entry 6: signed by 5991e3d24321715953aa8c257e374c1d78a4f3e308767b55b703da4f2ec0a034, which is not a key the root delegated and has not revoked"))

@@ -19,7 +19,7 @@ from std.fs import Path
 from std.json import JsonValue, parse
 
 from canonical import canonical, digest_bytes, json_string, pretty
-from events import Event, member, read_text, string_member, write_text
+from events import Event, load_events, member, read_text, string_member, write_text
 from host import canonical_path, environment_value, process_id, run_program
 from registry import has_key
 
@@ -221,16 +221,17 @@ pub model Entry:
     pub kind: str
     pub key: str
     pub reason: str
-    pub payload: bytes
+    # A statement's payload as the feed spells it, padded base64; empty for a key envelope.
+    pub payload: str
     pub signature: str
 
-    def preimage(self, registry: str) -> bytes:
-        """The exact bytes this entry's signature covers."""
+    def preimage(self, registry: str, payload: bytes) -> bytes:
+        """The exact bytes this entry's signature covers; `payload` is a statement's decoded payload."""
         if self.kind == "delegate":
             return delegation_preimage(registry, self.key)
         if self.kind == "revoke-key":
             return revocation_preimage(registry, self.key, self.sequence, self.reason)
-        return statement_preimage(registry, self.key, "event", self.sequence, self.payload)
+        return statement_preimage(registry, self.key, "event", self.sequence, payload)
 
     def json(self) -> JsonValue:
         mut members: Dict[str, JsonValue] = {
@@ -244,7 +245,7 @@ pub model Entry:
         elif self.kind == "revoke-key":
             members["reason"] = JsonValue.string(self.reason)
         else:
-            members["payload"] = JsonValue.string(base64.b64encode(self.payload))
+            members["payload"] = JsonValue.string(self.payload)
         return JsonValue.object(members)
 
 
@@ -340,11 +341,9 @@ def read_entry(item: JsonValue, position: int) -> Result[Entry, str]:
         return Err(f"{label}: sequence must be {position}; the feed omits, repeats or reorders nothing")
     if kind == "delegate" and string_member(item, "key_kind") != "ed25519":
         return Err(f"{label}: the registry delegates ed25519 keys")
-    mut payload = b""
-    if kind == "statement":
-        match base64.b64decode(string_member(item, "payload")):
-            Ok(decoded) => payload = decoded
-            Err(_) => return Err(f"{label}: the payload is padded base64")
+    payload = string_member(item, "payload")
+    if kind == "statement" and len(payload) == 0:
+        return Err(f"{label}: a statement's payload is padded base64")
     return Ok(Entry(
         sequence=position,
         kind=kind,
@@ -382,10 +381,10 @@ def json_int(value: JsonValue, key: str) -> int:
 
 @derive(Clone)
 pub model Verified:
-    """What a feed proves: its statements in order, the keys in force after its last envelope, and its accumulator."""
+    """What a feed proves: how many events of the log it signs, the keys in force after its last envelope, its accumulator."""
 
     pub registry: str
-    pub statements: list[bytes]
+    pub covered: int
     pub delegated: Dict[str, PublicKey]
     pub revoked: Dict[str, int]
     pub head: str
@@ -398,28 +397,35 @@ pub model Verified:
         return not has_key(self.revoked, key_id) or position <= self.revoked[key_id]
 
 
-pub def verify_feed(feed: Feed, root_key: PublicKey, ssl: OpenSsl) -> Result[Verified, str]:
+pub def verify_feed(feed: Feed, root_key: PublicKey, events: list[Event], ssl: OpenSsl) -> Result[Verified, str]:
     """
     Verify every envelope at its position: a key event under the root, a statement under a key the root delegated
-    earlier and has not revoked, and the checkpoint over the accumulator. A checkpoint short of the feed is reported,
-    not refused; `check --signed` refuses it.
+    earlier and has not revoked, and the checkpoint over the accumulator. The k-th statement must carry exactly the
+    payload the log's k-th event gives, so the feed signs a prefix of the log and nothing else. A checkpoint short of
+    the feed is reported, not refused; `check --signed` refuses it.
     """
     if feed.registry != root_key.id:
         return Err(f"{FEED_PATH}: registry must be the root's id, {root_key.id}")
-    mut statements: list[bytes] = []
+    mut covered = 0
     mut delegated: Dict[str, PublicKey] = {}
     mut revoked: Dict[str, int] = {}
     mut head: str = zero_head()
-    mut heads: list[str] = [zero_head()]
+    mut checkpoint_length = -1
+    match feed.checkpoint:
+        Some(checkpoint) => checkpoint_length = checkpoint.length
+        None => pass
+    mut head_at_checkpoint = ""
     for entry in feed.entries:
         label = f"{FEED_PATH}: entry {entry.sequence}"
-        signed = entry.preimage(feed.registry)
-        state = Verified(registry=feed.registry, statements=[], delegated=delegated, revoked=revoked, head=head, checkpoint=None)
+        state = Verified(registry=feed.registry, covered=covered, delegated=delegated, revoked=revoked, head=head, checkpoint=None)
+        mut signed = b""
         if entry.kind == "delegate":
+            signed = entry.preimage(feed.registry, b"")
             key = key_from_raw(entry.key, label)?
             ssl.verify(root_key, signed, entry.signature, label)?
             delegated[key.id] = key
         elif entry.kind == "revoke-key":
+            signed = entry.preimage(feed.registry, b"")
             if not plain(entry.reason):
                 return Err(f"{label}: a revocation's reason is one line of text")
             if not state.active(entry.key, entry.sequence):
@@ -429,17 +435,25 @@ pub def verify_feed(feed: Feed, root_key: PublicKey, ssl: OpenSsl) -> Result[Ver
         else:
             if not state.active(entry.key, entry.sequence):
                 return Err(f"{label}: signed by {entry.key}, which is not a key the root delegated and has not revoked")
+            if covered >= len(events):
+                return Err(f"{label}: statement {covered + 1}, but the log has {len(events)} event(s)")
+            # Comparing the encoded payload avoids decoding every statement; it also refuses a payload spelled two ways.
+            payload = event_payload(events[covered])?
+            if base64.b64encode(payload) != entry.payload:
+                return Err(f"{label}: statement {covered + 1} does not sign {events[covered].label}")
+            signed = entry.preimage(feed.registry, payload)
             ssl.verify(delegated[entry.key], signed, entry.signature, label)?
-            statements.append(entry.payload)
+            covered += 1
         head = accumulate(head, entry.sequence, signed)
-        heads.append(head)
-    mut verified = Verified(registry=feed.registry, statements=statements, delegated=delegated, revoked=revoked, head=head, checkpoint=None)
+        if entry.sequence == checkpoint_length:
+            head_at_checkpoint = head
+    mut verified = Verified(registry=feed.registry, covered=covered, delegated=delegated, revoked=revoked, head=head, checkpoint=None)
     match feed.checkpoint:
         Some(checkpoint) =>
             label = f"{FEED_PATH}: checkpoint"
             if checkpoint.length < 1 or checkpoint.length > len(feed.entries):
                 return Err(f"{label}: length {checkpoint.length} names no prefix of the feed's {len(feed.entries)} envelope(s)")
-            if checkpoint.head != heads[checkpoint.length]:
+            if checkpoint.head != head_at_checkpoint:
                 return Err(f"{label}: head is not the log accumulator at {checkpoint.length}")
             if checkpoint.timestamp < 0:
                 return Err(f"{label}: timestamp is Unix seconds")
@@ -451,21 +465,6 @@ pub def verify_feed(feed: Feed, root_key: PublicKey, ssl: OpenSsl) -> Result[Ver
             verified.checkpoint = Some(checkpoint)
         None => pass
     return Ok(verified)
-
-
-pub def covered_events(verified: Verified, events: list[Event]) -> Result[int, str]:
-    """
-    How many events of the log the feed's statements sign: statement k must sign event k's payload, so the feed
-    covers a prefix of the log and nothing else.
-    """
-    if len(verified.statements) > len(events):
-        return Err(f"{FEED_PATH}: {len(verified.statements)} statements, but the log has {len(events)} event(s)")
-    mut index = 0
-    for statement in verified.statements:
-        if statement != event_payload(events[index])?:
-            return Err(f"{FEED_PATH}: statement {index + 1} does not sign {events[index].label}")
-        index += 1
-    return Ok(index)
 
 
 pub def check_signatures(root: Path, events: list[Event], at_head: bool) -> Result[str, str]:
@@ -481,8 +480,8 @@ pub def check_signatures(root: Path, events: list[Event], at_head: bool) -> Resu
             ssl = openssl()?
             match read_feed(root)?:
                 Some(feed) =>
-                    verified = verify_feed(feed, root_key, ssl)?
-                    covered = covered_events(verified, events)?
+                    verified = verify_feed(feed, root_key, events, ssl)?
+                    covered = verified.covered
                     mut at = "no checkpoint"
                     mut length = 0
                     match verified.checkpoint:
@@ -500,8 +499,8 @@ pub def sign_log(root: Path, events: list[Event], key_file: str, ssl: OpenSsl) -
     """`sign`: a statement for every event the feed does not cover yet, then a checkpoint over the whole feed, now."""
     root_key = required_root(root)?
     feed = required_feed(root)?
-    verified = verify_feed(feed, root_key, ssl)?
-    covered = covered_events(verified, events)?
+    verified = verify_feed(feed, root_key, events, ssl)?
+    covered = verified.covered
     key = ssl.public_key(key_file)?
     if not verified.active(key.id, len(feed.entries) + 1):
         return Err(f"{key_file}: key {key.id} is not one the root delegated and has not revoked")
@@ -511,7 +510,7 @@ pub def sign_log(root: Path, events: list[Event], key_file: str, ssl: OpenSsl) -
         sequence = len(entries) + 1
         payload = event_payload(event)?
         signed = statement_preimage(feed.registry, key.id, "event", sequence, payload)
-        entries.append(Entry(sequence=sequence, kind="statement", key=key.id, reason="", payload=payload, signature=ssl.sign(key_file, signed)?))
+        entries.append(Entry(sequence=sequence, kind="statement", key=key.id, reason="", payload=base64.b64encode(payload), signature=ssl.sign(key_file, signed)?))
         head = accumulate(head, sequence, signed)
     length = len(entries)
     timestamp = SystemTime.now().unix_seconds()
@@ -543,7 +542,7 @@ pub def delegate(root: Path, root_key_file: str, key_text: str, ssl: OpenSsl) ->
             if root_key.id != signer.id:
                 return Err(f"{root_key_file}: not the registry's root, {root_key.id}")
             feed = required_feed(root)?
-            verify_feed(feed, root_key, ssl)?
+            verify_feed(feed, root_key, load_events(root)?, ssl)?
         None =>
             if (root / FEED_PATH).is_file():
                 return Err(f"{FEED_PATH}: a feed, but keys/root.json names no root to verify it from")
@@ -551,7 +550,7 @@ pub def delegate(root: Path, root_key_file: str, key_text: str, ssl: OpenSsl) ->
     sequence = len(feed.entries) + 1
     signature = ssl.sign(root_key_file, delegation_preimage(feed.registry, key.raw))?
     mut entries = feed.entries
-    entries.append(Entry(sequence=sequence, kind="delegate", key=key.raw, reason="", payload=b"", signature=signature))
+    entries.append(Entry(sequence=sequence, kind="delegate", key=key.raw, reason="", payload="", signature=signature))
     updated = Feed(registry=feed.registry, checkpoint=feed.checkpoint, entries=entries)
     write_text(root / FEED_PATH, updated.text()?, FEED_PATH)?
     return Ok(f"delegated {key.id} at {sequence}; run loaves-pub sign for a checkpoint")
@@ -565,13 +564,13 @@ pub def revoke(root: Path, root_key_file: str, key_id: str, reason: str, ssl: Op
     if not plain(reason):
         return Err("--reason is one line of text")
     feed = required_feed(root)?
-    verified = verify_feed(feed, root_key, ssl)?
+    verified = verify_feed(feed, root_key, load_events(root)?, ssl)?
     sequence = len(feed.entries) + 1
     if not verified.active(key_id, sequence):
         return Err(f"--key: {key_id} is not a key in force")
     signature = ssl.sign(root_key_file, revocation_preimage(feed.registry, key_id, sequence, reason))?
     mut entries = feed.entries
-    entries.append(Entry(sequence=sequence, kind="revoke-key", key=key_id, reason=reason, payload=b"", signature=signature))
+    entries.append(Entry(sequence=sequence, kind="revoke-key", key=key_id, reason=reason, payload="", signature=signature))
     updated = Feed(registry=feed.registry, checkpoint=feed.checkpoint, entries=entries)
     write_text(root / FEED_PATH, updated.text()?, FEED_PATH)?
     return Ok(f"revoked {key_id} at {sequence}; run loaves-pub sign with a key in force for a checkpoint")
