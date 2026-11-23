@@ -1,0 +1,16 @@
+{
+  "actor": "fixture",
+  "advisory": {
+    "text": "Versions before 1.0.1 drop the last byte of every frame."
+  },
+  "at": "2026-11-23T07:05:43Z",
+  "id": "sha256:73f087ec850b12c1b9d03f1c2cfd34fe3ae613bbe61fa8329723d355aeca254f",
+  "kind": "advisory",
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "widget",
+    "scope": "crates-io",
+    "version": "1.0.0"
+  }
+}

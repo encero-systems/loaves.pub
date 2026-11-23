@@ -1,0 +1,328 @@
+"""
+The signed audit feed: the preimages Oven verifies, byte for byte, then `delegate`, `revoke-key` and `sign` on a
+scratch log with keys OpenSSL generates for the test, and every refusal `check` gives for a feed.
+"""
+
+from std.encoding import base64
+from std.fs import Path
+from std.json import JsonValue, parse
+from std.testing import assert_eq, assert_true
+
+from canonical import pretty
+from events import append_event, event_id, load_events, read_text, write_text
+from host import environment_value, run_program
+from signing import (
+    FEED_PATH,
+    OpenSsl,
+    accumulate,
+    advisory_payload,
+    checkpoint_payload,
+    check_signatures,
+    delegate,
+    delegation_preimage,
+    event_payload,
+    openssl,
+    public_key,
+    read_feed,
+    read_root,
+    revocation_preimage,
+    revoke,
+    sha256_hex,
+    sign_log,
+    statement_preimage,
+)
+
+
+@derive(Clone)
+model Scratch:
+    """A fresh directory for one test: the log under `index/`, its keys beside it."""
+
+    pub location: str
+
+    def root(self) -> Path:
+        return Path(self.location + "/index")
+
+    def new_key(self, ssl: OpenSsl, name: str) -> str:
+        """A fresh Ed25519 private key, by path."""
+        key_file = self.location + "/" + name + ".pem"
+        ran = run_program(ssl.program, ["genpkey", "-algorithm", "ed25519", "-out", key_file], {}, ssl.work).unwrap()
+        assert_true(ran.success)
+        return key_file
+
+
+def scratch(name: str) -> Scratch:
+    location = environment_value("TMPDIR").unwrap_or("/tmp").strip() + "/loaves-pub-feed-test-" + name
+    path = Path(location)
+    if path.is_dir():
+        path.remove_tree().unwrap()
+    Path(location + "/index").mkdir(parents=true, exist_ok=true).unwrap()
+    return Scratch(location=location)
+
+
+def publish(root: Path, name: str) -> None:
+    mut payload: Dict[str, JsonValue] = {}
+    payload["source"] = JsonValue.object({
+        "registry": JsonValue.string("https://github.com/rust-lang/crates.io-index"),
+        "checksum": JsonValue.string("sha256:b6d2cec3eae94f9f509c767b45932f1ada8350c4bdb85af2fcab4a3c14807981"),
+    })
+    append_event(root, "publish", name, "1.0.0", "tests", payload).unwrap()
+
+
+def advise(root: Path, name: str, text: str) -> None:
+    mut payload: Dict[str, JsonValue] = {}
+    payload["advisory"] = JsonValue.object({"text": JsonValue.string(text)})
+    append_event(root, "advisory", name, "1.0.0", "tests", payload).unwrap()
+
+
+def checked(root: Path, at_head: bool) -> str:
+    """`check`'s verdict on the feed: its note, or the refusal."""
+    match load_events(root):
+        Ok(events) =>
+            match check_signatures(root, events, at_head):
+                Ok(note) => return note
+                Err(message) => return "refused: " + message
+        Err(message) => return "refused: " + message
+
+
+def signed_log(directory: Scratch, ssl: OpenSsl) -> str:
+    """A published package, an advisory on it, a delegated key and a feed signing all of it; returns that key."""
+    root = directory.root()
+    root_key = directory.new_key(ssl, "root")
+    online_key = directory.new_key(ssl, "online")
+    publish(root, "widget")
+    advise(root, "widget", "Versions before 1.0.1 drop the last byte.")
+    delegate(root, root_key, ssl.public_key(online_key).unwrap().text, ssl).unwrap()
+    sign_log(root, load_events(root).unwrap(), online_key, ssl).unwrap()
+    return online_key
+
+
+def feed_lines(root: Path) -> list[str]:
+    return read_text(root / FEED_PATH, FEED_PATH).unwrap().split("\n")
+
+
+def write_feed_lines(root: Path, lines: list[str]) -> None:
+    write_text(root / FEED_PATH, "\n".join(lines), FEED_PATH).unwrap()
+
+
+def test_every_preimage_is_the_bytes_oven_verifies() -> None:
+    assert_eq(delegation_preimage("r", "k"), b"incan-registry-delegation-v1\nregistry=r\nkey-kind=ed25519\nkey=k\n")
+    assert_eq(revocation_preimage("r", "k", 7, "lost"), b"incan-registry-key-revocation-v1\nregistry=r\nkey=k\nsequence=7\nreason=lost\n")
+    assert_eq(
+        statement_preimage("r", "k", "event", 2, b"abc"),
+        b"incan-registry-statement-v1\nregistry=r\nkey=k\nkind=event\nsequence=2\npayload-sha256=ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\n",
+    )
+    assert_eq(checkpoint_payload("h", 3, 1764000000), b"incan-registry-checkpoint-v1\nhead=h\nlength=3\ntimestamp=1764000000\n")
+    assert_eq(
+        advisory_payload("a", "crates-io/widget", "1.0.0", "publish", "why"),
+        b"incan-registry-advisory-v1\nid=a\npackage=crates-io/widget\nversion=1.0.0\naction=publish\nreason=why\n",
+    )
+    zero = "0000000000000000000000000000000000000000000000000000000000000000"
+    assert_eq(accumulate(zero, 1, b"abc"), "06114015ca7229edc94aa66d65eb1804b07abd4ce8f32d781e8586687a26b350")
+
+
+def test_a_key_s_id_is_the_digest_of_its_raw_bytes() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("key")
+    key = ssl.public_key(directory.new_key(ssl, "k")).unwrap()
+    assert_true(key.text.startswith("ed25519:MCowBQYDK2VwAyEA"))
+    assert_eq(len(key.raw), 64)
+    assert_eq(public_key(key.text, "k").unwrap().id, key.id)
+    match public_key("ed25519:AAAA", "short"):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_eq(message, "short: not an Ed25519 public key")
+
+
+def test_a_registry_that_signed_nothing_reads_as_unsigned() -> None:
+    directory = scratch("unsigned")
+    root = directory.root()
+    publish(root, "widget")
+    assert_eq(checked(root, false), "unsigned")
+    assert_eq(checked(root, true), "refused: keys/root.json names no root, so nothing is signed")
+
+
+def test_the_first_delegate_names_the_root_and_a_signed_feed_covers_the_log() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("head")
+    root = directory.root()
+    signed_log(directory, ssl)
+    root_key = read_root(root).unwrap().unwrap()
+    feed = read_feed(root).unwrap().unwrap()
+    assert_eq(feed.registry, root_key.id)
+    assert_eq(len(feed.entries), 3)
+    assert_eq(feed.entries[0].kind, "delegate")
+    note = checked(root, true)
+    assert_true(note.startswith(f"signed under {root_key.id}, checkpoint "))
+    assert_true(note.endswith(" at 3 of 3 envelope(s), 0 event(s) awaiting signature"))
+
+
+def test_a_statement_signs_the_event_s_canonical_body_and_an_advisory_its_line_preimage() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("payloads")
+    root = directory.root()
+    signed_log(directory, ssl)
+    events = load_events(root).unwrap()
+    feed = read_feed(root).unwrap().unwrap()
+    published = events[0].body.get("id").unwrap().as_str().unwrap()
+    assert_eq("sha256:" + sha256_hex(base64.b64decode(feed.entries[1].payload).unwrap()), published)
+    advisory = events[1].body.get("id").unwrap().as_str().unwrap()
+    assert_eq(
+        base64.b64decode(feed.entries[2].payload).unwrap(),
+        advisory_payload(advisory[7:], "crates-io/widget", "1.0.0", "publish", "Versions before 1.0.1 drop the last byte."),
+    )
+    assert_eq(base64.b64encode(event_payload(events[1]).unwrap()), feed.entries[2].payload)
+
+
+def test_an_advisory_whose_payload_a_mirror_changed_is_refused() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("tamper")
+    root = directory.root()
+    signed_log(directory, ssl)
+    mut lines = feed_lines(root)
+    changed = advisory_payload("x", "crates-io/widget", "1.0.0", "withdraw", "Every version is fine.")
+    original = read_feed(root).unwrap().unwrap().entries[2].payload
+    lines[3] = lines[3].replace(original, base64.b64encode(changed))
+    write_feed_lines(root, lines)
+    assert_eq(checked(root, false), f"refused: {FEED_PATH}: entry 3: statement 2 does not sign events/000002-advisory-crates-io-widget-1.0.0.json")
+
+
+def test_a_signature_that_does_not_verify_is_refused() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("forged")
+    root = directory.root()
+    online = signed_log(directory, ssl)
+    mut lines = feed_lines(root)
+    signature = read_feed(root).unwrap().unwrap().entries[2].signature
+    mut forged = signature[0:126] + "00"
+    if forged == signature:
+        forged = signature[0:126] + "11"
+    lines[3] = lines[3].replace(signature, forged)
+    write_feed_lines(root, lines)
+    assert_eq(checked(root, false), f"refused: {FEED_PATH}: entry 3: the signature does not verify under key {ssl.public_key(online).unwrap().id}")
+
+
+def test_a_feed_that_omits_an_envelope_is_refused() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("omit")
+    root = directory.root()
+    signed_log(directory, ssl)
+    lines = feed_lines(root)
+    write_feed_lines(root, [lines[0], lines[1], lines[3], lines[4], lines[5]])
+    assert_eq(checked(root, false), f"refused: {FEED_PATH}: entry 2: sequence must be 2; the feed omits, repeats or reorders nothing")
+
+
+def test_a_checkpoint_whose_head_is_not_the_accumulator_is_refused() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("head-mismatch")
+    root = directory.root()
+    signed_log(directory, ssl)
+    feed = read_feed(root).unwrap().unwrap()
+    mut lines = feed_lines(root)
+    head = feed.checkpoint.unwrap().head
+    lines[0] = lines[0].replace(head, "0000000000000000000000000000000000000000000000000000000000000000")
+    write_feed_lines(root, lines)
+    assert_eq(checked(root, false), f"refused: {FEED_PATH}: checkpoint: head is not the log accumulator at 3")
+
+
+def test_events_after_the_feed_wait_for_sign_and_signed_refuses_them() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("pending")
+    root = directory.root()
+    online = signed_log(directory, ssl)
+    publish(root, "gadget")
+    assert_true(checked(root, false).endswith(" at 3 of 3 envelope(s), 1 event(s) awaiting signature"))
+    assert_true(checked(root, true).contains("signs 2 of 3 event(s)"))
+    sign_log(root, load_events(root).unwrap(), online, ssl).unwrap()
+    assert_true(checked(root, true).endswith(" at 4 of 4 envelope(s), 0 event(s) awaiting signature"))
+
+
+def test_a_statement_that_no_longer_matches_its_event_is_refused() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("drift")
+    root = directory.root()
+    signed_log(directory, ssl)
+    file_name = "000001-publish-crates-io-widget-1.0.0.json"
+    path = root / "events" / file_name
+    event = parse(read_text(path, file_name).unwrap()).unwrap()
+    mut body: Dict[str, JsonValue] = {}
+    for key in event.keys():
+        body[key] = event.get(key).unwrap()
+    body["actor"] = JsonValue.string("someone else")
+    # The edited event is consistent with its own id, which the feed never signed.
+    body["id"] = JsonValue.string(event_id(JsonValue.object(body)).unwrap())
+    write_text(path, pretty(JsonValue.object(body)).unwrap() + "\n", file_name).unwrap()
+    assert_eq(checked(root, false), f"refused: {FEED_PATH}: entry 2: statement 1 does not sign events/{file_name}")
+
+
+def test_a_key_the_root_never_delegated_signs_nothing() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("stranger")
+    root = directory.root()
+    signed_log(directory, ssl)
+    publish(root, "gadget")
+    stranger = directory.new_key(ssl, "stranger")
+    match sign_log(root, load_events(root).unwrap(), stranger, ssl):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_true(message.endswith("is not one the root delegated and has not revoked"))
+
+
+def test_a_revoked_key_signs_nothing_after_its_revocation_and_a_new_delegate_takes_over() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("revoke")
+    root = directory.root()
+    online = signed_log(directory, ssl)
+    root_key = directory.location + "/root.pem"
+    revoke(root, root_key, ssl.public_key(online).unwrap().id, "The online key left its runner.", ssl).unwrap()
+    publish(root, "gadget")
+    match sign_log(root, load_events(root).unwrap(), online, ssl):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_true(message.endswith("is not one the root delegated and has not revoked"))
+    second = directory.new_key(ssl, "second")
+    delegate(root, root_key, ssl.public_key(second).unwrap().text, ssl).unwrap()
+    sign_log(root, load_events(root).unwrap(), second, ssl).unwrap()
+    feed = read_feed(root).unwrap().unwrap()
+    assert_eq(feed.entries[3].kind, "revoke-key")
+    assert_eq(feed.entries[4].kind, "delegate")
+    assert_true(checked(root, true).endswith(" at 6 of 6 envelope(s), 0 event(s) awaiting signature"))
+
+
+def test_only_the_root_delegates() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("root-only")
+    root = directory.root()
+    signed_log(directory, ssl)
+    other = directory.new_key(ssl, "other")
+    match delegate(root, other, ssl.public_key(directory.new_key(ssl, "k")).unwrap().text, ssl):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_true(message.contains("not the registry's root"))
+
+
+def test_an_advisory_of_more_than_one_line_is_not_signed() -> None:
+    ssl = openssl().unwrap()
+    directory = scratch("lines")
+    root = directory.root()
+    online = signed_log(directory, ssl)
+    advise(root, "widget", "First line.\nSecond line.")
+    match sign_log(root, load_events(root).unwrap(), online, ssl):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_eq(message, "events/000003-advisory-crates-io-widget-1.0.0.json: an advisory the feed signs is one line of text")
+
+
+def fixture_verdict(feed: str) -> str:
+    """`check`'s verdict on the committed fixture's log, with `feed` (a path under the fixture) as its audit feed."""
+    fixture = Path("tests/fixtures/signed-feed")
+    directory = scratch("fixture-" + feed.replace("/", "-"))
+    root = directory.root()
+    write_text(root / "keys" / "root.json", read_text(fixture / "keys" / "root.json", "root").unwrap(), "root").unwrap()
+    write_text(root / FEED_PATH, read_text(fixture / feed, feed).unwrap(), feed).unwrap()
+    match check_signatures(root, load_events(fixture).unwrap(), true):
+        Ok(note) => return note
+        Err(message) => return "refused: " + message
+
+
+def test_the_published_fixture_verifies_and_each_variant_is_refused_by_its_rule() -> None:
+    assert_true(fixture_verdict("audit/v1.json").endswith(" at 7 of 7 envelope(s), 0 event(s) awaiting signature"))
+    assert_true(fixture_verdict("earlier/v1.json").startswith("refused: audit/v1.json: signs 2 of 4 event(s)"))
+    assert_true(fixture_verdict("variants/payload-changed.json").endswith("entry 3: statement 2 does not sign events/000002-advisory-crates-io-widget-1.0.0.json"))
+    assert_true(fixture_verdict("variants/envelope-omitted.json").endswith("entry 2: sequence must be 2; the feed omits, repeats or reorders nothing"))
+    assert_true(fixture_verdict("variants/head-changed.json").endswith("checkpoint: head is not the log accumulator at 7"))
+    assert_true(fixture_verdict("variants/revoked-key-signs.json").endswith("entry 6: signed by 5991e3d24321715953aa8c257e374c1d78a4f3e308767b55b703da4f2ec0a034, which is not a key the root delegated and has not revoked"))

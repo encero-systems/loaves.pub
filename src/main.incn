@@ -1,7 +1,7 @@
 """
 loaves-pub: the interim registry's tool. Admission (`check`), projection (`build`) and the publishing verbs.
 
-    loaves-pub check [--root DIR] [--crates-io-index DIR]
+    loaves-pub check [--signed] [--root DIR] [--crates-io-index DIR]
     loaves-pub build [--root DIR]
     loaves-pub index-urls [--root DIR]
     loaves-pub publish NAME VERSION CHECKSUM [--notes FILE] [--actor ACTOR] [--root DIR]
@@ -25,12 +25,16 @@ loaves-pub: the interim registry's tool. Admission (`check`), projection (`build
     loaves-pub fetch-sources LOCK --blobs DIR --work DIR [--registry HOST] [--namespace NS]
     loaves-pub describe-packages --work DIR [--registry HOST] [--namespace NS] [--root DIR]
     loaves-pub site --formatted DIR --templates DIR --checkpoint COMMIT --out DIR [--root DIR]
+    loaves-pub delegate --root-key PEM --key ed25519:... [--root DIR]
+    loaves-pub revoke-key --root-key PEM --key KEY-ID --reason TEXT [--root DIR]
+    loaves-pub sign --key PEM [--root DIR]
 
 `--root` is the checkout of the `index` branch; the current directory when omitted. A refusal prints
 `refused: <rule>` and exits non-zero. `adopt` adopts the named versions (with `--features`, built with those features
 as well as their defaults), or with `--records` every record not yet adopted, together with their dependency closure;
 `--cache` keeps what it downloads from crates.io and `--blobs` is the store source Loaf archives are written to by
-digest.
+digest. `delegate`, `revoke-key` and `sign` write the signed audit feed (src/signing.incn, docs/signing.md); `check`
+verifies it whenever `keys/root.json` names a root, and with `--signed` refuses a feed short of the log.
 """
 
 from std.fs import Path
@@ -103,12 +107,13 @@ from projection import (
     write_projections,
 )
 from registry import Record, builders, crates_io_index, fact_key, has_key, is_toolchain_identity, keys_of, parse_digits, record_key
+from signing import check_signatures, delegate, openssl, revoke, sign_log
 from site import render_site
 
 
 def flags() -> list[str]:
     """Options that take no value."""
-    return ["propose", "publish", "records"]
+    return ["propose", "publish", "records", "signed"]
 
 
 def default_actor() -> str:
@@ -234,6 +239,8 @@ def run(arguments: list[str]) -> Result[None, str]:
         return describe_packages(invocation)
     if invocation.command == "build-roots":
         return print_build_roots(invocation)
+    if ["delegate", "revoke-key", "sign"].contains(invocation.command):
+        return key_verb(invocation)
     if invocation.command == "site":
         return write_site(invocation)
     return Err(f"unknown command `{invocation.command}`; see the usage at the top of src/main.incn")
@@ -276,10 +283,26 @@ def check(invocation: Invocation) -> Result[None, str]:
             facts += 1
             if fact.status == "attested":
                 attested += 1
+    signatures = check_signatures(root, events, invocation.flag("signed"))?
     println(
         f"ok: {len(events)} event(s), {len(state)} record(s), {facts} bound fact(s) ({attested} attested), "
-        + f"projections in sync, {verification}"
+        + f"projections in sync, {verification}, {signatures}"
     )
+    return Ok(None)
+
+
+def key_verb(invocation: Invocation) -> Result[None, str]:
+    """`delegate`, `revoke-key` and `sign`: the signed audit feed (src/signing.incn)."""
+    if len(invocation.positional) != 0:
+        return Err("the feed verbs take no positional arguments; see the usage at the top of src/main.incn")
+    root = invocation.root()
+    ssl = openssl()?
+    if invocation.command == "sign":
+        println(sign_log(root, load_events(root)?, invocation.require("key")?, ssl)?)
+    elif invocation.command == "delegate":
+        println(delegate(root, invocation.require("root-key")?, invocation.require("key")?, ssl)?)
+    else:
+        println(revoke(root, invocation.require("root-key")?, invocation.require("key")?, invocation.require("reason")?, ssl)?)
     return Ok(None)
 
 
@@ -593,6 +616,8 @@ def advise(invocation: Invocation) -> Result[None, str]:
     text = invocation.require("text")?.strip()
     if len(text) == 0:
         return Err("an advisory carries a non-empty `text`")
+    if text.contains("\n") or text.contains("\r"):
+        return Err("an advisory's text is one line: the signed feed carries it as one (docs/signing.md)")
     root = invocation.root()
     state = replay(load_events(root)?, root)?
     if not has_key(state, record_key(name, version)):

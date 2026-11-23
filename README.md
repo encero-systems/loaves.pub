@@ -51,7 +51,7 @@ blob store (outside git)
 
 Nothing under `index/`, `catalog/`, `crates-io/**/loaf.toml`, `crates-io/**/assets.json` or `crates-io/*/README.md` is edited by hand: `loaves-pub build` regenerates them from the events, and `loaves-pub check` — run in CI on every push to either branch — refuses a checkout whose events, committed generated inputs or projections disagree. With `--crates-io-index` it verifies every crates.io checksum, and with `--blobs` every source Loaf archive. An index line carries the version's `rust` table, `deps`, `features` and `adopted` provenance, its archive digest as `cksum`, and the status of each binding: `harvested` or `attested`.
 
-In this transport `HEAD` of `index` is the checkpoint a toolchain pins, and nothing signs it yet. The signed HTTPS form of RFC 125 changes how these files arrive, not what they say.
+A toolchain pins a commit of `index`. Once `keys/root.json` there names the registry's root, `audit/v1.json` signs every event and a checkpoint over all of them, as [docs/signing.md](docs/signing.md) specifies, so a mirror or a copy needs no trust of its own. The signed HTTPS form of RFC 125 changes how these files arrive, not what they say.
 
 ## Using the tool
 
