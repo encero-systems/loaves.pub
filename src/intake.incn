@@ -1,0 +1,189 @@
+"""
+Intake (RFC 125, "Selection hazards"): what keeps a fresh or suspicious crates.io release out of adoption.
+
+A malicious release lands before anyone has had a chance to notice and yank it, so a version enters adoption only
+once it is older than the registry's release-age floor, and two signals hold back a version even then:
+
+- **A new dependency in a patch release.** A version that raises only the patch number of an earlier version of its
+  crate, yet depends on a package (normal or build) that earlier version did not, is how a compromised maintainer
+  account most cheaply reaches every consumer of a crate.
+- **A yank burst.** Three or more of the crate's five newest versions are yanked. The index records neither who yanked
+  a version nor when, so a run of yanks at the head of a crate stands for one owner yanking in a hurry.
+
+Automatic selection passes over a version any rule holds back and says why; a version named explicitly is refused
+unless the caller accepts the hazards it names. The floor is also in the registry's published policy
+(`catalog/policy.json`), so a consumer filling a miss locally applies the same one. Everything is read from the
+crates.io index line, which carries each version's `pubtime`.
+"""
+
+from std.datetime import SystemTime
+from std.json import JsonValue
+
+from events import string_member
+from registry import parse_digits
+from semver import Version, compare, parse_version
+
+# The release-age floor, in hours: a crates.io version younger than this is not adopted.
+pub const RELEASE_AGE_FLOOR_HOURS: int = 72
+# A yank burst: at least `YANK_BURST` of the crate's `YANK_WINDOW` newest versions are yanked.
+const YANK_WINDOW: int = 5
+const YANK_BURST: int = 3
+
+
+pub def now_seconds() -> int:
+    return SystemTime.now().unix_seconds()
+
+
+pub def intake_problems(lines: list[JsonValue], line: JsonValue, now: int) -> Result[list[str], str]:
+    """Why `line` may not enter adoption at time `now` (Unix seconds); empty when nothing holds it back."""
+    mut problems: list[str] = []
+    match age_problem(line, now)?:
+        Some(problem) => problems.append(problem)
+        None => pass
+    match new_dependency_problem(lines, line)?:
+        Some(problem) => problems.append(problem)
+        None => pass
+    match yank_burst_problem(lines)?:
+        Some(problem) => problems.append(problem)
+        None => pass
+    return Ok(problems)
+
+
+def age_problem(line: JsonValue, now: int) -> Result[Option[str], str]:
+    pubtime = string_member(line, "pubtime")
+    if len(pubtime) == 0:
+        return Ok(Some("crates.io gives no publish time for it, so its age is unknown"))
+    published = unix_seconds(pubtime)?
+    hours = (now - published) // 3600
+    if now - published < RELEASE_AGE_FLOOR_HOURS * 3600:
+        return Ok(Some(f"published {pubtime}, {hours} h ago, under the {RELEASE_AGE_FLOOR_HOURS} h release-age floor"))
+    return Ok(None)
+
+
+def new_dependency_problem(lines: list[JsonValue], line: JsonValue) -> Result[Option[str], str]:
+    """A patch release depending on a package its previous patch release did not."""
+    version = parse_version(string_member(line, "vers"))?
+    if version.patch == 0 or version.is_prerelease():
+        return Ok(None)
+    mut previous: Option[JsonValue] = None
+    mut previous_version: Option[Version] = None
+    for candidate in lines:
+        match parse_version(string_member(candidate, "vers")):
+            Ok(other) =>
+                if other.major != version.major or other.minor != version.minor or other.is_prerelease():
+                    continue
+                if compare(other, version) >= 0:
+                    continue
+                match previous_version:
+                    Some(best) =>
+                        if compare(other, best) <= 0:
+                            continue
+                    None => pass
+                previous = Some(candidate)
+                previous_version = Some(other)
+            Err(_) => pass
+    match previous:
+        Some(earlier) =>
+            before = dependency_packages(earlier)
+            mut added: list[str] = []
+            for package in dependency_packages(line):
+                if not before.contains(package) and not added.contains(package):
+                    added.append(package)
+            if len(added) > 0:
+                listed = ", ".join(sorted(added))
+                return Ok(Some(f"a patch release adding dependencies {string_member(earlier, 'vers')} did not have: {listed}"))
+            return Ok(None)
+        None => return Ok(None)
+
+
+def dependency_packages(line: JsonValue) -> list[str]:
+    """The packages a version depends on to build: normal and build dependencies, by their crates.io name."""
+    mut packages: list[str] = []
+    match line.get("deps"):
+        Some(deps) =>
+            for dependency in deps.as_array().unwrap_or([]):
+                if string_member(dependency, "kind") == "dev":
+                    continue
+                mut package = string_member(dependency, "package")
+                if len(package) == 0:
+                    package = string_member(dependency, "name")
+                packages.append(package)
+        None => pass
+    return packages
+
+
+def yank_burst_problem(lines: list[JsonValue]) -> Result[Option[str], str]:
+    """Too many of the crate's newest versions yanked: the head of the crate is being pulled back."""
+    mut newest: list[JsonValue] = []
+    for line in lines:
+        match parse_version(string_member(line, "vers")):
+            Ok(_) => newest = insert_newest(newest, line)?
+            Err(_) => pass
+    mut yanked = 0
+    for line in newest:
+        match line.get("yanked"):
+            Some(flag) =>
+                if flag.as_bool().unwrap_or(false):
+                    yanked += 1
+            None => pass
+    if yanked >= YANK_BURST:
+        return Ok(Some(f"{yanked} of the crate's {len(newest)} newest versions are yanked"))
+    return Ok(None)
+
+
+def insert_newest(newest: list[JsonValue], line: JsonValue) -> Result[list[JsonValue], str]:
+    """`newest` with `line` placed by version, newest first, kept to `YANK_WINDOW` entries."""
+    version = parse_version(string_member(line, "vers"))?
+    mut out: list[JsonValue] = []
+    mut placed = false
+    for other in newest:
+        if not placed and compare(version, parse_version(string_member(other, "vers"))?) > 0:
+            out.append(line)
+            placed = true
+        out.append(other)
+    if not placed:
+        out.append(line)
+    return Ok(out[0:min_int(len(out), YANK_WINDOW)])
+
+
+def min_int(left: int, right: int) -> int:
+    if left < right:
+        return left
+    return right
+
+
+pub def unix_seconds(text: str) -> Result[int, str]:
+    """`YYYY-MM-DDTHH:MM:SSZ`, or with a fraction or a `+00:00` offset as crates.io spells it, in Unix seconds."""
+    if len(text) < 20 or text[4:5] != "-" or text[7:8] != "-" or text[10:11] != "T" or text[13:14] != ":" or text[16:17] != ":":
+        return Err(f"`{text}` is not a UTC time")
+    year = digits(text[0:4], text)?
+    month = digits(text[5:7], text)?
+    day = digits(text[8:10], text)?
+    hour = digits(text[11:13], text)?
+    minute = digits(text[14:16], text)?
+    second = digits(text[17:19], text)?
+    rest = text[19:]
+    if not (rest.endswith("Z") or rest.endswith("+00:00")):
+        return Err(f"`{text}` is not a UTC time")
+    return Ok(days_from_civil(year, month, day) * 86400 + hour * 3600 + minute * 60 + second)
+
+
+def digits(text: str, label: str) -> Result[int, str]:
+    match parse_digits(text):
+        Some(value) => return Ok(value)
+        None => return Err(f"`{label}` is not a UTC time")
+
+
+def days_from_civil(year: int, month: int, day: int) -> int:
+    """Days since 1970-01-01 of a proleptic Gregorian date (Howard Hinnant's algorithm)."""
+    mut y = year
+    if month <= 2:
+        y = y - 1
+    era = y // 400
+    year_of_era = y - era * 400
+    mut shifted = month + 9
+    if month > 2:
+        shifted = month - 3
+    day_of_year = (153 * shifted + 2) // 5 + day - 1
+    day_of_era = year_of_era * 365 + year_of_era // 4 - year_of_era // 100 + day_of_year
+    return era * 146097 + day_of_era - 719468

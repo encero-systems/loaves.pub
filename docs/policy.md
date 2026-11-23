@@ -1,6 +1,6 @@
 # The registry's published policy
 
-RFC 125 leaves three things to a registry's published policy: which scopes beyond its own it reserves, which of them hold adopted Loaves, and which toolchains it supports. [`src/policy.incn`](../src/policy.incn) holds both, and `catalog/policy.json` on the `index` branch publishes them, so a reader gets the policy from the same checkpoint as everything else.
+RFC 125 leaves four things to a registry's published policy: which scopes beyond its own it reserves, which of them hold adopted Loaves, how old a release must be before it is adopted, and which toolchains it supports. [`src/policy.incn`](../src/policy.incn) holds them, and `catalog/policy.json` on the `index` branch publishes them, so a reader gets the policy from the same checkpoint as everything else.
 
 ## Reserved scopes
 
@@ -19,6 +19,10 @@ A scope is the first part of a package name. A reserved scope can't be claimed b
 ## Adoption scopes
 
 `c` and `crates-io` are adoption scopes: the registry adopts their Loaves from an upstream release rather than taking them from a publisher, so no single publisher stands behind the scope. A consumer refuses a publisher-wide trust entry for an adoption scope (RFC 117, "Compile-time code trust"); trust in an adopted Loaf is per version.
+
+## Release-age floor and selection hazards
+
+A crates.io version enters adoption only once it is 72 hours old (`release-age-floor-hours` in `catalog/policy.json`), by the `pubtime` its index line records; a consumer filling a miss locally applies the same floor. Two signals hold a version back even past the floor: a patch release that depends, normally or to build, on a package its previous patch release did not, and a yank burst, three or more of the crate's five newest versions yanked. Automatic selection passes over a version any rule holds back and names the reason; a version adopted by name is refused for it unless the adoption accepts the hazards ([src/intake.incn](../src/intake.incn)).
 
 ## Supported toolchains
 
