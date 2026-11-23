@@ -1,0 +1,67 @@
+name: sign
+
+# Sign the registry's state (docs/signing.md): a statement in the audit feed for every event on `index` the feed does
+# not cover yet, then a checkpoint over the whole feed. It runs daily, so the checkpoint is never older than a day, and
+# on dispatch after an admission.
+#
+# The job holds the delegated online key and can push to `index`, so it runs nothing but this repository's own tool,
+# pulled for this commit's key (see check.yml), and pushes only after `check --signed` has verified the result. The
+# root key never reaches a runner: it signs key events where its holder keeps it.
+
+on:
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sign
+  cancel-in-progress: false
+
+env:
+  TRIPLE: x86_64-unknown-linux-gnu
+
+jobs:
+  sign:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the tool
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          path: tool
+          persist-credentials: false
+      - name: Check out the index branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: index
+          path: index
+      - name: Install oras
+        uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1.2.4
+      - name: Pull the tool of this commit's key
+        run: |
+          key="$(git -C tool ls-tree HEAD -- build.sh loaf.toml src tests .github/workflows/check.yml | git hash-object --stdin)"
+          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/loaves-pub:$key-$TRIPLE" --output "$RUNNER_TEMP/tool" \
+            || { echo "::error::no loaves-pub binary for tool key $key yet; the check workflow publishes it when it passes"; exit 1; }
+          tar -xzf "$RUNNER_TEMP/tool/loaves-pub.tar.gz" -C "$RUNNER_TEMP/tool"
+      - name: Sign the pending events and a checkpoint at the head
+        env:
+          ONLINE_KEY: ${{ secrets.LOAVES_PUB_ONLINE_KEY }}
+        run: |
+          [ -n "$ONLINE_KEY" ] || { echo "::error::the LOAVES_PUB_ONLINE_KEY secret holds no key"; exit 1; }
+          umask 077
+          printf '%s\n' "$ONLINE_KEY" > "$RUNNER_TEMP/online.pem"
+          "$RUNNER_TEMP/tool/loaves-pub" sign --key "$RUNNER_TEMP/online.pem" --root index
+          rm -f "$RUNNER_TEMP/online.pem"
+          "$RUNNER_TEMP/tool/loaves-pub" check --signed --root index
+      - name: Push the signatures
+        working-directory: index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audit/v1.json
+          git commit -q -m "Sign the audit feed to envelope $(jq -r .checkpoint.length audit/v1.json) at $(jq -r .checkpoint.timestamp audit/v1.json)"
+          git push origin HEAD:index

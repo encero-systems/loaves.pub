@@ -16,7 +16,7 @@ A record is not a file anyone edits. It is the fold of the events published for 
 | `yank` / `unyank` | governance | recorded; `yanked` on the index line |
 | `advisory` | something a consumer of the record should know, in `text` | non-empty `text`; rendered as `# Advisory:` header lines of the record and counted on the index line (`advisories`) |
 
-Every event carries `schema`, `kind`, `at`, `actor`, `subject`, and an `id` that is the digest of its canonical body; a tampered event fails admission. In the interim git transport the commit is the signature and `HEAD` is the checkpoint; the `signature` field is reserved for the signed form.
+Every event carries `schema`, `kind`, `at`, `actor`, `subject`, and an `id` that is the digest of its canonical body; a tampered event fails admission. An event file's `signature` stays `null`: the signed audit feed carries its signature ([signing.md](signing.md)).
 
 ## The rendered `loaf.toml`
 
