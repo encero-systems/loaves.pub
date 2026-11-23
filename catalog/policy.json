@@ -1,4 +1,8 @@
 {
+  "adoption-scopes": [
+    "c",
+    "crates-io"
+  ],
   "reserved-scopes": [
     "c",
     "crates-io",
