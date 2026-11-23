@@ -36,7 +36,7 @@ from adoption import (
 )
 from canonical import canonical, digest_bytes, digest_text
 from events import Event, append_event, load_events, string_member
-from policy import is_reserved_scope, supported_toolchains
+from policy import adoption_scopes, is_reserved_scope, supported_toolchains
 from projection import render_projections
 from registry import first_recorded_form, is_toolchain_identity
 from semver import compare, parse_requirement, parse_version, satisfies
@@ -653,6 +653,9 @@ def test_the_policy_is_published_with_the_catalog() -> None:
     assert_true(is_reserved_scope("std"))
     assert_true(not is_reserved_scope("acme"))
     assert_true(canonical(policy.get("reserved-scopes").unwrap()).unwrap().contains("\"incan\""))
+    assert_eq(canonical(policy.get("adoption-scopes").unwrap()).unwrap(), "[\"c\",\"crates-io\"]")
+    for scope in adoption_scopes():
+        assert_true(is_reserved_scope(scope))
     assert_true(is_toolchain_identity(supported_toolchains()[0]))
 
 

@@ -19,6 +19,15 @@ pub def reserved_scopes() -> list[str]:
     return ["c", "crates-io", "encero", "encero-systems", "incan", "oven", "std"]
 
 
+pub def adoption_scopes() -> list[str]:
+    """
+    The scopes whose Loaves the registry adopts from an upstream rather than takes from a publisher, sorted. No single
+    publisher stands behind such a scope, so a consumer refuses a publisher-wide trust entry for one (RFC 117,
+    "Compile-time code trust").
+    """
+    return ["c", "crates-io"]
+
+
 pub def supported_toolchains() -> list[str]:
     """
     The toolchains an asset is kept for, as an asset's record names them, sorted. An asset whose toolchain has left this
@@ -35,6 +44,7 @@ pub def render_policy() -> Result[str, str]:
     """`catalog/policy.json`."""
     return Ok(pretty(JsonValue.object({
         "schema": JsonValue.string(POLICY_SCHEMA),
+        "adoption-scopes": string_list_json(adoption_scopes()),
         "reserved-scopes": string_list_json(reserved_scopes()),
         "supported-toolchains": string_list_json(supported_toolchains()),
     }))? + "\n")
