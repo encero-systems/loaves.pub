@@ -7,7 +7,14 @@ from Rust's standard library here and nowhere else. Downloads go through the hos
 
 from rust::std::env import args, current_dir, current_exe, var
 from rust::std::fs import canonicalize, read_link
-from rust::std::process import Command, exit
+from rust::std::process import Command, exit, id as process_identifier
+
+
+pub def process_id() -> int:
+    """This process's id, to name a scratch directory no other run of the tool shares."""
+    narrow: u32 = process_identifier()
+    wide: int = narrow
+    return wide
 
 
 pub def argv() -> list[str]:
