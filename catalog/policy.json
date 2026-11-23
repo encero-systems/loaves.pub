@@ -3,6 +3,7 @@
     "c",
     "crates-io"
   ],
+  "release-age-floor-hours": 72,
   "reserved-scopes": [
     "c",
     "crates-io",
