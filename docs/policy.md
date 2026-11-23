@@ -1,6 +1,6 @@
 # The registry's published policy
 
-RFC 125 leaves two things to a registry's published policy: which scopes beyond its own it reserves, and which toolchains it supports. [`src/policy.incn`](../src/policy.incn) holds both, and `catalog/policy.json` on the `index` branch publishes them, so a reader gets the policy from the same checkpoint as everything else.
+RFC 125 leaves three things to a registry's published policy: which scopes beyond its own it reserves, which of them hold adopted Loaves, and which toolchains it supports. [`src/policy.incn`](../src/policy.incn) holds both, and `catalog/policy.json` on the `index` branch publishes them, so a reader gets the policy from the same checkpoint as everything else.
 
 ## Reserved scopes
 
@@ -15,6 +15,10 @@ A scope is the first part of a package name. A reserved scope can't be claimed b
 | `incan` | native packages the project provides |
 | `oven` | reserved for the toolchain |
 | `std` | reserved for the toolchain |
+
+## Adoption scopes
+
+`c` and `crates-io` are adoption scopes: the registry adopts their Loaves from an upstream release rather than taking them from a publisher, so no single publisher stands behind the scope. A consumer refuses a publisher-wide trust entry for an adoption scope (RFC 117, "Compile-time code trust"); trust in an adopted Loaf is per version.
 
 ## Supported toolchains
 
