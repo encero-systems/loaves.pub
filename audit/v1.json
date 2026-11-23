@@ -1,0 +1,3 @@
+{"schema":"loaves.pub/audit/1","registry":"b1600ee0af2f427a4f5dbebbe58ddf3b7dfd4e469462820ac2b415e3cfb87e90","checkpoint":null,"events":[
+{"key":"064a00daa8b1d53161efb2814d1fbadbaa19562405cd329a769c8b95a0cec9df","key_kind":"ed25519","kind":"delegate","sequence":1,"signature":{"r":"","raw":"63a89111e1f0e05218552e05f60db068c3da8465ad6abc74178468b79282efb2ac8d5700c9858a0fd959b90b037fd698ac0305d027be79b757cab167ac40cc0a","s":""}}
+]}
