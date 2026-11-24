@@ -37,7 +37,7 @@ For an adopted version, the rendered `loaf.toml` is the manifest the source Loaf
 | `cfg` | `--cfg` answers, sorted; an empty list is a stated fact |
 | `out` | committed generated inputs: `name`, `path` (relative to the manifest), `digest` |
 | `environment` | variables the crate's compile sees because its build script printed `rustc-env`, sorted by unique `name`; each states exactly one of `literal` (the value) and `out` (a portable path relative to the compile's own `OUT_DIR`, `.` for `OUT_DIR` itself) |
-| `link` | publisher-side native compilation: a named producer, its target predicate, the exact `executable` it runs, explicit `environment`, the complete `sources` closure, the `objects` it compiles them into, and the `library` those objects produce |
+| `link` | publisher-side native compilation: a named producer, its target predicate, the exact `executable` it runs, explicit `environment`, the complete `sources` closure, the `objects` it compiles them into, and the `library` those objects produce. A source is a package `file` or `tree`, or of kind `out`: a file or tree the record commits under `out`, named by its path below `OUT_DIR` with the digests its `out` entries carry, such as a header the build script generated before compiling |
 | `tool` | publisher-side generation: a named producer, its target predicate, the exact `executable`, ordered `arguments`, explicit `environment`, the complete `inputs` closure, and the `outputs` contract |
 | `harvested-from` | the compatibility receipt whose capture proposed the record, when the harvest recorded one |
 

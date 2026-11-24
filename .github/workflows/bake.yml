@@ -57,14 +57,12 @@ permissions:
   contents: read
 
 env:
-  # The Incan toolchain bundle whose `oven compile-closure` compiles the closure: `incan`, `incan-lsp` and
-  # `toolchain.tar.zst`, pulled from the GHCR package `toolchain/incan` by the digest of the target's image, so a tag
-  # pushed again cannot change what compiles a unit. `BAKE_INCAN` is the commit the bundle was built from, the
-  # toolchain every asset of the run names. A target is offered above once its bundle is pinned here. The tool itself is
-  # the binary the check workflow published for this commit's tool key (`toolchain/loaves-pub:<tool key>-<triple>`; see
-  # check.yml).
-  BAKE_INCAN: ""
-  BAKE_INCAN_MACOS: ""
+  # The Incan toolchain bundle whose `oven compile-closure` compiles the closure (`incan`, `incan-lsp` and
+  # `toolchain.tar.zst`) is pinned in bake/toolchain.json, which record-facts reads too: `commit` is the commit it was
+  # built from, the toolchain every asset of the run names, and each target triple maps to the digest of that target's
+  # `toolchain/incan` image, so a tag pushed again cannot change what compiles a unit. A target is offered above once
+  # its bundle is pinned there. The tool itself is the binary the check workflow published for this commit's tool key
+  # (`toolchain/loaves-pub:<tool key>-<triple>`; see check.yml).
   RUST_TOOLCHAIN: 1.98.0
 
 jobs:
@@ -93,13 +91,15 @@ jobs:
       - name: Download the tool and the toolchain bundle
         # oras checks every file it pulls against the digest the pinned manifest lists for it.
         run: |
-          [ -n "$BAKE_INCAN" ] && [ -n "$BAKE_INCAN_MACOS" ] || { echo "::error::no toolchain bundle pinned for $TARGET"; exit 1; }
+          bundle="$(jq -r --arg target "$TARGET" '.[$target] // ""' tool/bake/toolchain.json)"
+          [ -n "$(jq -r '.commit // ""' tool/bake/toolchain.json)" ] && [ -n "$bundle" ] \
+            || { echo "::error::bake/toolchain.json pins no toolchain bundle for $TARGET"; exit 1; }
           key="$(git -C tool ls-tree HEAD -- build.sh loaf.toml src tests .github/workflows/check.yml | git hash-object --stdin)"
           oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/loaves-pub:$key-$TARGET" \
             --output "$RUNNER_TEMP/tool" \
             || { echo "::error::no loaves-pub binary for tool key $key yet; the check workflow publishes it when it passes"; exit 1; }
           tar -xzf "$RUNNER_TEMP/tool/loaves-pub.tar.gz" -C "$RUNNER_TEMP/tool"
-          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/incan@$BAKE_INCAN_MACOS" --output "$RUNNER_TEMP/bundle"
+          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/incan@$bundle" --output "$RUNNER_TEMP/bundle"
           for file in incan incan-lsp toolchain.tar.zst; do
             [ -f "$RUNNER_TEMP/bundle/$file" ] || { echo "::error::the pinned bundle has no $file"; exit 1; }
           done
@@ -146,14 +146,18 @@ jobs:
             done
             [ "$found" = 1 ] || { echo "::error::bake/$shard holds no *.oven.lock"; exit 1; }
           done
+      - name: Stage the pinned Clang beside this host's SDK
+        # The owner a `link` record recorded with the C toolchain release's Clang names (RFC 159; see record-facts.yml).
+        run: tool/scripts/stage-pinned-clang.sh "$RUNNER_TEMP/c-owner" >> "$GITHUB_ENV"
       - name: Compile the closure twice, in two roots, and pack the units that reproduce
         env:
           ONLY: ${{ inputs.only }}
           INCAN_NO_BANNER: "1"
         run: |
           # Where a link record's compiler may be found (RFC 119 rule 6): the first of these directories holding the
-          # executable with the recorded digest. On macOS that is the runner's own Command Line Tools.
-          export INCAN_OVEN_LINK_OWNERS=/Library/Developer/CommandLineTools
+          # executable with the recorded digest. On macOS that is the staged pinned Clang, then the runner's own Command
+          # Line Tools, which the records made before the C toolchain release name.
+          export INCAN_OVEN_LINK_OWNERS="$PINNED_CLANG_OWNER:/Library/Developer/CommandLineTools"
           locks=()
           while read -r lock; do locks+=("$lock"); done < "$RUNNER_TEMP/locks.txt"
           for root in first second; do
@@ -225,8 +229,9 @@ jobs:
           LOAVES_PUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ATTESTATION: ${{ steps.attest.outputs.attestation-url }}
         run: |
+          commit="$(jq -r .commit tool/bake/toolchain.json)"
           "$RUNNER_TEMP/tool/loaves-pub" push-units "$RUNNER_TEMP/units/closure" --builder registry \
-            --attestation "$ATTESTATION" --toolchain "incan@$BAKE_INCAN" \
+            --attestation "$ATTESTATION" --toolchain "incan@$commit" \
             --proposals "$RUNNER_TEMP/proposals" --work "$RUNNER_TEMP/push"
       - name: Upload the asset proposals
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

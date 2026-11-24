@@ -963,3 +963,82 @@ def test_folding_a_prefix_then_the_rest_equals_folding_the_whole_log() -> None:
         folded = replay_onto(replay(prefix, root).unwrap(), load_events_after(root, split).unwrap(), root).unwrap()
         assert_eq(render_projections(folded, events).unwrap(), whole)
 
+
+
+def ring_prefix_fact(source_digest: str) -> JsonValue:
+    """A fact committing a generated header under `out`, and a link record whose compile reads it as an `out` source."""
+    header = "#define RING_PREFIX ring_core_0_17_14_\n"
+    mut fact = fact_with("release", [])
+    fact.set("out", JsonValue.array([JsonValue.object({
+        "name": JsonValue.string("ring_core_generated/prefix_symbols_asm.h"),
+        "path": JsonValue.string("out/prefix_symbols_asm.h"),
+        "digest": JsonValue.string(digest_text(header)),
+    })])).unwrap()
+    mut link = link_record()
+    link.set("sources", JsonValue.array([
+        source_artifact("helper_c", "c/helper.c"),
+        JsonValue.object({
+            "name": JsonValue.string("out_generated"),
+            "kind": JsonValue.string("out"),
+            "path": JsonValue.string("."),
+            "digest": JsonValue.string(sha("generated")),
+            "members": JsonValue.array([JsonValue.object({
+                "path": JsonValue.string("ring_core_generated/prefix_symbols_asm.h"),
+                "digest": JsonValue.string(source_digest),
+            })]),
+        }),
+    ])).unwrap()
+    link.set("objects", JsonValue.array([JsonValue.object({
+        "name": JsonValue.string("helper.o"),
+        "language": JsonValue.string("assembly"),
+        "arguments": JsonValue.array([
+            JsonValue.object({"literal": JsonValue.string("-I")}),
+            JsonValue.object({"input": JsonValue.string("out_generated")}),
+            JsonValue.object({"input": JsonValue.string("helper_c")}),
+            JsonValue.object({"literal": JsonValue.string("-o")}),
+            JsonValue.object({"output": JsonValue.string("helper.o")}),
+        ]),
+    })])).unwrap()
+    fact.set("link", JsonValue.array([link])).unwrap()
+    fact.set("tool", JsonValue.array([])).unwrap()
+    return fact
+
+
+def test_a_link_compile_may_read_a_header_the_fact_commits_under_out() -> None:
+    """ring's assembly includes a header its build script generates: an `out` source names it by path and digest."""
+    header = "#define RING_PREFIX ring_core_0_17_14_\n"
+    directory = scratch()
+    root = directory.path()
+    publish_libm(root)
+    add_fact(root, ring_prefix_fact(digest_text(header)))
+    write_text(root / "crates-io" / "libm" / "0.2.16" / "out" / "prefix_symbols_asm.h", header, "out").unwrap()
+    assert_eq(refusal(root), "")
+    elsewhere = scratch()
+    other = elsewhere.path()
+    publish_libm(other)
+    add_fact(other, ring_prefix_fact(digest_text("another header\n")))
+    write_text(other / "crates-io" / "libm" / "0.2.16" / "out" / "prefix_symbols_asm.h", header, "out").unwrap()
+    assert_eq(
+        refusal(other),
+        "events/000002-fact-crates-io-libm-0.2.16.json: link `helper`: out source `out_generated` names `ring_core_generated/prefix_symbols_asm.h` with another digest than its `out` entry",
+    )
+
+
+def test_an_out_source_names_only_what_the_fact_commits_and_only_a_link_reads_one() -> None:
+    mut uncommitted = ring_prefix_fact(digest_text("#define RING_PREFIX ring_core_0_17_14_\n"))
+    uncommitted.set("out", JsonValue.array([])).unwrap()
+    assert_eq(
+        producer_refusal(uncommitted),
+        "events/000002-fact-crates-io-libm-0.2.16.json: link `helper`: out source `out_generated` names `ring_core_generated/prefix_symbols_asm.h`, which the fact commits under no `out` entry",
+    )
+    mut generated_input = tool_record()
+    generated_input.set("inputs", JsonValue.array([JsonValue.object({
+        "name": JsonValue.string("header"),
+        "kind": JsonValue.string("out"),
+        "path": JsonValue.string("prefix.h"),
+        "digest": JsonValue.string(sha("prefix.h")),
+    })])).unwrap()
+    assert_eq(
+        producer_refusal(fact_with_producers([], [generated_input])),
+        "events/000002-fact-crates-io-libm-0.2.16.json: tool `bindgen`: inputs `header` kind must be `file` or `tree`, or `out` among a link record's sources",
+    )

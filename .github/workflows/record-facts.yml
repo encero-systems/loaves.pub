@@ -3,8 +3,11 @@ name: record-facts
 # Record build facts on a GitHub-hosted runner of the target's platform, for bindings a shard selects that have no fact
 # on the index yet. A build script runs where its target runs: Linux facts are recorded on Linux. Each binding is one
 # line of a tab-separated file under bake/facts/: name, version, features (comma-separated, possibly empty), profile,
-# domain (target or host), the graph file the binding's feature set came from, and, for a script with build
-# dependencies, the build lock that resolves them for this host.
+# domain (target or host), the graph file the binding's feature set came from, for a script with build dependencies the
+# build lock that resolves them for this host (an `oven.lock`, which `oven compile-closure` from the toolchain bundle
+# bake/toolchain.json pins compiles), and `pinned-clang` for a script whose C or assembly the C toolchain
+# release's Clang compiles (RFC 159): on macOS that is the Clang beside this host's Xcode SDK, staged as one owner by
+# scripts/stage-pinned-clang.sh, and the `link` records the script's compiles become name that owner.
 #
 # `loaves-pub record-fact --propose` compiles and runs each build script in the platform's sandbox (bubblewrap on Linux,
 # sandbox-exec on macOS) and leaves a proposal; the run uploads them as the `fact-proposals` artifact, and `loaves-pub
@@ -31,12 +34,6 @@ permissions:
   contents: read
 
 env:
-  # The compiler whose `incan oven compile-closure` compiles a build script's build dependencies for the host, from the
-  # GHCR package the toolchain workflow pushes (`toolchain/incan:<commit>-<triple>`), by the digest of each target's
-  # image, so a tag pushed again cannot change what a script links against.
-  CLOSURE_INCAN: 5ee13ce39b0955d028781f8941b77212c2c6258c
-  CLOSURE_INCAN_LINUX: sha256:56cd927aca5b06a5a2394629e97fe3ecbf955d34b5c9dab57d6f590ca7c069d9
-  CLOSURE_INCAN_MACOS: sha256:a2a8dbd1f5002cca11fe2b17cddd21579de145a7f8306916110ef0f7a5966ef6
   RUST_TOOLCHAIN: 1.98.0
 
 jobs:
@@ -65,28 +62,36 @@ jobs:
           oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/loaves-pub:$key-$TARGET" --output "$RUNNER_TEMP/tool" \
             || { echo "::error::no loaves-pub binary for tool key $key yet; the check workflow publishes it when it passes"; exit 1; }
           tar -xzf "$RUNNER_TEMP/tool/loaves-pub.tar.gz" -C "$RUNNER_TEMP/tool"
-      # A build script with build dependencies links against them, compiled by Oven from their adopted archives.
-      - name: Download the compiler that compiles build dependencies
-        run: |
-          digest="$CLOSURE_INCAN_LINUX"
-          [ "$TARGET" = aarch64-apple-darwin ] && digest="$CLOSURE_INCAN_MACOS"
-          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/incan@$digest" --output "$RUNNER_TEMP/incan"
-          tar -xzf "$RUNNER_TEMP/incan/incan.tar.gz" -C "$RUNNER_TEMP/incan"
-      - name: Check out that compiler's sources
-        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-        with:
-          repository: encero-systems/incan
-          ref: ${{ env.CLOSURE_INCAN }}
-          path: incan
-          persist-credentials: false
       - name: Install the Rust toolchain the build scripts are compiled with
         run: rustup toolchain install "$RUST_TOOLCHAIN" --profile minimal
+      # A build script with build dependencies links against them, compiled by Oven (`oven compile-closure`) from their
+      # adopted archives, with the toolchain bundle bake/toolchain.json pins, installed into a fresh home whose sysroot
+      # is the Rust toolchain installed above.
+      - name: Install the toolchain bundle that compiles build dependencies
+        run: |
+          cut -f7 "tool/$BINDINGS" | grep -q . || exit 0
+          bundle="$(jq -r --arg target "$TARGET" '.[$target] // ""' tool/bake/toolchain.json)"
+          [ -n "$bundle" ] || { echo "::error::bake/toolchain.json pins no toolchain bundle for $TARGET"; exit 1; }
+          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/incan@$bundle" --output "$RUNNER_TEMP/bundle"
+          home="$RUNNER_TEMP/incan-home"
+          mkdir -p "$home/bin"
+          cp "$RUNNER_TEMP/bundle/incan" "$RUNNER_TEMP/bundle/incan-lsp" "$home/bin/"
+          chmod +x "$home/bin/incan" "$home/bin/incan-lsp"
+          ln -s incan "$home/bin/oven"
+          INCAN_SYSROOT="$(rustup run "$RUST_TOOLCHAIN" rustc --print sysroot)" INCAN_HOME="$home" INCAN_NO_BANNER=1 \
+            "$home/bin/incan" toolchain install "$RUNNER_TEMP/bundle/toolchain.tar.zst"
       - name: Install the build-script sandbox
         if: runner.os == 'Linux'
         # Ubuntu confines unprivileged user namespaces, which bubblewrap needs for its network namespace.
         run: |
           sudo apt-get install -y bubblewrap
           sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
+      - name: Stage the pinned Clang beside this host's SDK
+        if: runner.os == 'macOS'
+        run: |
+          if cut -f8 "tool/$BINDINGS" | grep -qx pinned-clang; then
+            tool/scripts/stage-pinned-clang.sh "$RUNNER_TEMP/c-owner" >> "$GITHUB_ENV"
+          fi
       - name: Fetch the source Loaf archives of the bindings' shards
         run: |
           [ -s "tool/$BINDINGS" ] || { echo "::error::no bindings at $BINDINGS; name the file by its path in this repository"; exit 1; }
@@ -108,11 +113,16 @@ jobs:
           : > "$RUNNER_TEMP/proposals/refused.tsv"
           index=0
           # Fields are split on `|`, not tab: a shell `read` collapses adjacent tabs, and an empty feature set is a field.
-          tr "\t" "|" < "tool/$BINDINGS" | while IFS="|" read -r name version features profile domain graph lock; do
+          tr "\t" "|" < "tool/$BINDINGS" | while IFS="|" read -r name version features profile domain graph lock compiler; do
             index=$((index + 1))
             work="$RUNNER_TEMP/work/$index"
             build=()
-            if [ -n "$lock" ]; then build=(--incan "$RUNNER_TEMP/incan/incan" --build-lock "tool/$lock"); fi
+            if [ -n "$lock" ]; then build=(--oven "$RUNNER_TEMP/incan-home/bin/oven" --build-lock "tool/$lock"); fi
+            if [ "$compiler" = pinned-clang ]; then
+              [ -n "${PINNED_CLANG_BIN:-}" ] || { echo "::error::$name $version names pinned-clang, which only a macOS runner stages"; exit 1; }
+              build+=(--cc "$PINNED_CLANG_BIN/clang" --cxx "$PINNED_CLANG_BIN/clang++" --ar "$PINNED_CLANG_BIN/llvm-ar" \
+                --sysroot "$PINNED_CLANG_SYSROOT")
+            fi
             if output="$("$RUNNER_TEMP/tool/loaves-pub" record-fact "$name" "$version" --features "$features" \
                 --profile "$profile" --domain "$domain" --graph "tool/$graph" --rustc "$rustc" \
                 --cache "$RUNNER_TEMP/cache" --blobs "$RUNNER_TEMP/blobs" --work "$work" --root index --propose \

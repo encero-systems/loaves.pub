@@ -757,6 +757,41 @@ pub def validate_producers(fact: JsonValue, label: str) -> Result[None, str]:
                 return Err(f"{label}: publisher work name `{name}` is declared twice")
             work_names.append(name.to_string())
             validate_producer(record, kind, f"{label}: {kind} `{name}`")?
+            if kind == "link":
+                validate_out_sources(record, fact, f"{label}: {kind} `{name}`")?
+    return Ok(None)
+
+
+def validate_out_sources(record: JsonValue, fact: JsonValue, label: str) -> Result[None, str]:
+    """
+    A `link` source of kind `out` names files the same fact commits under `out` (RFC 119): each file, or each member of
+    a tree, by its path below the output directory, with the digest its `out` entry carries.
+    """
+    mut committed: Dict[str, str] = {}
+    match fact.get("out"):
+        Some(entries) =>
+            for entry in entries.as_array().unwrap_or([]):
+                committed[string_member(entry, "name")] = string_member(entry, "digest")
+        None => pass
+    for source in producer_records(record, "sources", label)?:
+        if string_member(source, "kind") != "out":
+            continue
+        name = string_member(source, "name")
+        base = string_member(source, "path")
+        members = producer_records(source, "members", label)?
+        mut files: list[list[str]] = []
+        if len(members) == 0:
+            files.append([base, string_member(source, "digest")])
+        for entry in members:
+            mut path = string_member(entry, "path")
+            if base != ".":
+                path = base + "/" + path
+            files.append([path, string_member(entry, "digest")])
+        for file in files:
+            if not has_key(committed, file[0]):
+                return Err(f"{label}: out source `{name}` names `{file[0]}`, which the fact commits under no `out` entry")
+            if committed[file[0]] != file[1]:
+                return Err(f"{label}: out source `{name}` names `{file[0]}` with another digest than its `out` entry")
     return Ok(None)
 
 
@@ -870,8 +905,13 @@ def validate_artifacts(record: JsonValue, key: str, label: str) -> Result[list[s
             return Err(f"{label}: {key} must be sorted by unique name")
         previous = name.to_string()
         kind = string_member(artifact, "kind")
-        if not ["file", "tree"].contains(kind):
-            return Err(f"{label}: {key} `{name}` kind must be `file` or `tree`")
+        # A link compile may read what the build script generated, as a source of kind `out` (RFC 119); a tool may not.
+        mut generated = false
+        if key == "sources":
+            if kind == "out":
+                generated = true
+        if not generated and not ["file", "tree"].contains(kind):
+            return Err(f"{label}: {key} `{name}` kind must be `file` or `tree`, or `out` among a link record's sources")
         path = string_member(artifact, "path")
         # No overlap rule among declared inputs: an include directory legitimately contains the sources compiled
         # from it, which is how every C crate passes `-I`. Overlap matters only against what the work produces.
@@ -883,8 +923,9 @@ def validate_artifacts(record: JsonValue, key: str, label: str) -> Result[list[s
         # lowers a negated parenthesized `and` to a constant false, so the check it guards never runs.
         # Correct on 0.6, where fixtures now pin it (encero-systems/incan#1966); this shape goes when the tool
         # moves off 0.5.1, and `build.sh` refuses it until then.
+        # An `out` tree at `.` is the output directory itself, which the script's generated headers are included from.
         mut owner_root = false
-        if kind == "tree":
+        if kind == "tree" or kind == "out":
             if path == ".":
                 owner_root = true
         if not owner_root:

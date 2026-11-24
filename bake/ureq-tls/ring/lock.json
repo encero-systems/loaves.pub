@@ -1,0 +1,10 @@
+{
+  "schema": "incan.oven.loaf-resolution/1",
+  "units": [
+    {"archive_digest": "sha256:39c7041b99a197b84549f8d9e673b34e995fbe8ec966fc409c69e3c3dc42f05c", "domain": "target", "features": [], "loaf": "crates-io/cfg-if", "target_predicates": [], "version": "1.0.4"},
+    {"archive_digest": "sha256:abe04f8567efd5b2a45cae7a36a4aa84ace4893c864f32c7d2853764c7ec2981", "domain": "target", "features": [], "loaf": "crates-io/getrandom", "target_predicates": [], "version": "0.2.17"},
+    {"archive_digest": "sha256:1800da60e111279b3f093d07c2f6915e3ecc5bb7df561993d94a21fd0830cb3c", "domain": "target", "features": [], "loaf": "crates-io/libc", "target_predicates": [], "version": "0.2.186"},
+    {"archive_digest": "sha256:f57c67efdaca12e75b903902482abba8f497e57caa2fa851bbaa5a8b53e8e176", "domain": "target", "features": ["alloc", "default", "dev_urandom_fallback"], "loaf": "crates-io/ring", "target_predicates": [], "version": "0.17.14"},
+    {"archive_digest": "sha256:ed1db9fac538bd63d1b2304f9e37e7bad9428828b99f4d7dab85f8416b13dc19", "domain": "target", "features": [], "loaf": "crates-io/untrusted", "target_predicates": [], "version": "0.9.0"}
+  ]
+}

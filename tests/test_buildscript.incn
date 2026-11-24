@@ -2,9 +2,13 @@
 Build-script recording: how the environment a script prints for the crate's compile becomes part of its fact.
 """
 
+from std.fs import Path
+from std.json import JsonValue
 from std.testing import assert_eq, assert_is_err
 
-from buildscript import environment_entry, out_dir_includes, with_out_dir_suffixes
+from host import environment_value
+
+from buildscript import closure_links, environment_entry, out_dir_includes, with_out_dir_suffixes
 from tar import TarEntry
 
 
@@ -37,3 +41,39 @@ def test_a_path_below_out_dir_is_stated_relative_to_it() -> None:
     assert_eq("\t".join(environment_entry("ISLE_DIR=/work/out/isle/", "/work/out", "c 1.0.0").unwrap()), "ISLE_DIR\tout\tisle")
     assert_eq("\t".join(environment_entry("DIR=/work/out", "/work/out", "c 1.0.0").unwrap()), "DIR\tout\t.")
     assert_eq("\t".join(environment_entry("FAMILY=unix", "/work/out", "c 1.0.0").unwrap()), "FAMILY\tliteral\tunix")
+
+
+def closure_result(units: str, refused: str) -> str:
+    """A compile-closure result directory holding only `closure.json`, as `oven compile-closure` writes it."""
+    directory = environment_value("TMPDIR").unwrap_or("/tmp").strip() + "/loaves-pub-buildscript-closure"
+    path = Path(directory)
+    if path.is_dir():
+        path.remove_tree().unwrap()
+    path.mkdir(parents=true, exist_ok=true).unwrap()
+    document = "{\"schema\": \"incan.oven.closure/1\", \"units\": [" + units + "], \"refused\": [" + refused + "]}"
+    Path(directory + "/closure.json").write_text(document, "utf-8", "strict", None).unwrap()
+    return directory
+
+
+def cc_root() -> JsonValue:
+    return JsonValue.object({"name": JsonValue.string("cc"), "loaf": JsonValue.string("crates-io/cc")})
+
+
+def test_a_build_script_links_the_units_compile_closure_compiled_for_its_roots() -> None:
+    cc = "{\"loaf\": \"crates-io/cc\", \"name\": \"cc\", \"artifact\": \"entries/sha256-aa/artifacts/libcc-1.rlib\"}"
+    shlex = "{\"loaf\": \"crates-io/shlex\", \"name\": \"shlex\", \"artifact\": \"entries/sha256-bb/artifacts/libshlex-2.rlib\"}"
+    directory = closure_result(cc + ", " + shlex, "")
+    flags = closure_links(directory, [cc_root()], "ring 0.17.14").unwrap()
+    assert_eq(len(flags), 3)
+    assert_eq(" ".join(flags[0]), f"--extern cc={directory}/entries/sha256-aa/artifacts/libcc-1.rlib")
+    assert_eq(" ".join(flags[1]), f"-L dependency={directory}/entries/sha256-aa/artifacts")
+    assert_eq(" ".join(flags[2]), f"-L dependency={directory}/entries/sha256-bb/artifacts")
+
+
+def test_a_closure_that_refused_or_missed_a_root_is_refused() -> None:
+    refused = closure_result("", "{\"loaf\": \"crates-io/cc\", \"version\": \"1.2.57\", \"reason\": \"no fact\"}")
+    assert_is_err(closure_links(refused, [cc_root()], "ring 0.17.14"))
+    missing = closure_result("{\"loaf\": \"crates-io/shlex\", \"name\": \"shlex\", \"artifact\": \"entries/sha256-bb/artifacts/libshlex-2.rlib\"}", "")
+    match closure_links(missing, [cc_root()], "ring 0.17.14"):
+        Ok(_) => assert_eq("refused", "accepted")
+        Err(message) => assert_eq(message, "ring 0.17.14: the closure compiled no unit of crates-io/cc")
