@@ -15,7 +15,7 @@ loaves-pub: the interim registry's tool. Admission (`check`), projection (`build
     loaves-pub build-roots NAME VERSION [--features a,b] --cache DIR
     loaves-pub record-fact NAME VERSION --features a,b --profile P --domain D --graph FILE --rustc PATH
                           --cache DIR --blobs DIR --work DIR [--cc PATH --cxx PATH --ar PATH --sysroot DIR]
-                          [--incan PATH --build-lock LOCK.json]
+                          [--oven PATH --build-lock OVEN.LOCK]
                           [--propose] [--actor ACTOR] [--root DIR]
     loaves-pub native-convert --trace DIR --libraries static=a,static=b --cc PATH --cxx PATH --sysroot DIR
     loaves-pub push-source NAME VERSION [--revision N] --cache DIR --blobs DIR --work DIR [--registry HOST] [--namespace NS]
@@ -919,7 +919,7 @@ def selection_of(invocation: Invocation) -> Result[Selection, str]:
         cxx=invocation.option("cxx").unwrap_or(""),
         ar=invocation.option("ar").unwrap_or(""),
         sysroot=invocation.option("sysroot").unwrap_or(""),
-        incan=absolute_option(invocation, "incan")?,
+        oven=absolute_option(invocation, "oven")?,
         build_lock=absolute_option(invocation, "build-lock")?,
         pin=canonical_path(invocation.option("root").unwrap_or("."))?,
     ))

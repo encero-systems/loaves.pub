@@ -48,7 +48,7 @@ pub model Selection:
     pub cxx: str
     pub ar: str
     pub sysroot: str
-    pub incan: str
+    pub oven: str
     pub build_lock: str
     pub pin: str
 
@@ -151,44 +151,42 @@ def build_dependencies(
 ) -> Result[list[list[str]], str]:
     """
     The `rustc` flags that link the build script against its build dependencies: Oven compiles them for the host from
-    their adopted archives (`incan oven compile-closure`), and this recorder links against what it returns. None when
-    the script has none.
+    their adopted archives (`oven compile-closure` over the build lock, an `oven.lock`), and this recorder links against
+    the units its result (`incan.oven.closure/1`) lists. None when the script has none.
     """
     roots = build_roots(cache, package, version, selection.features, label)?
     if len(roots) == 0:
         return Ok([])
-    if len(selection.incan) == 0 or len(selection.build_lock) == 0:
-        return Err(f"{label}: the build script has build dependencies; pass --incan and --build-lock to compile them")
-    graph = JsonValue.object({
-        "roots": JsonValue.array(roots),
-        "target": JsonValue.string(selection.host),
-        "host": JsonValue.string(selection.host),
-    })
-    write_text(Path(base + "/build-roots.json"), graph_text(graph)?, "build-roots.json")?
-    commit = run_program("/usr/bin/git", ["-C", selection.pin, "rev-parse", "HEAD"], plain_environment(base), base)?
-    if not commit.success:
-        return Err(f"{label}: {selection.pin} is not a git checkout of the index")
+    if len(selection.oven) == 0 or len(selection.build_lock) == 0:
+        return Err(f"{label}: the build script has build dependencies; pass --oven and --build-lock to compile them")
+    # compile-closure reads source archives at `<sources>/blobs/sha256/<hex>.tar`, the store `--blobs` names.
+    sources = base + "/sources"
+    match Path(sources).mkdir(parents=true, exist_ok=true):
+        Ok(_) => pass
+        Err(error) => return Err(f"{label}: {sources}: {error.message()}")
+    match Path(sources + "/blobs").symlink_to(blobs):
+        Ok(_) => pass
+        Err(error) => return Err(f"{label}: {sources}/blobs: {error.message()}")
     mut environment = plain_environment(base)
     environment["INCAN_HOME"] = environment_value("INCAN_HOME").unwrap_or(environment_value("HOME").unwrap_or("") + "/.incan")
     environment["INCAN_NO_BANNER"] = "1"
-    closure = run_program(selection.incan, [
-        "oven", "compile-closure",
-        "--pin", selection.pin,
-        "--index-commit", text_of(commit.stdout).strip(),
-        "--roots", base + "/build-roots.json",
+    closure = run_program(selection.oven, [
+        "compile-closure", selection.build_lock,
         "--profile", "debug",
-        "--out", base + "/closure/closure.json",
-        "--lock", selection.build_lock,
-        "--blobs", blobs + "/sha256",
-        "--rustc", selection.rustc,
+        "--sources", sources,
+        "--index", selection.pin,
+        "--out", base + "/closure",
     ], environment, base)?
     if not closure.success:
         return Err(f"{label}: compiling the build dependencies failed: {text_of(closure.stderr)}{text_of(closure.stdout)}")
-    return closure_links(base + "/closure", label)
+    return closure_links(base + "/closure", roots, label)
 
 
-def closure_links(directory: str, label: str) -> Result[list[list[str]], str]:
-    """`--extern` for each root and `-L dependency=` for every unit the closure compiled."""
+pub def closure_links(directory: str, roots: list[JsonValue], label: str) -> Result[list[list[str]], str]:
+    """
+    `--extern` for each root, by the unit compiled for the Loaf it requests, and `-L dependency=` for the directory of
+    every unit's library, from a compile-closure result that refused nothing.
+    """
     mut result = JsonValue.null()
     match Path(directory + "/closure.json").read_text("utf-8", "strict"):
         Ok(text) =>
@@ -196,18 +194,32 @@ def closure_links(directory: str, label: str) -> Result[list[list[str]], str]:
                 Ok(value) => result = value
                 Err(error) => return Err(f"{label}: closure.json: {error.message()}")
         Err(error) => return Err(f"{label}: closure.json: {error.message()}")
+    if string_member(result, "schema") != "incan.oven.closure/1":
+        return Err(f"{label}: closure.json is not an incan.oven.closure/1 result")
     match result.get("refused"):
         Some(refused) =>
             if refused.len() > 0:
                 return Err(f"{label}: Oven refused build dependencies: {canonical(refused)?}")
         None => pass
+    units = member(result, "units").as_array().unwrap_or([])
     mut out: list[list[str]] = []
-    externs = member(result, "externs")
-    for name in sorted(externs.keys()):
-        out.append(["--extern", name.replace("-", "_") + "=" + string_member(member(externs, name), "path")])
-    entries = directory + "/closure-store/store/entries"
-    for entry in files_or_directories(entries)?:
-        out.append(["-L", "dependency=" + entries + "/" + entry + "/artifacts"])
+    for root in roots:
+        loaf = string_member(root, "loaf")
+        mut artifact = ""
+        for unit in units:
+            if string_member(unit, "loaf") == loaf:
+                artifact = string_member(unit, "artifact")
+        if len(artifact) == 0:
+            return Err(f"{label}: the closure compiled no unit of {loaf}")
+        out.append(["--extern", string_member(root, "name").replace("-", "_") + "=" + directory + "/" + artifact])
+    mut searched: list[str] = []
+    for unit in units:
+        parts = string_member(unit, "artifact").split("/")
+        folder = directory + "/" + "/".join(parts[0:len(parts) - 1])
+        if not searched.contains(folder):
+            searched.append(folder)
+    for folder in sorted(searched):
+        out.append(["-L", "dependency=" + folder])
     return Ok(out)
 
 
@@ -243,16 +255,6 @@ def flag_value(value: JsonValue, key: str, absent: bool) -> bool:
     match value.get(key):
         Some(found) => return found.as_bool().unwrap_or(absent)
         None => return absent
-
-
-def files_or_directories(directory: str) -> Result[list[str], str]:
-    mut names: list[str] = []
-    match Path(directory).iterdir():
-        Ok(children) =>
-            for child in children:
-                names.append(child.name())
-        Err(error) => return Err(f"{directory}: {error.message()}")
-    return Ok(sorted(names))
 
 
 def compile_script(
@@ -573,7 +575,7 @@ def native_work(observed: Directives, base: str, selection: Selection, label: st
     """The link records for what the script compiled and archived; none when it built no native code."""
     traces = read_traces(base + "/trace")?
     if len(observed.libraries) == 0 and len(traces) == 0:
-        return Ok(Conversion(records=[], probes=[], products=[]))
+        return Ok(Conversion(records=[], probes=[], products=[], out_reads=[]))
     if len(selection.cc) == 0:
         return Err(f"{label}: the build script builds native code; pass --cc, --cxx, --ar and --sysroot")
     mut compilers: list[Compiler] = []
@@ -590,7 +592,7 @@ def native_work(observed: Directives, base: str, selection: Selection, label: st
                 for output in compile_outputs(trace):
                     if not products.contains(output):
                         products.append(output)
-            return Ok(Conversion(records=conversion.records, probes=conversion.probes, products=products))
+            return Ok(Conversion(records=conversion.records, probes=conversion.probes, products=products, out_reads=conversion.out_reads))
         Err(message) => return Err(f"{label}: {message}")
 
 
@@ -630,14 +632,16 @@ def write_proposal(
 ) -> Result[str, str]:
     """
     A proposal directory in the harvest shape: proposal.json, its `out` files and the graph it names. `out` is the
-    `OUT_DIR` files the crate's own sources include; what the script leaves there for C dependents, its compiler
-    probes and its native products are not inputs of the Rust compile.
+    `OUT_DIR` files the crate's own sources include and those its `link` records' compiles read (their `out` sources);
+    what the script leaves there for C dependents, its compiler probes and its native products are not inputs.
     """
     proposal_dir = base + "/proposal"
     out_dir = canonical_path(base + "/out")?
     mut out: list[JsonValue] = []
     for relative in files_below(Path(base + "/out"), "")?:
-        if native.products.contains(out_dir + "/" + relative) or not included.contains(relative):
+        if native.products.contains(out_dir + "/" + relative):
+            continue
+        if not included.contains(relative) and not native.out_reads.contains(relative):
             continue
         mut data = b""
         match Path(base + "/out/" + relative).read_bytes():

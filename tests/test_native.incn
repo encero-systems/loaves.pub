@@ -6,11 +6,12 @@ wrappers; these tests pin the pieces it is made of, on scratch trees whose expec
 """
 
 from std.fs import Path
+from std.json import JsonValue
 from std.testing import assert_eq, assert_is_err, assert_true
 
 from canonical import digest_bytes, digest_text
 from host import environment_value
-from native import common_ancestor, logical_name, owner_identity, portable_beneath, stable_object_name, tree_artifact
+from native import common_ancestor, logical_name, out_reads_of, owner_identity, portable_beneath, stable_object_name, tree_artifact
 from events import string_member
 
 
@@ -72,3 +73,24 @@ def test_an_owner_identity_inventories_files_directories_and_symlinks() -> None:
     assert_eq(owner_identity(root, ["sdk", "bin/clang"]).unwrap(), digest_text(expected))
     assert_eq(owner_identity(root, ["bin/clang", "sdk"]).unwrap(), digest_text(expected))
     Path(root).remove_tree().unwrap()
+
+
+def test_the_out_files_a_record_reads_are_its_out_sources_files() -> None:
+    """A fact commits under `out` every file its link records' `out` sources hold, files and tree members alike."""
+    record = JsonValue.object({"sources": JsonValue.array([
+        JsonValue.object({"name": JsonValue.string("source-a-c"), "kind": JsonValue.string("file"), "path": JsonValue.string("a.c")}),
+        JsonValue.object({"name": JsonValue.string("out-config-h"), "kind": JsonValue.string("out"), "path": JsonValue.string("config.h")}),
+        JsonValue.object({
+            "name": JsonValue.string("out--"),
+            "kind": JsonValue.string("out"),
+            "path": JsonValue.string("."),
+            "members": JsonValue.array([JsonValue.object({"path": JsonValue.string("ring_core_generated/prefix_symbols_asm.h")})]),
+        }),
+        JsonValue.object({
+            "name": JsonValue.string("out-gen"),
+            "kind": JsonValue.string("out"),
+            "path": JsonValue.string("gen"),
+            "members": JsonValue.array([JsonValue.object({"path": JsonValue.string("x.h")})]),
+        }),
+    ])})
+    assert_eq(out_reads_of([record]), ["config.h", "gen/x.h", "ring_core_generated/prefix_symbols_asm.h"])

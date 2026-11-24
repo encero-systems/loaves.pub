@@ -9,8 +9,9 @@ are converted under the rules the earlier harvest used, so a record made here eq
 
 - every object an archive holds comes from one plain `-c SOURCE -o OBJECT` compile by one explicit compiler, and every
   `static=<name>` library the script links has exactly one archive `lib<name>.a`;
-- crate paths become declared inputs (a file, or a tree with its members), paths in the compiler's installation become
-  owner paths, and nothing may come from `OUT_DIR`;
+- crate paths become declared inputs (a file, or a tree with its members), files the script generated in `OUT_DIR`
+  before compiling become declared `out` sources the fact commits under `out` (RFC 119), and paths in the compiler's
+  installation become owner paths;
 - the compiler is identified by the digest of an inventory of everything its owner paths reach;
 - a compile whose object is never archived is a probe, recorded only as evidence.
 """
@@ -49,11 +50,15 @@ pub model Compiler:
 
 @derive(Clone)
 pub model Conversion:
-    """The link records one script's native work comes to, its probes, and the `OUT_DIR` files that work produced."""
+    """
+    The link records one script's native work comes to, its probes, the `OUT_DIR` files that work produced, and the
+    `OUT_DIR` files its compiles read (by path below `OUT_DIR`), which the fact commits as `out` files.
+    """
 
     pub records: list[JsonValue]
     pub probes: list[str]
     pub products: list[str]
+    pub out_reads: list[str]
 
 
 @derive(Clone)
@@ -273,7 +278,32 @@ pub def convert(traces: list[Invocation], libraries: list[str], compilers: list[
     for name in library_names:
         if not matched.contains(name):
             return Err(f"static link library `{name}` has no matching archive path")
-    return Ok(Conversion(records=records, probes=sorted(probes), products=products))
+    return Ok(Conversion(records=records, probes=sorted(probes), products=products, out_reads=out_reads_of(records)))
+
+
+pub def out_reads_of(records: list[JsonValue]) -> list[str]:
+    """The `OUT_DIR` files the records' `out` sources hold, by path below `OUT_DIR`, sorted."""
+    mut paths: list[str] = []
+    for record in records:
+        for source in member_list(record, "sources"):
+            if string_member(source, "kind") != "out":
+                continue
+            base = string_member(source, "path")
+            members = member_list(source, "members")
+            if len(members) == 0:
+                paths.append(base)
+            for entry in members:
+                if base == ".":
+                    paths.append(string_member(entry, "path"))
+                else:
+                    paths.append(base + "/" + string_member(entry, "path"))
+    return sorted(unique(paths))
+
+
+def member_list(value: JsonValue, key: str) -> list[JsonValue]:
+    match value.get(key):
+        Some(found) => return found.as_array().unwrap_or([])
+        None => return []
 
 
 def link_record(member_compiles: list[Compile], library: str, compilers: list[Compiler]) -> Result[JsonValue, str]:
@@ -452,10 +482,13 @@ def path_argument(
     mut sources: Dict[str, JsonValue],
     mut owner_paths: list[str],
 ) -> Result[JsonValue, str]:
-    """A path-taking argument as a crate input or a compiler-owner path; anything else is refused."""
+    """
+    A path-taking argument as a crate input, a generated input the fact commits under `out`, or a compiler-owner path;
+    anything else is refused.
+    """
     path = resolve(context.directory, value)?
-    if beneath(path, context.out_dir):
-        return Err("compiler input is generated inside OUT_DIR and cannot be adopted")
+    if beneath(path, context.out_dir) or path == context.out_dir:
+        return out_argument(path, context, sources)
     if beneath(path, context.manifest_dir):
         mut relative = "."
         if path != context.manifest_dir:
@@ -477,6 +510,29 @@ def path_argument(
             owner_paths.append(relative)
         return Ok(JsonValue.object({"owner": JsonValue.string(relative)}))
     return Err("absolute compiler input is outside the crate and compiler owner")
+
+
+def out_argument(path: str, context: PathContext, mut sources: Dict[str, JsonValue]) -> Result[JsonValue, str]:
+    """
+    A path the build script generated, as a declared source of kind `out` (RFC 119): a file, or a tree cataloged by what
+    the compiles read beneath it, named by its path below `OUT_DIR`. The fact commits those files under `out`, and a
+    replay restores them before compiling.
+    """
+    mut relative = "."
+    if path != context.out_dir:
+        relative = portable_beneath(context.out_dir, path, "generated input")?
+    name = logical_name("out", relative)
+    mut artifact = JsonValue.null()
+    if Path(path).is_dir():
+        if context.read_set:
+            artifact = read_tree_artifact(name, relative, path, context.reads)?
+        else:
+            artifact = tree_artifact(name, relative, path)?
+    else:
+        artifact = file_artifact(name, relative, path)?
+    artifact.set("kind", JsonValue.string("out")).unwrap()
+    insert_source(sources, name, artifact)?
+    return Ok(JsonValue.object({"input": JsonValue.string(name)}))
 
 
 def insert_source(mut sources: Dict[str, JsonValue], name: str, artifact: JsonValue) -> Result[None, str]:
@@ -540,8 +596,8 @@ def implicit_reads(
 ) -> Result[list[str], str]:
     """
     The declared sources one compile reads without its arguments naming them, sorted (RFC 119 `reads`). A file the
-    compile reads that no declared input holds becomes a declared file source. Reads from `OUT_DIR`, and reads outside
-    the package and the compiler's owner closure, are refused.
+    compile reads that no declared input holds becomes a declared file source, of kind `out` when the build script
+    generated it in `OUT_DIR`. Reads outside the package, `OUT_DIR` and the compiler's owner closure are refused.
     """
     mut named: list[str] = []
     match object.get("arguments"):
@@ -553,13 +609,15 @@ def implicit_reads(
         None => pass
     mut implicit: list[str] = []
     for path in reads:
-        if beneath(path, out_dir):
-            return Err(f"the compile reads `{path}` from OUT_DIR, which cannot be adopted")
-        if not beneath(path, manifest_dir):
+        generated = beneath(path, out_dir)
+        if not generated and not beneath(path, manifest_dir):
             if beneath(path, owner_root):
                 continue
-            return Err(f"the compile reads `{path}`, outside the package and the compiler owner")
-        holders = holding_sources(path, sources, manifest_dir)
+            return Err(f"the compile reads `{path}`, outside the package, OUT_DIR and the compiler owner")
+        mut root = manifest_dir
+        if generated:
+            root = out_dir
+        holders = holding_sources(path, sources, root, generated)
         mut reached = false
         for holder in holders:
             if named.contains(holder):
@@ -570,24 +628,39 @@ def implicit_reads(
         if len(holders) > 0:
             name = holders[0]
         else:
-            relative = portable_beneath(manifest_dir, path, "read file")?
-            name = logical_name("source", relative)
-            insert_source(sources, name, file_artifact(name, relative, path)?)?
+            relative = portable_beneath(root, path, "read file")?
+            mut artifact = JsonValue.null()
+            if generated:
+                name = logical_name("out", relative)
+                artifact = file_artifact(name, relative, path)?
+                artifact.set("kind", JsonValue.string("out")).unwrap()
+            else:
+                name = logical_name("source", relative)
+                artifact = file_artifact(name, relative, path)?
+            insert_source(sources, name, artifact)?
         if not implicit.contains(name):
             implicit.append(name)
     return Ok(sorted(implicit))
 
 
-def holding_sources(path: str, sources: Dict[str, JsonValue], manifest_dir: str) -> list[str]:
-    """The declared sources that hold `path`: the file itself, or a tree it lies in, by name."""
+def holding_sources(path: str, sources: Dict[str, JsonValue], root: str, generated: bool) -> list[str]:
+    """
+    The declared sources that hold `path`: the file itself, or a tree it lies in, by name. A path below `OUT_DIR`
+    (`generated`) is held only by `out` sources, and any other only by package sources; `root` is the directory their
+    paths are below.
+    """
     mut out: list[str] = []
     for name in sorted(list(sources.keys())):
         source = sources[name]
+        kind = string_member(source, "kind")
+        if (kind == "out") != generated:
+            continue
         relative = string_member(source, "path")
-        mut absolute = manifest_dir
+        mut absolute = root
         if relative != ".":
-            absolute = manifest_dir + "/" + relative
-        if string_member(source, "kind") == "tree":
+            absolute = root + "/" + relative
+        # A tree holds what lies below it: a package `tree`, or an `out` source that catalogs members.
+        if kind == "tree" or (kind == "out" and len(member_list(source, "members")) > 0):
             if beneath(path, absolute) and path != absolute:
                 out.append(name)
         elif absolute == path:
