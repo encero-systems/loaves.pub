@@ -71,11 +71,39 @@ The checkpoint's payload is `incan-registry-checkpoint-v1`, `head=<accumulator>`
 
 Statements sign the events of `events/` in log order: the k-th statement of the feed signs the k-th event. Key envelopes live only in the feed, so a feed's sequence numbers count envelopes, not events. Events the feed does not cover yet are not part of the registry's signed state.
 
+## Statements on index files and manifests
+
+A resolver reads index files and manifests one at a time, so each carries a statement of its own beside it, at the same path followed by `.statement`:
+
+| file | statement kind |
+|---|---|
+| `index/<scope>/<name>`, the sparse index line file | `index` |
+| `crates-io/<name>/<version>/loaf.toml` and `assets.json`, and the same under a superseded revision's `r<N>/` | `manifest` |
+
+```json
+{"key":"<delegated key id>","kind":"index","payload-sha256":"<hex>","registry":"<registry id>","schema":"loaves.pub/statement/1","sequence":14165,"signature":{"r":"","raw":"<hex>","s":""}}
+```
+
+The signature is the statement preimage above, of kind `index` or `manifest`, over the file's exact served bytes, with one more line after `kind=`: `path=<the file's path below the served base>`, so a statement for one file cannot pass for another's:
+
+```text
+incan-registry-statement-v1
+registry=<registry id>
+key=<key id>
+kind=index
+path=index/crates-io/serde
+sequence=14165
+payload-sha256=<SHA-256 of the file>
+```
+
+`payload-sha256` is repeated in the statement only so a stale one is found without verifying it. `sequence` is the length of the audit feed when the file was signed; a file whose bytes have not changed keeps its statement from an earlier length. Event and checkpoint statements have no `path=` line.
+
 ## Verifying
 
 1. Refuse `keys/root.json` and the feed unless the registry id and root equal the pinned values.
 2. Walk the envelopes in order, refusing one that is omitted, repeated, reordered or of an unknown kind. Verify a `delegate` or `revoke-key` under the root, and a statement under a key the root delegated at an earlier position and has not revoked at or before this one.
 3. Fold the accumulator over every envelope, and refuse a checkpoint whose `length` is not the number of envelopes or whose `head` is not `H_length`. Verify its signature under a key still in force at its length.
 4. Refuse a checkpoint older than one already observed, one with a smaller length, one with a different head at the same length, and one whose accumulator at an earlier observed length differs from that observation's head. RFC 125's default staleness bound is seven days, and it does not apply offline.
+5. Verify an index file or manifest by its statement: refuse it unless `registry` and `kind` match, `sequence` is at most the trusted checkpoint's length, the key was delegated at or before `sequence` and not revoked by then, and the signature verifies over the file's bytes and the path it was fetched at.
 
-The registry signs a new checkpoint at least daily, and whenever it signs new events.
+The registry signs a new checkpoint at least daily, and whenever it signs new events; the same run signs a statement for every index file or manifest whose bytes changed.

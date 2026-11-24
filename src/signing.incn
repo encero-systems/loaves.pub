@@ -79,6 +79,15 @@ pub def statement_preimage(registry: str, key_id: str, kind: str, sequence: int,
     return f"incan-registry-statement-v1\nregistry={registry}\nkey={key_id}\nkind={kind}\nsequence={sequence}\npayload-sha256={digest}\n".encode()
 
 
+pub def file_statement_preimage(registry: str, key_id: str, kind: str, path: str, sequence: int, payload: bytes) -> bytes:
+    """
+    The statement preimage of an `index` or `manifest` statement, which names the file's path below the served base
+    after its kind, so a signature on one file cannot pass for another's.
+    """
+    digest = sha256_hex(payload)
+    return f"incan-registry-statement-v1\nregistry={registry}\nkey={key_id}\nkind={kind}\npath={path}\nsequence={sequence}\npayload-sha256={digest}\n".encode()
+
+
 pub def checkpoint_payload(head: str, length: int, timestamp: int) -> bytes:
     return f"incan-registry-checkpoint-v1\nhead={head}\nlength={length}\ntimestamp={timestamp}\n".encode()
 
@@ -386,6 +395,7 @@ pub model Verified:
     pub registry: str
     pub covered: int
     pub delegated: Dict[str, PublicKey]
+    pub delegated_at: Dict[str, int]
     pub revoked: Dict[str, int]
     pub head: str
     pub checkpoint: Option[Checkpoint]
@@ -395,6 +405,22 @@ pub model Verified:
         if not has_key(self.delegated, key_id):
             return false
         return not has_key(self.revoked, key_id) or position <= self.revoked[key_id]
+
+    def in_force_after(self, key_id: str, length: int) -> bool:
+        """Whether `key_id` signs what holds after envelope `length`: delegated by then, and not revoked by then."""
+        if not has_key(self.delegated_at, key_id) or self.delegated_at[key_id] > length:
+            return false
+        return self.active(key_id, length + 1)
+
+
+@derive(Clone)
+pub model Signed:
+    """What `sign` leaves: the keys the feed proves, the delegated key that signed, and the length it signed to."""
+
+    pub message: str
+    pub verified: Verified
+    pub key: PublicKey
+    pub length: int
 
 
 pub def verify_feed(feed: Feed, root_key: PublicKey, events: list[Event], ssl: OpenSsl) -> Result[Verified, str]:
@@ -408,6 +434,7 @@ pub def verify_feed(feed: Feed, root_key: PublicKey, events: list[Event], ssl: O
         return Err(f"{FEED_PATH}: registry must be the root's id, {root_key.id}")
     mut covered = 0
     mut delegated: Dict[str, PublicKey] = {}
+    mut delegated_at: Dict[str, int] = {}
     mut revoked: Dict[str, int] = {}
     mut head: str = zero_head()
     mut checkpoint_length = -1
@@ -417,13 +444,14 @@ pub def verify_feed(feed: Feed, root_key: PublicKey, events: list[Event], ssl: O
     mut head_at_checkpoint = ""
     for entry in feed.entries:
         label = f"{FEED_PATH}: entry {entry.sequence}"
-        state = Verified(registry=feed.registry, covered=covered, delegated=delegated, revoked=revoked, head=head, checkpoint=None)
+        state = Verified(registry=feed.registry, covered=covered, delegated=delegated, delegated_at=delegated_at, revoked=revoked, head=head, checkpoint=None)
         mut signed = b""
         if entry.kind == "delegate":
             signed = entry.preimage(feed.registry, b"")
             key = key_from_raw(entry.key, label)?
             ssl.verify(root_key, signed, entry.signature, label)?
             delegated[key.id] = key
+            delegated_at[key.id] = entry.sequence
         elif entry.kind == "revoke-key":
             signed = entry.preimage(feed.registry, b"")
             if not plain(entry.reason):
@@ -447,7 +475,7 @@ pub def verify_feed(feed: Feed, root_key: PublicKey, events: list[Event], ssl: O
         head = accumulate(head, entry.sequence, signed)
         if entry.sequence == checkpoint_length:
             head_at_checkpoint = head
-    mut verified = Verified(registry=feed.registry, covered=covered, delegated=delegated, revoked=revoked, head=head, checkpoint=None)
+    mut verified = Verified(registry=feed.registry, covered=covered, delegated=delegated, delegated_at=delegated_at, revoked=revoked, head=head, checkpoint=None)
     match feed.checkpoint:
         Some(checkpoint) =>
             label = f"{FEED_PATH}: checkpoint"
@@ -467,7 +495,21 @@ pub def verify_feed(feed: Feed, root_key: PublicKey, events: list[Event], ssl: O
     return Ok(verified)
 
 
+@derive(Clone)
+pub model Checked:
+    """`check`'s verdict on the feed, and for a signed registry the keys it proves and its checkpoint's length."""
+
+    pub note: str
+    pub verified: Option[Verified]
+    pub length: int
+
+
 pub def check_signatures(root: Path, events: list[Event], at_head: bool) -> Result[str, str]:
+    """`check`'s verdict on the feed, as a note."""
+    return Ok(check_feed(root, events, at_head)?.note)
+
+
+pub def check_feed(root: Path, events: list[Event], at_head: bool) -> Result[Checked, str]:
     """`check`'s verdict on the feed. With `at_head`, it must cover every event under a checkpoint of all of it."""
     match read_root(root)?:
         None =>
@@ -475,7 +517,7 @@ pub def check_signatures(root: Path, events: list[Event], at_head: bool) -> Resu
                 return Err(f"{FEED_PATH}: a feed, but keys/root.json names no root to verify it from")
             if at_head:
                 return Err("keys/root.json names no root, so nothing is signed")
-            return Ok("unsigned")
+            return Ok(Checked(note="unsigned", verified=None, length=0))
         Some(root_key) =>
             ssl = openssl()?
             match read_feed(root)?:
@@ -491,11 +533,12 @@ pub def check_signatures(root: Path, events: list[Event], at_head: bool) -> Resu
                         None => pass
                     if at_head and (covered != len(events) or length != len(feed.entries)):
                         return Err(f"{FEED_PATH}: signs {covered} of {len(events)} event(s), {at}; run loaves-pub sign")
-                    return Ok(f"signed under {root_key.id}, {at}, {len(events) - covered} event(s) awaiting signature")
+                    note = f"signed under {root_key.id}, {at}, {len(events) - covered} event(s) awaiting signature"
+                    return Ok(Checked(note=note, verified=Some(verified), length=length))
                 None => return Err(f"keys/root.json names a root, but there is no {FEED_PATH}")
 
 
-pub def sign_log(root: Path, events: list[Event], key_file: str, ssl: OpenSsl) -> Result[str, str]:
+pub def sign_log(root: Path, events: list[Event], key_file: str, ssl: OpenSsl) -> Result[Signed, str]:
     """`sign`: a statement for every event the feed does not cover yet, then a checkpoint over the whole feed, now."""
     root_key = required_root(root)?
     feed = required_feed(root)?
@@ -524,7 +567,12 @@ pub def sign_log(root: Path, events: list[Event], key_file: str, ssl: OpenSsl) -
     checkpoint = Checkpoint(head=head, length=length, timestamp=timestamp, key=key.id, signature=ssl.sign(key_file, signed)?)
     updated = Feed(registry=feed.registry, checkpoint=Some(checkpoint), entries=entries)
     write_text(root / FEED_PATH, updated.text()?, FEED_PATH)?
-    return Ok(f"signed {len(events) - covered} event(s); checkpoint {timestamp} at {length}")
+    return Ok(Signed(
+        message=f"signed {len(events) - covered} event(s); checkpoint {timestamp} at {length}",
+        verified=verified,
+        key=key,
+        length=length,
+    ))
 
 
 pub def delegate(root: Path, root_key_file: str, key_text: str, ssl: OpenSsl) -> Result[str, str]:

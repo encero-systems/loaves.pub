@@ -1,0 +1,197 @@
+"""
+Signed statements on the files a resolver reads one at a time (RFC 125, "Registry identity and signing";
+docs/signing.md): every index file as a statement of kind `index`, and every rendered `loaf.toml` and `assets.json` as
+one of kind `manifest`.
+
+A statement is the audit wire's `incan-registry-statement-v1` preimage over the file's exact bytes, with a `path=`
+line after `kind=` naming the file below the served base, signed by a delegated key; it lives beside its file as
+`<path>.statement`. Its `sequence` is the length of the audit feed when it was signed, so a reader checks the key was
+in force there and that the sequence is within the checkpoint it trusts. A file whose bytes have not changed keeps its
+statement; `sign` re-signs only what changed and drops a statement whose file is gone.
+"""
+
+from std.fs import Path
+from std.json import JsonValue, parse
+
+from canonical import canonical
+from events import read_text, string_member, write_text
+from projection import is_projection_file
+from signing import (
+    OpenSsl,
+    PublicKey,
+    Verified,
+
+    sha256_hex,
+    signature_json,
+    file_statement_preimage,
+)
+
+pub const STATEMENT_SCHEMA: str = "loaves.pub/statement/1"
+pub const STATEMENT_SUFFIX: str = ".statement"
+
+
+@derive(Clone)
+pub model Target:
+    """One file that carries a statement: its path from the index root and the kind it is signed as."""
+
+    pub path: str
+    pub kind: str
+
+
+pub def statement_targets(root: Path) -> Result[list[Target], str]:
+    """Every index file, and every rendered manifest under `crates-io/` (`loaf.toml` and `assets.json`), sorted."""
+    mut targets: list[Target] = []
+    for path in files_below(root / "index", "index")?:
+        targets.append(Target(path=path, kind="index"))
+    for path in files_below(root / "crates-io", "crates-io")?:
+        name = path.split("/")[len(path.split("/")) - 1]
+        if (name == "loaf.toml" or name == "assets.json") and is_projection_file(path):
+            targets.append(Target(path=path, kind="manifest"))
+    return Ok(targets)
+
+
+pub def sign_statements(root: Path, verified: Verified, key: PublicKey, key_file: str, length: int, ssl: OpenSsl) -> Result[str, str]:
+    """
+    A statement at `length` for every target whose bytes no current statement signs, and none left for a file that is
+    gone. Returns what it did, for `sign` to print.
+    """
+    if not verified.in_force_after(key.id, length):
+        return Err(f"{key_file}: key {key.id} is not in force at {length}, so it signs no statement")
+    mut signed = 0
+    mut kept = 0
+    mut wanted: list[str] = []
+    for target in statement_targets(root)?:
+        wanted.append(target.path + STATEMENT_SUFFIX)
+        data = file_bytes(root / target.path, target.path)?
+        digest = sha256_hex(data)
+        location = target.path + STATEMENT_SUFFIX
+        if (root / location).is_file():
+            existing = parse_statement(read_text(root / location, location)?, location)?
+            if string_member(existing, "payload-sha256") == digest and string_member(existing, "kind") == target.kind and string_member(existing, "registry") == verified.registry:
+                kept += 1
+                continue
+        preimage = file_statement_preimage(verified.registry, key.id, target.kind, target.path, length, data)
+        statement = JsonValue.object({
+            "schema": JsonValue.string(STATEMENT_SCHEMA),
+            "registry": JsonValue.string(verified.registry),
+            "kind": JsonValue.string(target.kind),
+            "sequence": JsonValue.int(length),
+            "key": JsonValue.string(key.id),
+            "payload-sha256": JsonValue.string(digest),
+            "signature": signature_json(ssl.sign(key_file, preimage)?),
+        })
+        write_text(root / location, canonical(statement)? + "\n", location)?
+        signed += 1
+    mut removed = 0
+    for location in statement_files(root)?:
+        if not wanted.contains(location):
+            match (root / location).unlink():
+                Ok(_) => removed += 1
+                Err(error) => return Err(f"{location}: {error.message()}")
+    return Ok(f"signed {signed} statement(s), kept {kept}, removed {removed}")
+
+
+pub def check_statements(root: Path, verified: Verified, length: int, at_head: bool, ssl: OpenSsl) -> Result[str, str]:
+    """
+    Verify every statement that signs its file's current bytes; a file whose statement is missing or signs older bytes
+    awaits `sign`, which `at_head` refuses. A statement for no target is refused.
+    """
+    mut verified_count = 0
+    mut awaiting = 0
+    mut wanted: list[str] = []
+    for target in statement_targets(root)?:
+        location = target.path + STATEMENT_SUFFIX
+        wanted.append(location)
+        if not (root / location).is_file():
+            awaiting += 1
+            continue
+        statement = parse_statement(read_text(root / location, location)?, location)?
+        data = file_bytes(root / target.path, target.path)?
+        if string_member(statement, "payload-sha256") != sha256_hex(data):
+            awaiting += 1
+            continue
+        verify_statement(statement, target, data, verified, length, ssl, location)?
+        verified_count += 1
+    for location in statement_files(root)?:
+        if not wanted.contains(location):
+            return Err(f"{location}: a statement for a file the registry does not serve")
+    if at_head and awaiting > 0:
+        return Err(f"{awaiting} index or manifest file(s) await a statement; run loaves-pub sign")
+    return Ok(f"{verified_count} index and manifest statement(s) verified, {awaiting} awaiting")
+
+
+def verify_statement(
+    statement: JsonValue, target: Target, data: bytes, verified: Verified, length: int, ssl: OpenSsl, label: str
+) -> Result[None, str]:
+    if string_member(statement, "schema") != STATEMENT_SCHEMA:
+        return Err(f"{label}: schema must be {STATEMENT_SCHEMA}")
+    if string_member(statement, "registry") != verified.registry or string_member(statement, "kind") != target.kind:
+        return Err(f"{label}: must be a `{target.kind}` statement of registry {verified.registry}")
+    mut sequence = -1
+    match statement.get("sequence"):
+        Some(value) => sequence = value.as_int().unwrap_or(-1)
+        None => pass
+    if sequence < 1 or sequence > length:
+        return Err(f"{label}: sequence {sequence} lies beyond the checkpoint's {length}")
+    key_id = string_member(statement, "key")
+    if not verified.in_force_after(key_id, sequence):
+        return Err(f"{label}: signed by {key_id}, which is not in force at {sequence}")
+    match statement.get("signature"):
+        Some(signature) =>
+            if string_member(signature, "r") != "" or string_member(signature, "s") != "":
+                return Err(f"{label}: an Ed25519 signature is raw hex with empty r and s")
+            preimage = file_statement_preimage(verified.registry, key_id, target.kind, target.path, sequence, data)
+            ssl.verify(verified.delegated[key_id], preimage, string_member(signature, "raw"), label)?
+        None => return Err(f"{label}: has no signature")
+    return Ok(None)
+
+
+def statement_files(root: Path) -> Result[list[str], str]:
+    """Every `.statement` file under `index/` and `crates-io/`, by path from the index root."""
+    mut out: list[str] = []
+    for directory in ["index", "crates-io"]:
+        for path in all_files(root / directory, directory)?:
+            if path.endswith(STATEMENT_SUFFIX):
+                out.append(path)
+    return Ok(sorted(out))
+
+
+def files_below(directory: Path, relative: str) -> Result[list[str], str]:
+    """Every file below `directory` except statements, by path from the index root."""
+    mut out: list[str] = []
+    for path in all_files(directory, relative)?:
+        if not path.endswith(STATEMENT_SUFFIX):
+            out.append(path)
+    return Ok(out)
+
+
+def all_files(directory: Path, relative: str) -> Result[list[str], str]:
+    mut out: list[str] = []
+    if not directory.is_dir():
+        return Ok(out)
+    match directory.iterdir():
+        Ok(children) =>
+            for child in children:
+                child_relative = relative + "/" + child.name()
+                if child.is_dir():
+                    for path in all_files(child, child_relative)?:
+                        out.append(path)
+                elif child.is_file():
+                    out.append(child_relative)
+        Err(error) => return Err(f"{relative}/: {error.message()}")
+    return Ok(sorted(out))
+
+
+def parse_statement(text: str, label: str) -> Result[JsonValue, str]:
+    match parse(text):
+        Ok(value) =>
+            if not value.is_object():
+                return Err(f"{label}: a statement is a JSON object")
+            return Ok(value)
+        Err(error) => return Err(f"{label}: not valid JSON: {error.message()}")
+
+
+def file_bytes(path: Path, label: str) -> Result[bytes, str]:
+    match path.read_bytes():
+        Ok(data) => return Ok(data)
+        Err(error) => return Err(f"{label}: {error.message()}")
