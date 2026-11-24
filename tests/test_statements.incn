@@ -1,0 +1,144 @@
+"""
+Signed statements on index files and manifests (encero-systems/loaves.pub#26): `sign` writes one beside every such
+file at the feed's length, keeps the ones whose bytes did not change, drops the ones whose file is gone, and `check`
+verifies them, each on a scratch log with keys OpenSSL generates for the test.
+"""
+
+from std.fs import Path
+from std.json import JsonValue, parse
+from std.testing import assert_eq, assert_true
+
+from events import append_event, load_events, read_text, write_text
+from host import environment_value, run_program
+from signing import OpenSsl, Signed, check_feed, delegate, openssl, sign_log
+from statements import check_statements, sign_statements, statement_targets
+
+
+def scratch(name: str) -> str:
+    location = environment_value("TMPDIR").unwrap_or("/tmp").strip() + "/loaves-pub-statements-test-" + name
+    path = Path(location)
+    if path.is_dir():
+        path.remove_tree().unwrap()
+    Path(location + "/index").mkdir(parents=true, exist_ok=true).unwrap()
+    return location
+
+
+def new_key(ssl: OpenSsl, location: str, name: str) -> str:
+    key_file = location + "/" + name + ".pem"
+    ran = run_program(ssl.program, ["genpkey", "-algorithm", "ed25519", "-out", key_file], {}, ssl.work).unwrap()
+    assert_true(ran.success)
+    return key_file
+
+
+def signed_registry(location: str, ssl: OpenSsl) -> Signed:
+    """A published package with its index line and manifests, a delegated key, and the feed signed to the head."""
+    root = Path(location + "/index")
+    mut payload: Dict[str, JsonValue] = {}
+    payload["source"] = JsonValue.object({
+        "registry": JsonValue.string("https://github.com/rust-lang/crates.io-index"),
+        "checksum": JsonValue.string("sha256:b6d2cec3eae94f9f509c767b45932f1ada8350c4bdb85af2fcab4a3c14807981"),
+    })
+    append_event(root, "publish", "widget", "1.0.0", "tests", payload).unwrap()
+    write_text(root / "index" / "crates-io" / "widget", "{\"name\":\"crates-io/widget\",\"vers\":\"1.0.0\"}\n", "index").unwrap()
+    write_text(root / "crates-io" / "widget" / "1.0.0" / "loaf.toml", "[project]\nname = \"crates-io/widget\"\n", "loaf").unwrap()
+    write_text(root / "crates-io" / "widget" / "1.0.0" / "assets.json", "{\"assets\": []}\n", "assets").unwrap()
+    write_text(root / "crates-io" / "widget" / "1.0.0" / "out" / "assets.json", "generated\n", "out").unwrap()
+    online = new_key(ssl, location, "online")
+    delegate(root, new_key(ssl, location, "root"), ssl.public_key(online).unwrap().text, ssl).unwrap()
+    return sign_log(root, load_events(root).unwrap(), online, ssl).unwrap()
+
+
+def checked(root: Path, signed: Signed, at_head: bool, ssl: OpenSsl) -> str:
+    match check_statements(root, signed.verified, signed.length, at_head, ssl):
+        Ok(note) => return note
+        Err(message) => return "refused: " + message
+
+
+def test_the_index_files_and_manifests_are_the_targets_and_a_generated_input_is_not() -> None:
+    ssl = openssl().unwrap()
+    location = scratch("targets")
+    signed_registry(location, ssl)
+    mut listed: list[str] = []
+    for target in statement_targets(Path(location + "/index")).unwrap():
+        listed.append(target.kind + " " + target.path)
+    assert_eq(listed, ["index index/crates-io/widget", "manifest crates-io/widget/1.0.0/assets.json", "manifest crates-io/widget/1.0.0/loaf.toml"])
+
+
+def test_sign_writes_a_statement_beside_each_file_and_check_verifies_them() -> None:
+    ssl = openssl().unwrap()
+    location = scratch("sign")
+    root = Path(location + "/index")
+    signed = signed_registry(location, ssl)
+    online = location + "/online.pem"
+    assert_eq(sign_statements(root, signed.verified, signed.key, online, signed.length, ssl).unwrap(), "signed 3 statement(s), kept 0, removed 0")
+    statement = parse(read_text(root / "index" / "crates-io" / "widget.statement", "statement").unwrap()).unwrap()
+    assert_eq(statement.get("kind").unwrap().as_str().unwrap(), "index")
+    assert_eq(statement.get("sequence").unwrap().as_int().unwrap(), signed.length)
+    assert_eq(checked(root, signed, true, ssl), "3 index and manifest statement(s) verified, 0 awaiting")
+
+
+def test_a_changed_file_awaits_sign_and_only_it_is_signed_again() -> None:
+    ssl = openssl().unwrap()
+    location = scratch("changed")
+    root = Path(location + "/index")
+    signed = signed_registry(location, ssl)
+    online = location + "/online.pem"
+    sign_statements(root, signed.verified, signed.key, online, signed.length, ssl).unwrap()
+    write_text(root / "crates-io" / "widget" / "1.0.0" / "assets.json", "{\"assets\": [1]}\n", "assets").unwrap()
+    assert_eq(checked(root, signed, false, ssl), "2 index and manifest statement(s) verified, 1 awaiting")
+    assert_eq(checked(root, signed, true, ssl), "refused: 1 index or manifest file(s) await a statement; run loaves-pub sign")
+    assert_eq(sign_statements(root, signed.verified, signed.key, online, signed.length, ssl).unwrap(), "signed 1 statement(s), kept 2, removed 0")
+    assert_eq(checked(root, signed, true, ssl), "3 index and manifest statement(s) verified, 0 awaiting")
+
+
+def test_a_statement_whose_signature_does_not_verify_is_refused() -> None:
+    ssl = openssl().unwrap()
+    location = scratch("forged")
+    root = Path(location + "/index")
+    signed = signed_registry(location, ssl)
+    sign_statements(root, signed.verified, signed.key, location + "/online.pem", signed.length, ssl).unwrap()
+    path = root / "index" / "crates-io" / "widget.statement"
+    text = read_text(path, "statement").unwrap()
+    statement = parse(text).unwrap()
+    raw = statement.get("signature").unwrap().get("raw").unwrap().as_str().unwrap()
+    mut forged = raw[0:126] + "00"
+    if forged == raw:
+        forged = raw[0:126] + "11"
+    write_text(path, text.replace(raw, forged), "statement").unwrap()
+    assert_eq(checked(root, signed, false, ssl), f"refused: index/crates-io/widget.statement: the signature does not verify under key {signed.key.id}")
+
+
+def test_a_statement_for_no_served_file_is_refused_and_sign_removes_it() -> None:
+    ssl = openssl().unwrap()
+    location = scratch("orphan")
+    root = Path(location + "/index")
+    signed = signed_registry(location, ssl)
+    online = location + "/online.pem"
+    sign_statements(root, signed.verified, signed.key, online, signed.length, ssl).unwrap()
+    (root / "crates-io" / "widget" / "1.0.0" / "assets.json").unlink().unwrap()
+    assert_eq(checked(root, signed, false, ssl), "refused: crates-io/widget/1.0.0/assets.json.statement: a statement for a file the registry does not serve")
+    assert_eq(sign_statements(root, signed.verified, signed.key, online, signed.length, ssl).unwrap(), "signed 0 statement(s), kept 2, removed 1")
+    assert_eq(checked(root, signed, true, ssl), "2 index and manifest statement(s) verified, 0 awaiting")
+
+
+def test_the_published_fixture_s_index_statement_verifies() -> None:
+    """tests/fixtures/signed-feed carries an index file and its statement, signed by key B at the checkpoint's 7."""
+    ssl = openssl().unwrap()
+    fixture = Path("tests/fixtures/signed-feed")
+    feed = check_feed(fixture, load_events(fixture).unwrap(), true).unwrap()
+    assert_eq(check_statements(fixture, feed.verified.unwrap(), feed.length, true, ssl).unwrap(), "1 index and manifest statement(s) verified, 0 awaiting")
+
+
+def test_a_statement_cannot_pass_for_another_file_with_the_same_bytes() -> None:
+    """The preimage names the path, so a statement copied beside a byte-identical file at another path fails."""
+    ssl = openssl().unwrap()
+    location = scratch("path")
+    root = Path(location + "/index")
+    signed = signed_registry(location, ssl)
+    online = location + "/online.pem"
+    sign_statements(root, signed.verified, signed.key, online, signed.length, ssl).unwrap()
+    line = read_text(root / "index" / "crates-io" / "widget", "index").unwrap()
+    write_text(root / "index" / "crates-io" / "gadget", line, "index").unwrap()
+    copied = read_text(root / "index" / "crates-io" / "widget.statement", "statement").unwrap()
+    write_text(root / "index" / "crates-io" / "gadget.statement", copied, "statement").unwrap()
+    assert_eq(checked(root, signed, false, ssl), f"refused: index/crates-io/gadget.statement: the signature does not verify under key {signed.key.id}")

@@ -10,6 +10,7 @@ A small registry log signed by `loaves-pub` exactly as [docs/signing.md](../../.
 | `audit/v1.json` | the feed: 7 envelopes under a checkpoint at 7 |
 | `earlier/v1.json` | the same feed as first signed: 3 envelopes under an earlier checkpoint at 3 |
 | `variants/*.json` | tampered copies of `audit/v1.json` |
+| `index/crates-io/widget` and `.statement` | an index file, as `loaves-pub build` renders it from `events/`, with its `index` statement (path `index/crates-io/widget`) signed by key B at sequence 7 |
 | `fixture-keys.json` | the fixture's private keys, each the hex of its PKCS#8 DER |
 
 ## The envelopes of `audit/v1.json`

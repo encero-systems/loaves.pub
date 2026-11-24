@@ -107,7 +107,8 @@ from projection import (
     write_projections,
 )
 from registry import Record, builders, crates_io_index, fact_key, has_key, is_toolchain_identity, keys_of, parse_digits, record_key
-from signing import check_signatures, delegate, openssl, revoke, sign_log
+from signing import check_feed, delegate, openssl, revoke, sign_log
+from statements import check_statements, sign_statements
 from intake import now_seconds
 from site import render_site
 
@@ -284,7 +285,12 @@ def check(invocation: Invocation) -> Result[None, str]:
             facts += 1
             if fact.status == "attested":
                 attested += 1
-    signatures = check_signatures(root, events, invocation.flag("signed"))?
+    checked = check_feed(root, events, invocation.flag("signed"))?
+    mut signatures = checked.note
+    match checked.verified:
+        Some(verified) =>
+            signatures = signatures + ", " + check_statements(root, verified, checked.length, invocation.flag("signed"), openssl()?)?
+        None => pass
     println(
         f"ok: {len(events)} event(s), {len(state)} record(s), {facts} bound fact(s) ({attested} attested), "
         + f"projections in sync, {verification}, {signatures}"
@@ -299,7 +305,11 @@ def key_verb(invocation: Invocation) -> Result[None, str]:
     root = invocation.root()
     ssl = openssl()?
     if invocation.command == "sign":
-        println(sign_log(root, load_events(root)?, invocation.require("key")?, ssl)?)
+        key_file = invocation.require("key")?
+        signed = sign_log(root, load_events(root)?, key_file, ssl)?
+        println(signed.message)
+        # The index files and manifests the log projects, at the length the checkpoint now names (src/statements.incn).
+        println(sign_statements(root, signed.verified, signed.key, key_file, signed.length, ssl)?)
     elif invocation.command == "delegate":
         println(delegate(root, invocation.require("root-key")?, invocation.require("key")?, ssl)?)
     else:

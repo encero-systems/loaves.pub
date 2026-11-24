@@ -428,7 +428,7 @@ def package_page_row(record: Record) -> str:
     return f"| {version} | {adopted} | {license.replace('|', '\\|')} | {len(record.facts)} | {units} | {links} |"
 
 
-def is_projection_file(path: str) -> bool:
+pub def is_projection_file(path: str) -> bool:
     """
     `crates-io/<name>/README.md`, and `crates-io/<name>/<version>/loaf.toml` with the `assets.json` beside it, and the
     same two under a superseded revision's `r<N>`, are rendered; everything else under a version is a generated input,
@@ -533,7 +533,7 @@ def collect_files(directory: Path, relative: str, mut files: Dict[str, str], man
                 child_relative = relative + "/" + child.name()
                 if child.is_dir():
                     collect_files(child, child_relative, files, manifests_only)?
-                elif child.is_file() and (not manifests_only or is_projection_file(child_relative)):
+                elif child.is_file() and not child_relative.endswith(".statement") and (not manifests_only or is_projection_file(child_relative)):
                     files.insert(child_relative, read_text(child, child_relative)?)
             return Ok(None)
         Err(error) => return Err(f"{relative}/: {error.message()}")
@@ -578,7 +578,8 @@ pub def unclaimed_generated_inputs(root: Path, state: Dict[str, Record]) -> Resu
     collect_paths(root / "crates-io", "crates-io", committed)?
     mut unclaimed: list[str] = []
     for path in sorted(committed):
-        if not is_projection_file(path) and not claimed.contains(path):
+        # A `.statement` beside a rendered file is its signature (src/statements.incn), checked there, not an input.
+        if not is_projection_file(path) and not claimed.contains(path) and not path.endswith(".statement"):
             unclaimed.append(path)
     return Ok(unclaimed)
 
