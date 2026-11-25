@@ -109,4 +109,5 @@ Only `format-documents.mjs` and the browser scripts are JavaScript. What a page 
 | [docs/external-source-record.md](docs/external-source-record.md) | the record, its events, the rendered manifest, the closed vocabulary |
 | [docs/harvest-proposal.md](docs/harvest-proposal.md) | what a harvest emits and what `add-fact` admits |
 | [docs/policy.md](docs/policy.md) | the reserved scopes and supported toolchains the registry publishes |
+| [docs/c-toolchain.md](docs/c-toolchain.md) | the C toolchain release of RFC 159: Clang builds, Linux sysroots, pinned platform flags, the reproduction gate |
 | [encero-systems/incan#1666](https://github.com/encero-systems/incan/issues/1666) | the tracking issue, including the open questions this registry cannot settle alone |
