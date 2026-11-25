@@ -1,0 +1,162 @@
+{
+  "about": {
+    "authors": [
+      "LibCST Developers"
+    ],
+    "description": "A Python parser and Concrete Syntax Tree library.",
+    "documentation": "https://libcst.rtfd.org",
+    "homepage": "",
+    "license": "MIT AND (MIT AND PSF-2.0)",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/Instagram/LibCST",
+    "rust-version": "1.83"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:21b68d9c60cba9c333f89596ef5c4d3b6c9bd0b7d2e48a9810df6fa7976102a3",
+    "package": "libcst",
+    "registry": "crates-io",
+    "version": "1.9.0"
+  },
+  "archive": "sha256:cb4d7c42f5a85f9a0e84bd9797f44e3cf17feafd433514871c78bd50364f6296",
+  "at": "2026-11-25T20:05:53Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/annotate-snippets",
+      "name": "annotate-snippets",
+      "optional": false,
+      "req": "^0.11.5"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/libcst_derive",
+      "name": "libcst_derive",
+      "optional": false,
+      "req": "^1.9.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/memchr",
+      "name": "memchr",
+      "optional": false,
+      "req": "^2.7.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/paste",
+      "name": "paste",
+      "optional": false,
+      "req": "^1.0.15"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/peg",
+      "name": "peg",
+      "optional": false,
+      "req": "^0.8.5"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/pyo3",
+      "name": "pyo3",
+      "optional": true,
+      "req": "^0.29"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/regex",
+      "name": "regex",
+      "optional": false,
+      "req": "^1.11.2"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/thiserror",
+      "name": "thiserror",
+      "optional": false,
+      "req": "^2.0.12"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 6393,
+      "digest": "sha256:844dba5222ea4ad3c90bfd89a0ed6a5ce6b3ea12ce72b4565f7cabeac38c4bb4",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 4700,
+      "digest": "sha256:e09b2c94517c6a191153fe0407c0a546c4d24a7295ae3bb26d59b544c74162dc",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "default": [
+      "py"
+    ],
+    "py": [
+      "pyo3",
+      "dep:pyo3",
+      "pyo3/extension-module"
+    ],
+    "pyo3": [
+      "dep:pyo3"
+    ],
+    "trace": [
+      "peg/trace"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:1a5d09b02441bfd880315acffea12155d2bbbfbe0df06267e5991cba9fa8ac70",
+  "kind": "adopt",
+  "manifest": "sha256:532cab144f4a303af2a5e08f5fd04e049d2db1dcb8da1e3fb7f9951d0819b56a",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2018",
+    "name": "libcst_native",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "libcst",
+    "scope": "crates-io",
+    "version": "1.9.0"
+  },
+  "taxonomy": {
+    "categories": [
+      "parser-implementations"
+    ],
+    "keywords": [
+      "python",
+      "cst",
+      "ast"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "c029c17bf45a3737fc8d1347001ab2422f42ae58",
+    "path": "native/libcst",
+    "system": "git"
+  }
+}

@@ -1,0 +1,159 @@
+{
+  "about": {
+    "authors": [],
+    "description": "A library for python version numbers and specifiers, implementing PEP 440",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0 OR BSD-2-Clause",
+    "license-file": "",
+    "readme": "Readme.md",
+    "repository": "https://github.com/konstin/pep440-rs",
+    "rust-version": ""
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:31095ca1f396e3de32745f42b20deef7bc09077f918b085307e8eab6ddd8fb9c",
+    "package": "pep440_rs",
+    "registry": "crates-io",
+    "version": "0.7.3"
+  },
+  "archive": "sha256:dedcb0ea3a9f023a3fd1d94f1407a3e95d54d0f281f8167266c735e62b9b2513",
+  "at": "2026-11-25T20:05:48Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/once_cell",
+      "name": "once_cell",
+      "optional": false,
+      "req": "^1.20.2"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/rkyv",
+      "name": "rkyv",
+      "optional": true,
+      "req": "^0.8.9"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "derive"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": false,
+      "req": "^1.0.210"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": true,
+      "req": "^0.1.40"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/unicode-width",
+      "name": "unicode-width",
+      "optional": false,
+      "req": "^0.2.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/unscanny",
+      "name": "unscanny",
+      "optional": false,
+      "req": "^0.1.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/version-ranges",
+      "name": "version-ranges",
+      "optional": true,
+      "req": "^0.1.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 2939,
+      "digest": "sha256:47a4a1f27101186391b2d95072acc4f61214660935d122d45ee69a768798231e",
+      "format": "markdown",
+      "origin": "package",
+      "path": "Readme.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10173,
+      "digest": "sha256:a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9",
+      "format": "text",
+      "origin": "package",
+      "path": "License-Apache",
+      "role": "license"
+    },
+    {
+      "bytes": 1293,
+      "digest": "sha256:349881bddbe385d3febd5ab50e36ea781aefee73bda4b0610918fe73fda29322",
+      "format": "text",
+      "origin": "package",
+      "path": "License-BSD",
+      "role": "license"
+    },
+    {
+      "bytes": 2696,
+      "digest": "sha256:ce39e23678e720cf1d8a83ca75e930d88e7c5a93f1b4f56e7f6d8affa6f86efc",
+      "format": "markdown",
+      "origin": "package",
+      "path": "Changelog.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "rkyv": [
+      "dep:rkyv"
+    ],
+    "tracing": [
+      "dep:tracing"
+    ],
+    "version-ranges": [
+      "dep:version-ranges"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:0bd6a190e920ea71abc2b0a0244cda266a37eb30fdfc62f2389e821285c15e59",
+  "kind": "adopt",
+  "manifest": "sha256:5157b79476d9610e5bb7aedf021e928aa6e2d901bbe3f289aa85680054aed3af",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "pep440_rs",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "pep440_rs",
+    "scope": "crates-io",
+    "version": "0.7.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "f8b2449a43ed81d7f14a163c34624d2486ef1e81",
+    "path": "",
+    "system": "git"
+  }
+}

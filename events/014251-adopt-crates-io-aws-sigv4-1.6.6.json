@@ -1,0 +1,267 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+      "David Barsky <me@davidbarsky.com>"
+    ],
+    "description": "SigV4 signer for HTTP requests and Event Stream messages.",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/smithy-lang/smithy-rs",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:6c5aa04c533733a77879294f1854c27b3715cc50ea71756d1f6a958702b1a9fb",
+    "package": "aws-sigv4",
+    "registry": "crates-io",
+    "version": "1.6.6"
+  },
+  "archive": "sha256:5558137011117fd914017bee498c031c8c3507711d1e330b5ea8975ff807ec59",
+  "at": "2026-11-25T20:05:52Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-credential-types",
+      "name": "aws-credential-types",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-eventstream",
+      "name": "aws-smithy-eventstream",
+      "optional": true,
+      "req": "^0.61.6"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-http",
+      "name": "aws-smithy-http",
+      "optional": false,
+      "req": "^0.64.3"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime-api",
+      "name": "aws-smithy-runtime-api",
+      "optional": false,
+      "req": "^1.22.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-types",
+      "name": "aws-smithy-types",
+      "optional": false,
+      "req": "^1.9.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/bytes",
+      "name": "bytes",
+      "optional": false,
+      "req": "^1.11.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/crypto-bigint",
+      "name": "crypto-bigint",
+      "optional": true,
+      "req": "^0.7.10"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ecdsa",
+      "name": "ecdsa",
+      "optional": true,
+      "req": "^0.17.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/form_urlencoded",
+      "name": "form_urlencoded",
+      "optional": true,
+      "req": "^1.2.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/hex",
+      "name": "hex",
+      "optional": false,
+      "req": "^0.4.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/hmac",
+      "name": "hmac",
+      "optional": false,
+      "req": "^0.13"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http",
+      "name": "http",
+      "optional": true,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http",
+      "name": "http0",
+      "optional": true,
+      "req": "^0.2.12"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "ecdsa"
+      ],
+      "loaf": "crates-io/p256",
+      "name": "p256",
+      "optional": true,
+      "req": "^0.14.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/percent-encoding",
+      "name": "percent-encoding",
+      "optional": true,
+      "req": "^2.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/sha2",
+      "name": "sha2",
+      "optional": false,
+      "req": "^0.11"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/subtle",
+      "name": "subtle",
+      "optional": true,
+      "req": "^2.6.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/time",
+      "name": "time",
+      "optional": false,
+      "req": "^0.3.35"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1.44"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/zeroize",
+      "name": "zeroize",
+      "optional": true,
+      "req": "^1.8.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 330,
+      "digest": "sha256:0b5e3c2a880583c13c9357324a7445f9c8053487e6805de1eb7f5bd4327d50a1",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10142,
+      "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "default": [
+      "sign-http",
+      "http1"
+    ],
+    "http0-compat": [
+      "dep:http0"
+    ],
+    "http1": [
+      "dep:http"
+    ],
+    "sign-eventstream": [
+      "dep:aws-smithy-eventstream"
+    ],
+    "sign-http": [
+      "dep:percent-encoding",
+      "dep:form_urlencoded"
+    ],
+    "sigv4a": [
+      "dep:p256",
+      "dep:ecdsa",
+      "dep:crypto-bigint",
+      "dep:subtle",
+      "dep:zeroize"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:8c82cb0b18b1055184627c568e7d8d4d563e675213de602a3894f8278b28b8e3",
+  "kind": "adopt",
+  "manifest": "sha256:4ec0224c37c70004d7a869c33ab1a182c33eeb6003622006e8c44fca337f09bb",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "aws_sigv4",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-sigv4",
+    "scope": "crates-io",
+    "version": "1.6.6"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "d55bc2aaf5cfef4f813d98f4c7f881d99489ff1a",
+    "path": "sdk/aws-sigv4",
+    "system": "git"
+  }
+}

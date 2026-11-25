@@ -22,6 +22,122 @@
         "repository": "https://github.com/smithy-lang/smithy-rs",
         "rust-version": "1.94.1"
       },
+      "adopted": "2026-11-25T20:05:41Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:9c4e47e9bdb94d9646ba7dac85438282611966a49720fd3b90aecfc43c54ff8e",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/futures-util",
+          "name": "futures-util",
+          "optional": false,
+          "req": "^0.3.29"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/pin-project-lite",
+          "name": "pin-project-lite",
+          "optional": false,
+          "req": "^0.2.14"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "sync"
+          ],
+          "loaf": "crates-io/tokio",
+          "name": "tokio",
+          "optional": false,
+          "req": "^1.49.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 541,
+          "content": "content/sha256/b78dc85806f68afd325bfcc56802d80563b7e9924dfe50667b76269c70e95c94",
+          "digest": "sha256:b78dc85806f68afd325bfcc56802d80563b7e9924dfe50667b76269c70e95c94",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10142,
+          "content": "content/sha256/09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "rt-tokio": [
+          "tokio/time"
+        ],
+        "test-util": [
+          "rt-tokio",
+          "tokio/rt"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/aws-smithy-async/1.3.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:41Z",
+          "archive": "sha256:9c4e47e9bdb94d9646ba7dac85438282611966a49720fd3b90aecfc43c54ff8e",
+          "manifest": "crates-io/aws-smithy-async/1.3.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "aws_smithy_async",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:de681a9df7ff79823b759ee17061076ec049cd61a8fa28ece4293d89c9f6964e",
+        "package": "aws-smithy-async",
+        "registry": "crates-io",
+        "version": "1.3.1"
+      },
+      "vcs": null,
+      "version": "1.3.1",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+          "John DiSanti <jdisanti@amazon.com>"
+        ],
+        "description": "Async runtime agnostic abstractions for smithy-rs.",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/smithy-lang/smithy-rs",
+        "rust-version": "1.94.1"
+      },
       "adopted": "2026-10-07T07:43:29Z",
       "advisories": 0,
       "advisory-notes": [],

@@ -1,0 +1,127 @@
+{
+  "about": {
+    "authors": [
+      "Apache Arrow <dev@arrow.apache.org>"
+    ],
+    "description": "Array data abstractions for Apache Arrow",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "",
+    "repository": "https://github.com/apache/arrow-rs",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:1aee86955e4b574e821fd64d65bd9bf41c2c61b863750671ecb38c75fa56de5d",
+    "package": "arrow-data",
+    "registry": "crates-io",
+    "version": "59.3.3"
+  },
+  "archive": "sha256:34c471a01afc1c9b9fb00714db3c501d8aa239ffd27c70c2eef1826587c3d505",
+  "at": "2026-11-25T20:05:47Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-buffer",
+      "name": "arrow-buffer",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-schema",
+      "name": "arrow-schema",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/half",
+      "name": "half",
+      "optional": false,
+      "req": "^2.1"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-integer",
+      "name": "num-integer",
+      "optional": false,
+      "req": "^0.1.46"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-traits",
+      "name": "num-traits",
+      "optional": false,
+      "req": "^0.2.19"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 389,
+      "digest": "sha256:c56d0f753671c4b43804e0410b2acda434a634c3012b4f1c0225f3b10c9515e9",
+      "format": "markdown",
+      "origin": "registry",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11577,
+      "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "ffi": [
+      "arrow-schema/ffi"
+    ],
+    "force_validate": [],
+    "pool": [
+      "arrow-buffer/pool"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "registry"
+  },
+  "id": "sha256:7d4f7713bb0bacec0b41e9fd6a9f5fd20694516a1e1141fba54b98334674f6ed",
+  "kind": "adopt",
+  "manifest": "sha256:95046e07082c349b9322e9f45c8638f7b3a31930def74edf25c62b3e7c5dc8c1",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "arrow_data",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "arrow-data",
+    "scope": "crates-io",
+    "version": "59.3.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "arrow"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

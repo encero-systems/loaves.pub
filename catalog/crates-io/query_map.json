@@ -1,0 +1,145 @@
+{
+  "name": "crates-io/query_map",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "query_map",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/query_map"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [],
+        "description": "VectorMap is a generic wrapper around HashMap<String, Vec<String>> to handle different transformations like URL query strings.",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "./README.md",
+        "repository": "https://github.com/calavera/query-map-rs",
+        "rust-version": ""
+      },
+      "adopted": "2026-11-25T20:05:44Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:afdde413278b3b4fe05903564b2307f0f183df290d47c169cc280e9436c5e2b1",
+      "assets": [],
+      "categories": [
+        "web-programming",
+        "parser-implementations",
+        "encoding"
+      ],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/form_urlencoded",
+          "name": "form_urlencoded",
+          "optional": true,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "rc"
+          ],
+          "loaf": "crates-io/serde",
+          "name": "serde_crate",
+          "optional": true,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/serde_derive",
+          "name": "serde_derive",
+          "optional": true,
+          "req": "^1"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1756,
+          "content": "content/sha256/5c2a0475356246c1d68a996d14d7614b9ebfb1037013a1c7e47cd63c6912c909",
+          "digest": "sha256:5c2a0475356246c1d68a996d14d7614b9ebfb1037013a1c7e47cd63c6912c909",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1098,
+          "content": "content/sha256/67dfcba2e630e3e1c117401f984dc98cb40b34939f53be3bd999d01b5abf2ad9",
+          "digest": "sha256:67dfcba2e630e3e1c117401f984dc98cb40b34939f53be3bd999d01b5abf2ad9",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "default": [],
+        "form_urlencoded": [
+          "dep:form_urlencoded"
+        ],
+        "serde": [
+          "serde_crate",
+          "serde_derive"
+        ],
+        "serde_crate": [
+          "dep:serde_crate"
+        ],
+        "serde_derive": [
+          "dep:serde_derive"
+        ],
+        "url-query": [
+          "form_urlencoded"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "serde",
+        "url"
+      ],
+      "manifest": "crates-io/query_map/0.7.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:44Z",
+          "archive": "sha256:afdde413278b3b4fe05903564b2307f0f183df290d47c169cc280e9436c5e2b1",
+          "manifest": "crates-io/query_map/0.7.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2018",
+        "name": "query_map",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:5eab6b8b1074ef3359a863758dae650c7c0c6027927a085b7af911c8e0bf3a15",
+        "package": "query_map",
+        "registry": "crates-io",
+        "version": "0.7.0"
+      },
+      "vcs": {
+        "commit": "fd13ea4264048acbea79d4e9d9e3b1c8c3e9f792",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.7.0",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

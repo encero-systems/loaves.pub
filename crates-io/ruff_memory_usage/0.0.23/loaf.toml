@@ -1,0 +1,14 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_memory_usage"
+version = "0.0.23"
+
+[rust]
+name = "ruff_memory_usage"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+get-size2 = { loaf = "crates-io/get-size2", version = "^0.11.0", features = ["compact-str", "derive", "hashbrown", "ordermap", "smallvec", "std", "thin-vec"], default-features = false }

@@ -1,0 +1,179 @@
+{
+  "about": {
+    "authors": [
+      "Joe Wilm <joe@jwilm.com>",
+      "Christian Duerr <contact@christianduerr.com>"
+    ],
+    "description": "Parser for implementing terminal emulators",
+    "documentation": "https://docs.rs/vte/",
+    "homepage": "",
+    "license": "Apache-2.0 OR MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/alacritty/vte",
+    "rust-version": "1.62.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:231fdcd7ef3037e8330d8e17e61011a2c244126acc0a982f4040ac3f9f0bc077",
+    "package": "vte",
+    "registry": "crates-io",
+    "version": "0.14.1"
+  },
+  "archive": "sha256:fce68bcee941a643e16abcb5d01422c08bcdd530e4fabb418c881dbc495f623d",
+  "at": "2026-11-25T20:05:46Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/arrayvec",
+      "name": "arrayvec",
+      "optional": true,
+      "req": "^0.7.2"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/bitflags",
+      "name": "bitflags",
+      "optional": true,
+      "req": "^2.3.3"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/cursor-icon",
+      "name": "cursor-icon",
+      "optional": true,
+      "req": "^1.0.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/log",
+      "name": "log",
+      "optional": true,
+      "req": "^0.4.17"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/memchr",
+      "name": "memchr",
+      "optional": false,
+      "req": "^2.7.4"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "derive"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0.160"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 843,
+      "digest": "sha256:ff6200be737dfb4275b2cfbcd7742a7d7031f159908dd7799925733782341995",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 9723,
+      "digest": "sha256:62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-APACHE",
+      "role": "license"
+    },
+    {
+      "bytes": 1052,
+      "digest": "sha256:e4c9b06fa850cb9b540a5e400e9f6394cf15efcf4098144de477d1d3dae10150",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    },
+    {
+      "bytes": 2450,
+      "digest": "sha256:1ced5a221e2050a6d175aaa2cc5e03a1db0947ff7412b8464136c37445540336",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "ansi": [
+      "log",
+      "cursor-icon",
+      "bitflags"
+    ],
+    "arrayvec": [
+      "dep:arrayvec"
+    ],
+    "bitflags": [
+      "dep:bitflags"
+    ],
+    "cursor-icon": [
+      "dep:cursor-icon"
+    ],
+    "default": [
+      "no_std"
+    ],
+    "log": [
+      "dep:log"
+    ],
+    "no_std": [
+      "arrayvec"
+    ],
+    "serde": [
+      "dep:serde"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:6f176ac7f98378cf3d65c92263386b86f018dd80f1b81f47a74f60c59b7f8f19",
+  "kind": "adopt",
+  "manifest": "sha256:5c3eb43bd2160f442bf12b87cce6af967c1142c3defa7a1d7f2bd86982ac66b2",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "vte",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "vte",
+    "scope": "crates-io",
+    "version": "0.14.1"
+  },
+  "taxonomy": {
+    "categories": [
+      "parsing",
+      "no-std"
+    ],
+    "keywords": [
+      "ansi",
+      "vte",
+      "parser",
+      "terminal"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "425fc59cb4b42932bc7e877cde32f72f4b0a3896",
+    "path": "",
+    "system": "git"
+  }
+}

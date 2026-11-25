@@ -1,0 +1,118 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:889be21253e167c4c4481030e82ad49d97a976db78caf80f6e5410cfa989bd80",
+    "package": "ruff_index",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:6d96b06a6b426d6301a707a74bf0a7d51c87abbe6b1acedbdc703e3cab0377b4",
+  "at": "2026-11-25T20:05:54Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "compact-str",
+        "derive",
+        "hashbrown",
+        "ordermap",
+        "smallvec",
+        "std",
+        "thin-vec"
+      ],
+      "loaf": "crates-io/get-size2",
+      "name": "get-size2",
+      "optional": false,
+      "req": "^0.11.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_macros",
+      "name": "ruff_macros",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "compact_str",
+        "inventory",
+        "macros",
+        "salsa_unstable"
+      ],
+      "loaf": "crates-io/salsa",
+      "name": "salsa",
+      "optional": true,
+      "req": "^0.28.5"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 531,
+      "digest": "sha256:ee6d86b1e8766f3e77be5a24885c286ea9c5be8d7dde444bed2722fdd7be57f2",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 330,
+      "digest": "sha256:8dc3ee11451afe46b1f95db6dbadd22632ec74c52aba6b1c8891b8c0b40c99e0",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {
+    "salsa": [
+      "dep:salsa"
+    ]
+  },
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:9d7de5e0126d5e9d73dbb77bcb8325a828405b6da113c2f87fd25a34fe8f836c",
+  "kind": "adopt",
+  "manifest": "sha256:2be5c2d26a523278a7c88427cdc8a99ec4a70a167937314878abaffdc83de6d5",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_index",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_index",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_index",
+    "system": "git"
+  }
+}

@@ -1,0 +1,15 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/rust-stemmers"
+version = "1.2.0"
+
+[rust]
+name = "rust_stemmers"
+type = "lib"
+edition = "2015"
+build-script = false
+
+[dependencies]
+serde = { loaf = "crates-io/serde", version = "^1.0" }
+serde_derive = { loaf = "crates-io/serde_derive", version = "^1.0" }

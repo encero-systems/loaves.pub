@@ -1,0 +1,22 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/annotate-snippets"
+version = "0.11.5"
+
+[project.features]
+default = []
+memchr = ["dep:memchr"]
+simd = ["memchr"]
+testing-colors = []
+
+[rust]
+name = "annotate_snippets"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+anstyle = { loaf = "crates-io/anstyle", version = "^1.0.4" }
+memchr = { loaf = "crates-io/memchr", version = "^2.7.4", optional = true }
+unicode-width = { loaf = "crates-io/unicode-width", version = "^0.2.0" }

@@ -1,0 +1,129 @@
+{
+  "about": {
+    "authors": [
+      "Amanieu d'Antras <amanieu@gmail.com>"
+    ],
+    "description": "Wrappers to create fully-featured Mutex and RwLock types. Compatible with no_std.",
+    "documentation": "",
+    "homepage": "",
+    "license": "MIT OR Apache-2.0",
+    "license-file": "",
+    "readme": "",
+    "repository": "https://github.com/Amanieu/parking_lot",
+    "rust-version": "1.95"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:65d91b22da179613dcf4d6ec8349563f52a363f6849e03b00dd0a185ec4a59af",
+    "package": "lock_api",
+    "registry": "crates-io",
+    "version": "0.5.0"
+  },
+  "archive": "sha256:0c46dcf7cb6f5e112349b21c0306ce54cebdf7b8d5d3c44b19320f4ec5840811",
+  "at": "2026-11-25T20:05:43Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/owning_ref",
+      "name": "owning_ref",
+      "optional": true,
+      "req": "^0.4.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/scopeguard",
+      "name": "scopeguard",
+      "optional": false,
+      "req": "^1.2.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0.229"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 430,
+      "digest": "sha256:c1bc9fdfe71786d83ccfcca1f90ea12ee0b23b960b97b8fb80abd12fab77b729",
+      "format": "markdown",
+      "origin": "registry",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10847,
+      "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-APACHE",
+      "role": "license"
+    },
+    {
+      "bytes": 1071,
+      "digest": "sha256:c9a75f18b9ab2927829a208fc6aa2cf4e63b8420887ba29cdb265d6619ae82d5",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "arc_lock": [],
+    "atomic_usize": [],
+    "default": [
+      "atomic_usize"
+    ],
+    "owning_ref": [
+      "dep:owning_ref"
+    ],
+    "serde": [
+      "dep:serde"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "registry"
+  },
+  "id": "sha256:410331e271286199ecfd43aae50230748547324bc2e972935a9659b17c6357ed",
+  "kind": "adopt",
+  "manifest": "sha256:ceff1b2594eb4ff248f26c64c11801828eb63d5f63ee23fae066133e30bf4ddb",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "lock_api",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "lock_api",
+    "scope": "crates-io",
+    "version": "0.5.0"
+  },
+  "taxonomy": {
+    "categories": [
+      "concurrency",
+      "no-std"
+    ],
+    "keywords": [
+      "mutex",
+      "rwlock",
+      "lock",
+      "no_std"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "1a5c3dd5c328b574234082e3ae4d8de078090d87",
+    "path": "lock_api",
+    "system": "git"
+  }
+}

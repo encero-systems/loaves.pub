@@ -22,6 +22,114 @@
         "repository": "https://github.com/smithy-lang/smithy-rs",
         "rust-version": "1.94.1"
       },
+      "adopted": "2026-11-25T20:05:52Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:1d09cc6155d002fd03bdf0d3fb8ba7be0e037592f38ca4273d269ba3784d390e",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [
+            "client"
+          ],
+          "loaf": "crates-io/aws-smithy-runtime-api",
+          "name": "aws-smithy-runtime-api",
+          "optional": false,
+          "req": "^1.19.2"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/aws-smithy-schema",
+          "name": "aws-smithy-schema",
+          "optional": false,
+          "req": "^1.1.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/aws-smithy-types",
+          "name": "aws-smithy-types",
+          "optional": false,
+          "req": "^1.9.1"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 429,
+          "content": "content/sha256/b04c2b74027e0354817b9ccd9f56ed8047bcfd03cdde859ce1288c242d64072e",
+          "digest": "sha256:b04c2b74027e0354817b9ccd9f56ed8047bcfd03cdde859ce1288c242d64072e",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10142,
+          "content": "content/sha256/09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/aws-smithy-json/0.65.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:52Z",
+          "archive": "sha256:1d09cc6155d002fd03bdf0d3fb8ba7be0e037592f38ca4273d269ba3784d390e",
+          "manifest": "crates-io/aws-smithy-json/0.65.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "aws_smithy_json",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:b45f9fc77ffe92c92c341165a01a565bd30c39ecf5aa8c0719b41719009604f9",
+        "package": "aws-smithy-json",
+        "registry": "crates-io",
+        "version": "0.65.1"
+      },
+      "vcs": null,
+      "version": "0.65.1",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+          "John DiSanti <jdisanti@amazon.com>"
+        ],
+        "description": "Token streaming JSON parser for smithy-rs.",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/smithy-lang/smithy-rs",
+        "rust-version": "1.94.1"
+      },
       "adopted": "2026-10-07T07:43:35Z",
       "advisories": 0,
       "advisory-notes": [],

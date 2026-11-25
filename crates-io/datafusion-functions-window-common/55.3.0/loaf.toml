@@ -1,0 +1,15 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-functions-window-common"
+version = "55.3.0"
+
+[rust]
+name = "datafusion_functions_window_common"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+datafusion-common = { loaf = "crates-io/datafusion-common", version = "^55.3.0", default-features = false }
+datafusion-physical-expr-common = { loaf = "crates-io/datafusion-physical-expr-common", version = "^55.3.0", default-features = false }

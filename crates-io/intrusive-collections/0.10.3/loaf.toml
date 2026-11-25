@@ -1,0 +1,16 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/intrusive-collections"
+version = "0.10.3"
+
+[project.features]
+alloc = []
+default = ["alloc"]
+nightly = []
+
+[rust]
+name = "intrusive_collections"
+type = "lib"
+edition = "2018"
+build-script = false

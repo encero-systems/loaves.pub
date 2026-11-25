@@ -1,0 +1,253 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+      "Russell Cohen <rcoh@amazon.com>"
+    ],
+    "description": "AWS SDK for Amazon EventBridge",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/awslabs/aws-sdk-rust",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:153bad41dab9ae6acdb1b1b331cd7a0f9506aa0a4f3fe99b5d8cb38e4580f773",
+    "package": "aws-sdk-eventbridge",
+    "registry": "crates-io",
+    "version": "1.130.0"
+  },
+  "archive": "sha256:22c6f103308d05c31e7dd681ff0a6282fc8c2dd7ca8d9ad8b031251607bc56b4",
+  "at": "2026-11-25T20:05:57Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arc-swap",
+      "name": "arc-swap",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-credential-types",
+      "name": "aws-credential-types",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-runtime",
+      "name": "aws-runtime",
+      "optional": false,
+      "req": "^1.10.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-async",
+      "name": "aws-smithy-async",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-http",
+      "name": "aws-smithy-http",
+      "optional": false,
+      "req": "^0.64.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-json",
+      "name": "aws-smithy-json",
+      "optional": false,
+      "req": "^0.65.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-observability",
+      "name": "aws-smithy-observability",
+      "optional": false,
+      "req": "^0.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime",
+      "name": "aws-smithy-runtime",
+      "optional": false,
+      "req": "^1.16.4"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client",
+        "http-1x"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime-api",
+      "name": "aws-smithy-runtime-api",
+      "optional": false,
+      "req": "^1.22.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-schema",
+      "name": "aws-smithy-schema",
+      "optional": false,
+      "req": "^1.2.0"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "http-body-1-x"
+      ],
+      "loaf": "crates-io/aws-smithy-types",
+      "name": "aws-smithy-types",
+      "optional": false,
+      "req": "^1.9.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-types",
+      "name": "aws-types",
+      "optional": false,
+      "req": "^1.7.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/bytes",
+      "name": "bytes",
+      "optional": false,
+      "req": "^1.4.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/fastrand",
+      "name": "fastrand",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http",
+      "name": "http-1x",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/regex-lite",
+      "name": "regex-lite",
+      "optional": false,
+      "req": "^0.1.5"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 2940,
+      "digest": "sha256:25f95160bb7ece862458e882d884c3619ad4ac8fe7d23b0f895f85dcbe97a3ce",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11391,
+      "digest": "sha256:929e8ca5ef8ec9905c00a89d004d1f6933bae951996992c8579734875bbf46a8",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "behavior-version-latest": [],
+    "default": [
+      "sigv4a",
+      "rustls",
+      "default-https-client",
+      "rt-tokio"
+    ],
+    "default-https-client": [
+      "aws-smithy-runtime/default-https-client"
+    ],
+    "gated-tests": [],
+    "legacy-https-client": [
+      "aws-smithy-runtime/tls-rustls"
+    ],
+    "legacy-test-util": [
+      "test-util",
+      "aws-smithy-runtime/legacy-test-util"
+    ],
+    "rt-tokio": [
+      "aws-smithy-async/rt-tokio",
+      "aws-smithy-types/rt-tokio"
+    ],
+    "rustls": [
+      "aws-smithy-runtime/tls-rustls"
+    ],
+    "sigv4a": [
+      "aws-runtime/sigv4a"
+    ],
+    "test-util": [
+      "aws-credential-types/test-util"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:7518e3072d1253f2b95522a1b865b8d2e5b5da7d7aadf3920a21a50fa0ae45f8",
+  "kind": "adopt",
+  "manifest": "sha256:92aa525ae1c999fede801e1f27ac9fa5cc3439501372915bea0c2e31be5ba12b",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "aws_sdk_eventbridge",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-sdk-eventbridge",
+    "scope": "crates-io",
+    "version": "1.130.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "d55bc2aaf5cfef4f813d98f4c7f881d99489ff1a",
+    "path": "sdk/eventbridge",
+    "system": "git"
+  }
+}

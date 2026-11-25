@@ -1,0 +1,15 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/http-serde"
+version = "2.1.1"
+
+[rust]
+name = "http_serde"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+http = { loaf = "crates-io/http", version = "^1.1.0" }
+serde = { loaf = "crates-io/serde", version = "^1.0.203" }

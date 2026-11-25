@@ -1,0 +1,122 @@
+{
+  "name": "crates-io/peg-macros",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "peg-macros",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/peg-macros"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Kevin Mehall <km@kevinmehall.net>"
+        ],
+        "description": "Procedural macros for rust-peg. To use rust-peg, see the `peg` crate.",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/kevinmehall/rust-peg",
+        "rust-version": "1.82.0"
+      },
+      "adopted": "2026-11-25T20:05:48Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:d2bfe457858be50d1f3cd9308e20c62b9ac6b57946cb8bb34e7965ab04a387d0",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/peg-runtime",
+          "name": "peg-runtime",
+          "optional": false,
+          "req": "=0.8.6"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/proc-macro2",
+          "name": "proc-macro2",
+          "optional": false,
+          "req": "^1.0.24"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/quote",
+          "name": "quote",
+          "optional": false,
+          "req": "^1.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 413,
+          "content": "content/sha256/40cd6ed044895c194eab5ec8311dcaa32cd38c4fd9e1efed781a16a7043b06d5",
+          "digest": "sha256:40cd6ed044895c194eab5ec8311dcaa32cd38c4fd9e1efed781a16a7043b06d5",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1056,
+          "content": "content/sha256/c5a7eb83ebc1223b53b073480fbbb2af9d7d4f3a23853ae5812b04f3f7d99e3e",
+          "digest": "sha256:c5a7eb83ebc1223b53b073480fbbb2af9d7d4f3a23853ae5812b04f3f7d99e3e",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "trace": []
+      },
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [],
+      "manifest": "crates-io/peg-macros/0.8.6/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:48Z",
+          "archive": "sha256:d2bfe457858be50d1f3cd9308e20c62b9ac6b57946cb8bb34e7965ab04a387d0",
+          "manifest": "crates-io/peg-macros/0.8.6/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "peg_macros",
+        "type": "proc-macro"
+      },
+      "upstream": {
+        "checksum": "sha256:ddd8ef6825cae95355031ae26a99b616a2a21f22ba2de0197c43dfb05acbe7ee",
+        "package": "peg-macros",
+        "registry": "crates-io",
+        "version": "0.8.6"
+      },
+      "vcs": {
+        "commit": "3453b34e8dcf0482c650f917e60d43ed944a71e2",
+        "path": "peg-macros",
+        "system": "git"
+      },
+      "version": "0.8.6",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

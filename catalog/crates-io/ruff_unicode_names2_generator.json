@@ -1,0 +1,123 @@
+{
+  "name": "crates-io/ruff_unicode_names2_generator",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "ruff_unicode_names2_generator",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/ruff_unicode_names2_generator"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Charlie Marsh <charlie.r.marsh@gmail.com>"
+        ],
+        "description": "This is an internal component crate of Ruff",
+        "documentation": "https://docs.astral.sh/ruff",
+        "homepage": "https://docs.astral.sh/ruff",
+        "license": "MIT OR Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/astral-sh/ruff",
+        "rust-version": "1.98"
+      },
+      "adopted": "2026-11-25T20:05:45Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:36a25da15655594630301953b7082fd8d4af7bf7ee534c1a87a1ef76713de730",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/phf_codegen",
+          "name": "phf_codegen",
+          "optional": false,
+          "req": "^0.14.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std_rng"
+          ],
+          "loaf": "crates-io/rand",
+          "name": "rand",
+          "optional": false,
+          "req": "^0.10.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 569,
+          "content": "content/sha256/5b1cdd7c64831c0d6069660a3c66a53e8f308ba2249e6365daf1157fae5af73f",
+          "digest": "sha256:5b1cdd7c64831c0d6069660a3c66a53e8f308ba2249e6365daf1157fae5af73f",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10847,
+          "content": "content/sha256/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1054,
+          "content": "content/sha256/6d3a9431e65e69c73a8923e6517b889d17549b23db406b9ec027710d16af701f",
+          "digest": "sha256:6d3a9431e65e69c73a8923e6517b889d17549b23db406b9ec027710d16af701f",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/ruff_unicode_names2_generator/0.0.23/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:45Z",
+          "archive": "sha256:36a25da15655594630301953b7082fd8d4af7bf7ee534c1a87a1ef76713de730",
+          "manifest": "crates-io/ruff_unicode_names2_generator/0.0.23/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "unicode_names2_generator",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:5f00655d0c7171e23ec4d34bea6c2b601d170a37ed77162dbe15fc0f100feac8",
+        "package": "ruff_unicode_names2_generator",
+        "registry": "crates-io",
+        "version": "0.0.23"
+      },
+      "vcs": {
+        "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+        "path": "crates/ruff_unicode_names2_generator",
+        "system": "git"
+      },
+      "version": "0.0.23",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

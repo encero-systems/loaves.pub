@@ -1,0 +1,20 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/typed-path"
+version = "0.13.0"
+
+[project.features]
+default = ["std"]
+nightly-wasip2 = ["std"]
+serde = ["dep:serde_core"]
+std = []
+
+[rust]
+name = "typed_path"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+serde_core = { loaf = "crates-io/serde_core", version = "^1", features = ["alloc"], default-features = false, optional = true }

@@ -1,0 +1,99 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>"
+    ],
+    "description": "Smithy observability implementation.",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/awslabs/smithy-rs",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:a416257d7b1b0f32a517a470a8c1dd354d8c4aa697ccab81a11a1e6cfb7418e3",
+    "package": "aws-smithy-observability",
+    "registry": "crates-io",
+    "version": "0.3.1"
+  },
+  "archive": "sha256:90abdda1274e9649d10880050b5574d371f74141d3fd3c92d5d08a11c6022b73",
+  "at": "2026-11-25T20:05:50Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [
+        "client"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime-api",
+      "name": "aws-smithy-runtime-api",
+      "optional": false,
+      "req": "^1.20.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-types",
+      "name": "aws-smithy-types",
+      "optional": false,
+      "req": "^1.9.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1.44"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 512,
+      "digest": "sha256:63bf227c096470347493ff5324de292a6b8f996a1e63368c34a6505fb22fffd8",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10142,
+      "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:fba754b3f3bae92433127ab32a5151a4db23efda76eff70c316dc472c22b8c02",
+  "kind": "adopt",
+  "manifest": "sha256:363026530cdd074ff436a9e1fee0a0f29e40370e66760ad75565472a529a842f",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "aws_smithy_observability",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-smithy-observability",
+    "scope": "crates-io",
+    "version": "0.3.1"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": null
+}

@@ -1,0 +1,121 @@
+{
+  "about": {
+    "authors": [
+      "RustCrypto Developers"
+    ],
+    "description": "Constant-time utility library with selection and equality testing support targeting cryptographic\napplications. Supports `const fn` where appropriate. Built on the `cmov` crate which provides\narchitecture-specific predication intrinsics. Heavily inspired by the `subtle` crate.\n",
+    "documentation": "https://docs.rs/ctutils",
+    "homepage": "",
+    "license": "Apache-2.0 OR MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/RustCrypto/utils",
+    "rust-version": "1.87"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:261af4dc7a06ea8a527a8717d8cbba3417530d6ea14e1edb3de6b67806be474f",
+    "package": "ctutils",
+    "registry": "crates-io",
+    "version": "0.4.8"
+  },
+  "archive": "sha256:03692ea7da42dac0d92553e3ff97674c5b7506fd9b6ecf18feac5d6419be5dd6",
+  "at": "2026-11-25T20:05:42Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/cmov",
+      "name": "cmov",
+      "optional": false,
+      "req": "^0.5.4"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/subtle",
+      "name": "subtle",
+      "optional": true,
+      "req": "^2.6"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 4356,
+      "digest": "sha256:7403b0fca19fa3d726d73456b99d2ea9344e0f67a89c7a89474d5c41d3d48bb0",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11358,
+      "digest": "sha256:cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-APACHE",
+      "role": "license"
+    },
+    {
+      "bytes": 1082,
+      "digest": "sha256:91585c36e4fb9ab4ca0d3dfac5d66d3c0c62cc51f640a0e1196542daf2267eae",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    },
+    {
+      "bytes": 6039,
+      "digest": "sha256:534dc98c77cccbffbe0123cff8a4e775cbbc02330511b74f9694446c3df9dbdf",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "alloc": [],
+    "subtle": [
+      "dep:subtle"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:663c93731ccd178b28ae17d408effdf41d8d35b0b988d57b54312bb33eae7347",
+  "kind": "adopt",
+  "manifest": "sha256:fcbea4cc9c8f69b5648288c6b88d6be6d30a2eb26946e7a160a2b38aff9b7616",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ctutils",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ctutils",
+    "scope": "crates-io",
+    "version": "0.4.8"
+  },
+  "taxonomy": {
+    "categories": [
+      "cryptography",
+      "no-std"
+    ],
+    "keywords": [
+      "constant-time",
+      "crypto",
+      "intrinsics"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "ddefdcacb3414980b5105a967a1413eaaf385541",
+    "path": "ctutils",
+    "system": "git"
+  }
+}

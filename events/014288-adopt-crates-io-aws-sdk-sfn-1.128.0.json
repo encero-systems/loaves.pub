@@ -1,0 +1,233 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+      "Russell Cohen <rcoh@amazon.com>"
+    ],
+    "description": "AWS SDK for AWS Step Functions",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/awslabs/aws-sdk-rust",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:684eb0e43a50a92ac8eea6fafba5ed3b0ecc60b697f088f0efef5a6424110ebd",
+    "package": "aws-sdk-sfn",
+    "registry": "crates-io",
+    "version": "1.128.0"
+  },
+  "archive": "sha256:b9d03cb1eae1d736d135e5140dddb4f5f313e7dd21d06f066bb448ac7ea2f581",
+  "at": "2026-11-25T20:05:59Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arc-swap",
+      "name": "arc-swap",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-credential-types",
+      "name": "aws-credential-types",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-runtime",
+      "name": "aws-runtime",
+      "optional": false,
+      "req": "^1.10.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-async",
+      "name": "aws-smithy-async",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-http",
+      "name": "aws-smithy-http",
+      "optional": false,
+      "req": "^0.64.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-json",
+      "name": "aws-smithy-json",
+      "optional": false,
+      "req": "^0.65.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-observability",
+      "name": "aws-smithy-observability",
+      "optional": false,
+      "req": "^0.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime",
+      "name": "aws-smithy-runtime",
+      "optional": false,
+      "req": "^1.16.4"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client",
+        "http-1x"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime-api",
+      "name": "aws-smithy-runtime-api",
+      "optional": false,
+      "req": "^1.22.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-schema",
+      "name": "aws-smithy-schema",
+      "optional": false,
+      "req": "^1.2.0"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "http-body-1-x"
+      ],
+      "loaf": "crates-io/aws-smithy-types",
+      "name": "aws-smithy-types",
+      "optional": false,
+      "req": "^1.9.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-types",
+      "name": "aws-types",
+      "optional": false,
+      "req": "^1.7.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/fastrand",
+      "name": "fastrand",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/regex-lite",
+      "name": "regex-lite",
+      "optional": false,
+      "req": "^0.1.5"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 2974,
+      "digest": "sha256:df3cbdb5cf5a675908491b14917458d11f6747a88b15690fad12b9a4326c1a6b",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11391,
+      "digest": "sha256:929e8ca5ef8ec9905c00a89d004d1f6933bae951996992c8579734875bbf46a8",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "behavior-version-latest": [],
+    "default": [
+      "rustls",
+      "default-https-client",
+      "rt-tokio"
+    ],
+    "default-https-client": [
+      "aws-smithy-runtime/default-https-client"
+    ],
+    "gated-tests": [],
+    "legacy-https-client": [
+      "aws-smithy-runtime/tls-rustls"
+    ],
+    "legacy-test-util": [
+      "test-util",
+      "aws-smithy-runtime/legacy-test-util"
+    ],
+    "rt-tokio": [
+      "aws-smithy-async/rt-tokio",
+      "aws-smithy-types/rt-tokio"
+    ],
+    "rustls": [
+      "aws-smithy-runtime/tls-rustls"
+    ],
+    "test-util": [
+      "aws-credential-types/test-util"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:dd31cf2d58511bbf147e720dd8f6b7a4ea307d856dfc804ab035ff19b2513776",
+  "kind": "adopt",
+  "manifest": "sha256:36d299feb4a8898b58bf8c19966c4b76abf9f55a02030aeb6175516d64f152c4",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "aws_sdk_sfn",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-sdk-sfn",
+    "scope": "crates-io",
+    "version": "1.128.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "d55bc2aaf5cfef4f813d98f4c7f881d99489ff1a",
+    "path": "sdk/sfn",
+    "system": "git"
+  }
+}

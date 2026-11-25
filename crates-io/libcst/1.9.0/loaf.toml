@@ -1,0 +1,27 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/libcst"
+version = "1.9.0"
+
+[project.features]
+default = ["py"]
+py = ["pyo3", "dep:pyo3", "pyo3/extension-module"]
+pyo3 = ["dep:pyo3"]
+trace = ["peg/trace"]
+
+[rust]
+name = "libcst_native"
+type = "lib"
+edition = "2018"
+build-script = false
+
+[dependencies]
+annotate-snippets = { loaf = "crates-io/annotate-snippets", version = "^0.11.5" }
+libcst_derive = { loaf = "crates-io/libcst_derive", version = "^1.9.0" }
+memchr = { loaf = "crates-io/memchr", version = "^2.7.4" }
+paste = { loaf = "crates-io/paste", version = "^1.0.15" }
+peg = { loaf = "crates-io/peg", version = "^0.8.5" }
+pyo3 = { loaf = "crates-io/pyo3", version = "^0.29", optional = true }
+regex = { loaf = "crates-io/regex", version = "^1.11.2" }
+thiserror = { loaf = "crates-io/thiserror", version = "^2.0.12" }

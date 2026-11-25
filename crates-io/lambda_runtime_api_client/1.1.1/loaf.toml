@@ -1,0 +1,28 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/lambda_runtime_api_client"
+version = "1.1.1"
+
+[project.features]
+default = ["tracing"]
+tracing = ["dep:tracing", "dep:tracing-subscriber"]
+
+[rust]
+name = "lambda_runtime_api_client"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+bytes = { loaf = "crates-io/bytes", version = "^1" }
+futures-channel = { loaf = "crates-io/futures-channel", version = "^0.3" }
+futures-util = { loaf = "crates-io/futures-util", version = "^0.3" }
+http = { loaf = "crates-io/http", version = "^1.0" }
+http-body = { loaf = "crates-io/http-body", version = "^1.0" }
+http-body-util = { loaf = "crates-io/http-body-util", version = "^0.1" }
+hyper = { loaf = "crates-io/hyper", version = "^1.0", features = ["client", "http1"] }
+hyper-util = { loaf = "crates-io/hyper-util", version = "^0.1.1", features = ["client", "client-legacy", "http1", "tokio"] }
+tower = { loaf = "crates-io/tower", version = "^0.5", features = ["util"] }
+tracing = { loaf = "crates-io/tracing", version = "^0.1", features = ["log"], optional = true }
+tracing-subscriber = { loaf = "crates-io/tracing-subscriber", version = "^0.3", features = ["env-filter", "fmt", "json"], default-features = false, optional = true }

@@ -1,0 +1,189 @@
+{
+  "about": {
+    "authors": [
+      "Apache DataFusion <dev@datafusion.apache.org>"
+    ],
+    "description": "Traits and types for logical plans and expressions for DataFusion query engine",
+    "documentation": "",
+    "homepage": "https://datafusion.apache.org",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/apache/datafusion",
+    "rust-version": "1.94.0"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:d1a8e62677e244400c1a7ff5498eed0895fff803ef64ce03ab045788b79428dd",
+    "package": "datafusion-functions-aggregate",
+    "registry": "crates-io",
+    "version": "55.3.0"
+  },
+  "archive": "sha256:db76eaeb43a3e3db8c5703f63a6dc83af0c44b616c6f7bd35d2c939ed1a4e31a",
+  "at": "2026-11-25T20:06:03Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [
+        "chrono-tz",
+        "prettyprint"
+      ],
+      "loaf": "crates-io/arrow",
+      "name": "arrow",
+      "optional": false,
+      "req": "^59.2.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-common",
+      "name": "datafusion-common",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-doc",
+      "name": "datafusion-doc",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-execution",
+      "name": "datafusion-execution",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-expr",
+      "name": "datafusion-expr",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-functions-aggregate-common",
+      "name": "datafusion-functions-aggregate-common",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-macros",
+      "name": "datafusion-macros",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-physical-expr",
+      "name": "datafusion-physical-expr",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-physical-expr-common",
+      "name": "datafusion-physical-expr-common",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/half",
+      "name": "half",
+      "optional": false,
+      "req": "^2.7.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/hashbrown",
+      "name": "hashbrown",
+      "optional": false,
+      "req": "^0.17.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/log",
+      "name": "log",
+      "optional": false,
+      "req": "^0.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/num-traits",
+      "name": "num-traits",
+      "optional": false,
+      "req": "^0.2"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1394,
+      "digest": "sha256:21b5bee9321a781db926af7f44ed93a76073bd0b6febc450e78e00d6417df072",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11645,
+      "digest": "sha256:232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "force_hash_collisions": [
+      "datafusion-common/force_hash_collisions"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:e3cd2aa2dbdb94947670ea6c0768453038dbe8317bd4ba92bc48ac91777a706b",
+  "kind": "adopt",
+  "manifest": "sha256:94426266700116f4c7a2bed5b6146c20aa6ed3bd03ecda12a69fa77691828f5a",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "datafusion_functions_aggregate",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "datafusion-functions-aggregate",
+    "scope": "crates-io",
+    "version": "55.3.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "datafusion",
+      "logical",
+      "plan",
+      "expressions"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

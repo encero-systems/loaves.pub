@@ -562,6 +562,152 @@
         "license-file": "",
         "readme": "README.md",
         "repository": "https://github.com/rust-phf/rust-phf",
+        "rust-version": "1.66"
+      },
+      "adopted": "2026-11-25T20:05:48Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:aac71dd652f02d20d40d1b692e3eac9ca5ac43c0712b9fff5f0314403a0d5326",
+      "assets": [],
+      "categories": [
+        "data-structures",
+        "no-std"
+      ],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/phf_macros",
+          "name": "phf_macros",
+          "optional": true,
+          "req": "^0.13.1"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/phf_shared",
+          "name": "phf_shared",
+          "optional": false,
+          "req": "^0.13.1"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": true,
+          "req": "^1.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 4087,
+          "content": "content/sha256/a24f96850f0dc794dc8a18f9b8af1d2cec6b6eeca6ec9dced4b53847cb60d85a",
+          "digest": "sha256:a24f96850f0dc794dc8a18f9b8af1d2cec6b6eeca6ec9dced4b53847cb60d85a",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1099,
+          "content": "content/sha256/0ab4d106b6faac07fb6a051815fd1b4d862d730895e2d7d7358c2f13565e7a38",
+          "digest": "sha256:0ab4d106b6faac07fb6a051815fd1b4d862d730895e2d7d7358c2f13565e7a38",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        },
+        {
+          "bytes": 50706,
+          "content": "content/sha256/0daf2d29e9a4f72c9375c6af57e79388acb4ba0ed684c7de84fd05b0bb3c50ca",
+          "digest": "sha256:0daf2d29e9a4f72c9375c6af57e79388acb4ba0ed684c7de84fd05b0bb3c50ca",
+          "format": "markdown",
+          "origin": "package",
+          "path": "CHANGELOG.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "default": [
+          "std"
+        ],
+        "macros": [
+          "phf_macros"
+        ],
+        "phf_macros": [
+          "dep:phf_macros"
+        ],
+        "serde": [
+          "dep:serde"
+        ],
+        "std": [
+          "phf_shared/std",
+          "serde?/std"
+        ],
+        "uncased": [
+          "phf_macros?/uncased",
+          "phf_shared/uncased"
+        ],
+        "unicase": [
+          "phf_macros?/unicase",
+          "phf_shared/unicase"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/phf/0.13.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:48Z",
+          "archive": "sha256:aac71dd652f02d20d40d1b692e3eac9ca5ac43c0712b9fff5f0314403a0d5326",
+          "manifest": "crates-io/phf/0.13.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "phf",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:c1562dc717473dbaa4c1f85a36410e03c047b2e7df7f45ee938fbef64ae7fadf",
+        "package": "phf",
+        "registry": "crates-io",
+        "version": "0.13.1"
+      },
+      "vcs": {
+        "commit": "1e518a6e94a2444b8df7d89078cfc69859537971",
+        "path": "phf",
+        "system": "git"
+      },
+      "version": "0.13.1",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Steven Fackler <sfackler@gmail.com>"
+        ],
+        "description": "Runtime support for perfect hash function data structures",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/rust-phf/rust-phf",
         "rust-version": "1.61"
       },
       "adopted": "2026-10-06T13:11:44Z",

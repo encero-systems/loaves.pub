@@ -1,0 +1,87 @@
+{
+  "about": {
+    "authors": [
+      "Magic Len <len@magiclen.org>"
+    ],
+    "description": "A library for extending `Path` and `PathBuf` in order to parse the path which contains dots.",
+    "documentation": "",
+    "homepage": "https://magiclen.org/path-dedot",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/magiclen/path-dedot",
+    "rust-version": "1.80"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:03351d0f1c066c114015408dc6a3e101f080fc03ef9d8d799aa58ec760cac5a6",
+    "package": "path-dedot",
+    "registry": "crates-io",
+    "version": "4.0.1"
+  },
+  "archive": "sha256:22fa78650e147859982ebf3dc8f14ce8b01e989aa3432de3ce3ecb735fbb46f4",
+  "at": "2026-11-25T20:05:44Z",
+  "deps": [],
+  "documents": [
+    {
+      "bytes": 4479,
+      "digest": "sha256:bb5b74670c61b4ec3187669ba409cdf02f90b6868aa6b9e3428604ce95645370",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1078,
+      "digest": "sha256:6182f32e16ddbf33d3c17d1832ee3cb90899645e9de8cd2c622a3958f10f9a0c",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "fixed_workdir": []
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:1987dc69ce9c1b0aed9c0d89e51f651c77fead04afbcc452a7ce3aed64325b3c",
+  "kind": "adopt",
+  "manifest": "sha256:4eb31d67c7b949c794e3506d9974e279350a6fba74112a05396a40243a4ca071",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "path_dedot",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "path-dedot",
+    "scope": "crates-io",
+    "version": "4.0.1"
+  },
+  "taxonomy": {
+    "categories": [
+      "parser-implementations",
+      "filesystem"
+    ],
+    "keywords": [
+      "path",
+      "dot",
+      "dedot",
+      "absolute",
+      "canonical"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "d808a929403c7bb9db74b913860ab08adc513088",
+    "path": "",
+    "system": "git"
+  }
+}

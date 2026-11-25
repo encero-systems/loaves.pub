@@ -1,0 +1,10 @@
+# peg-runtime 0.8.6
+
+Runtime support for rust-peg grammars. To use rust-peg, see the `peg` crate.
+
+- crates.io: https://crates.io/crates/peg-runtime/0.8.6
+- Repository: https://github.com/kevinmehall/rust-peg
+- Documentation: https://docs.rs/peg-runtime/0.8.6
+- License: MIT
+
+The package as published on crates.io carries no README. loaves.pub wrote this one when it adopted the package as the Loaf `crates-io/peg-runtime`.

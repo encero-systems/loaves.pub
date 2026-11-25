@@ -1,0 +1,164 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:8c3f120562d26d1339e7118c17f51f2f379b4cb1284ca8594c88645f88133a6b",
+    "package": "ruff_notebook",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:d4a36627554fd55c725bb24ba7d32ca834bb2e95c1dd5fd82e6ec4e3cd3b95c8",
+  "at": "2026-11-25T20:05:51Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/anyhow",
+      "name": "anyhow",
+      "optional": false,
+      "req": "^1.0.80"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std_rng"
+      ],
+      "loaf": "crates-io/rand",
+      "name": "rand",
+      "optional": false,
+      "req": "^0.10.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_diagnostics",
+      "name": "ruff_diagnostics",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "serde"
+      ],
+      "loaf": "crates-io/ruff_source_file",
+      "name": "ruff_source_file",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_text_size",
+      "name": "ruff_text_size",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": false,
+      "req": "^1.0.197"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/serde_json",
+      "name": "serde_json",
+      "optional": false,
+      "req": "^1.0.113"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/thiserror",
+      "name": "thiserror",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/uuid",
+      "name": "uuid",
+      "optional": false,
+      "req": "^1.6.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 537,
+      "digest": "sha256:f7fe1cc84ed99f01bb1b931bc530b9bff17e1022686149b0e8357457c573b95a",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 339,
+      "digest": "sha256:8d3f9a48fc7e4c616151e8edb8354226196239849db88e9d10cee80e48c9e572",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:e95c5245073813814a6d9d298613dd923454c9bca400e1552e45bb08708f46d4",
+  "kind": "adopt",
+  "manifest": "sha256:0eb24228886c4aea73d85d13035aa82fd874532fae7153723c5cf7e43c3a7dc3",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_notebook",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_notebook",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_notebook",
+    "system": "git"
+  }
+}

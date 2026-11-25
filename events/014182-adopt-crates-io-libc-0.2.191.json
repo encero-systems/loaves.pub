@@ -1,0 +1,127 @@
+{
+  "about": {
+    "authors": [],
+    "description": "Raw FFI bindings to platform libraries like libc.",
+    "documentation": "",
+    "homepage": "",
+    "license": "MIT OR Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/rust-lang/libc",
+    "rust-version": "1.65"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:65cd87c9a6d60536580b316ad985726104730a5151c99845f2490428ef91240a",
+    "package": "libc",
+    "registry": "crates-io",
+    "version": "0.2.191"
+  },
+  "archive": "sha256:82cedca96033ee1f9edcd4bae150b6da030d38fd8f6c4c03a95d71a13b7b0dc2",
+  "at": "2026-11-25T20:05:43Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/rustc-std-workspace-core",
+      "name": "rustc-std-workspace-core",
+      "optional": true,
+      "req": "^1.0.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 3719,
+      "digest": "sha256:5af805465cb8cfa4186cb75df07f4aebd35a3d88f497ed71d189b74ecf8cbcdc",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 9723,
+      "digest": "sha256:62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-APACHE",
+      "role": "license"
+    },
+    {
+      "bytes": 1066,
+      "digest": "sha256:123a331b5dbf04c30097fa43b8f858bc85df671fe776de498d01f3d6b7c1f69e",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    },
+    {
+      "bytes": 95528,
+      "digest": "sha256:22151e87826e294499ac916de480f860b94a87c43f1b134f051649623d8ddc43",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "align": [],
+    "const-extern-fn": [],
+    "default": [
+      "std"
+    ],
+    "extra_traits": [],
+    "rustc-dep-of-std": [
+      "align",
+      "rustc-std-workspace-core"
+    ],
+    "rustc-std-workspace-core": [
+      "dep:rustc-std-workspace-core"
+    ],
+    "std": [],
+    "use_std": [
+      "std"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:110e1e6d5225a8b08d62970260276cdc8d2ebcf21795e0cd33b681e3ba542dbd",
+  "kind": "adopt",
+  "manifest": "sha256:bacda154ca609ca7f9346a3d658c462bda18b998dfc410df9bbe0dec8356d04b",
+  "revision": 1,
+  "rust": {
+    "build-script": true,
+    "edition": "2021",
+    "name": "libc",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "libc",
+    "scope": "crates-io",
+    "version": "0.2.191"
+  },
+  "taxonomy": {
+    "categories": [
+      "external-ffi-bindings",
+      "no-std",
+      "os"
+    ],
+    "keywords": [
+      "libc",
+      "ffi",
+      "bindings",
+      "operating",
+      "system"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "ccc2ff4aaab962f7fde7b8edda7379c045b1ca12",
+    "path": "",
+    "system": "git"
+  }
+}

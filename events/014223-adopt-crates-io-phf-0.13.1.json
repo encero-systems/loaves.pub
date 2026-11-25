@@ -1,0 +1,137 @@
+{
+  "about": {
+    "authors": [
+      "Steven Fackler <sfackler@gmail.com>"
+    ],
+    "description": "Runtime support for perfect hash function data structures",
+    "documentation": "",
+    "homepage": "",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/rust-phf/rust-phf",
+    "rust-version": "1.66"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:c1562dc717473dbaa4c1f85a36410e03c047b2e7df7f45ee938fbef64ae7fadf",
+    "package": "phf",
+    "registry": "crates-io",
+    "version": "0.13.1"
+  },
+  "archive": "sha256:aac71dd652f02d20d40d1b692e3eac9ca5ac43c0712b9fff5f0314403a0d5326",
+  "at": "2026-11-25T20:05:48Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/phf_macros",
+      "name": "phf_macros",
+      "optional": true,
+      "req": "^0.13.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/phf_shared",
+      "name": "phf_shared",
+      "optional": false,
+      "req": "^0.13.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 4087,
+      "digest": "sha256:a24f96850f0dc794dc8a18f9b8af1d2cec6b6eeca6ec9dced4b53847cb60d85a",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1099,
+      "digest": "sha256:0ab4d106b6faac07fb6a051815fd1b4d862d730895e2d7d7358c2f13565e7a38",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    },
+    {
+      "bytes": 50706,
+      "digest": "sha256:0daf2d29e9a4f72c9375c6af57e79388acb4ba0ed684c7de84fd05b0bb3c50ca",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "default": [
+      "std"
+    ],
+    "macros": [
+      "phf_macros"
+    ],
+    "phf_macros": [
+      "dep:phf_macros"
+    ],
+    "serde": [
+      "dep:serde"
+    ],
+    "std": [
+      "phf_shared/std",
+      "serde?/std"
+    ],
+    "uncased": [
+      "phf_macros?/uncased",
+      "phf_shared/uncased"
+    ],
+    "unicase": [
+      "phf_macros?/unicase",
+      "phf_shared/unicase"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:96ab50610213a8090f765a0632550f78983ffb7f5859f478febfa9c06fe81bce",
+  "kind": "adopt",
+  "manifest": "sha256:67db179db69f47924fcc3a8ba273f53e694eee6f6476b20486a6235c12c5cf53",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "phf",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "phf",
+    "scope": "crates-io",
+    "version": "0.13.1"
+  },
+  "taxonomy": {
+    "categories": [
+      "data-structures",
+      "no-std"
+    ],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "1e518a6e94a2444b8df7d89078cfc69859537971",
+    "path": "phf",
+    "system": "git"
+  }
+}

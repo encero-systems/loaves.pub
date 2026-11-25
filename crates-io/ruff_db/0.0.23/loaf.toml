@@ -1,0 +1,65 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_db"
+version = "0.0.23"
+
+[project.features]
+cache = ["ruff_cache"]
+ignore = ["dep:ignore"]
+junit = ["dep:quick-xml", "dep:strip-ansi-escapes"]
+os = ["ignore", "dep:etcetera", "dep:same-file", "dep:which"]
+ruff_cache = ["dep:ruff_cache"]
+schemars = ["dep:schemars"]
+serde = ["camino/serde1", "dep:serde", "dep:serde_json", "dep:url", "ruff_diagnostics/serde"]
+testing = ["tracing-subscriber"]
+tracing-subscriber = ["dep:tracing-subscriber"]
+
+[rust]
+name = "ruff_db"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+anstyle = { loaf = "crates-io/anstyle", version = "^1.0.10", features = ["std"], default-features = false }
+arc-swap = { loaf = "crates-io/arc-swap", version = "^1.7.1", default-features = false }
+camino = { loaf = "crates-io/camino", version = "^1.1.7", default-features = false }
+compact_str = { loaf = "crates-io/compact_str", version = "^0.10.0", features = ["std"], default-features = false }
+dashmap = { loaf = "crates-io/dashmap", version = "^6.0.1", default-features = false }
+dunce = { loaf = "crates-io/dunce", version = "^1.0.5", default-features = false }
+etcetera = { loaf = "crates-io/etcetera", version = "^0.11.0", default-features = false, optional = true, target = "cfg(not(target_arch = \"wasm32\"))" }
+filetime = { loaf = "crates-io/filetime", version = "^0.2.23", default-features = false }
+get-size2 = { loaf = "crates-io/get-size2", version = "^0.11.0", features = ["compact-str", "derive", "hashbrown", "ordermap", "smallvec", "std", "thin-vec"], default-features = false }
+ignore = { loaf = "crates-io/ignore", version = "^0.4.30", default-features = false, optional = true }
+matchit = { loaf = "crates-io/matchit", version = "^0.9.0", default-features = false }
+path-slash = { loaf = "crates-io/path-slash", version = "^0.2.1", default-features = false }
+pathdiff = { loaf = "crates-io/pathdiff", version = "^0.2.1", default-features = false }
+quick-xml = { loaf = "crates-io/quick-xml", version = "^0.41.0", default-features = false, optional = true }
+ruff_annotate_snippets = { loaf = "crates-io/ruff_annotate_snippets", version = "^0.0.23" }
+ruff_cache = { loaf = "crates-io/ruff_cache", version = "^0.0.23", optional = true }
+ruff_diagnostics = { loaf = "crates-io/ruff_diagnostics", version = "^0.0.23" }
+ruff_memory_usage = { loaf = "crates-io/ruff_memory_usage", version = "^0.0.23" }
+ruff_notebook = { loaf = "crates-io/ruff_notebook", version = "^0.0.23" }
+ruff_python_ast = { loaf = "crates-io/ruff_python_ast", version = "^0.0.23", features = ["get-size"] }
+ruff_python_parser = { loaf = "crates-io/ruff_python_parser", version = "^0.0.23" }
+ruff_python_trivia = { loaf = "crates-io/ruff_python_trivia", version = "^0.0.23" }
+ruff_source_file = { loaf = "crates-io/ruff_source_file", version = "^0.0.23", features = ["get-size"] }
+ruff_text_size = { loaf = "crates-io/ruff_text_size", version = "^0.0.23" }
+rustc-hash = { loaf = "crates-io/rustc-hash", version = "^2.0.0", features = ["std"], default-features = false }
+salsa = { loaf = "crates-io/salsa", version = "^0.28.5", features = ["compact_str", "inventory", "macros", "salsa_unstable"], default-features = false }
+same-file = { loaf = "crates-io/same-file", version = "^1.0.6", default-features = false, optional = true }
+schemars = { loaf = "crates-io/schemars", version = "^1.0.4", features = ["derive", "std"], default-features = false, optional = true }
+serde = { loaf = "crates-io/serde", version = "^1.0.197", features = ["derive", "std"], default-features = false, optional = true }
+serde_json = { loaf = "crates-io/serde_json", version = "^1.0.113", features = ["std"], default-features = false, optional = true }
+similar = { loaf = "crates-io/similar", version = "^3.0.0", features = ["inline", "std", "text"], default-features = false }
+strip-ansi-escapes = { loaf = "crates-io/strip-ansi-escapes", version = "^0.2.1", default-features = false, optional = true }
+supports-hyperlinks = { loaf = "crates-io/supports-hyperlinks", version = "^3.1.0", default-features = false }
+thiserror = { loaf = "crates-io/thiserror", version = "^2.0.0", features = ["std"], default-features = false }
+tracing = { loaf = "crates-io/tracing", version = "^0.1.40", features = ["attributes", "std"], default-features = false }
+tracing-subscriber = { loaf = "crates-io/tracing-subscriber", version = "^0.3.18", features = ["ansi", "env-filter", "fmt", "smallvec"], default-features = false, optional = true }
+ty_static = { loaf = "crates-io/ty_static", version = "^0.0.23" }
+url = { loaf = "crates-io/url", version = "^2.5.0", features = ["std"], default-features = false, optional = true }
+web-time = { loaf = "crates-io/web-time", version = "^1.1.0", default-features = false, target = "cfg(target_arch = \"wasm32\")" }
+which = { loaf = "crates-io/which", version = "^8.0.0", features = ["real-sys"], default-features = false, optional = true }
+zip = { loaf = "crates-io/zip", version = "^9.5.1", default-features = false }

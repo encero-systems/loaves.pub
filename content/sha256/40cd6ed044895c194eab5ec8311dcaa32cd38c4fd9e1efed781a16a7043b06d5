@@ -1,0 +1,10 @@
+# peg-macros 0.8.6
+
+Procedural macros for rust-peg. To use rust-peg, see the `peg` crate.
+
+- crates.io: https://crates.io/crates/peg-macros/0.8.6
+- Repository: https://github.com/kevinmehall/rust-peg
+- Documentation: https://docs.rs/peg-macros/0.8.6
+- License: MIT
+
+The package as published on crates.io carries no README. loaves.pub wrote this one when it adopted the package as the Loaf `crates-io/peg-macros`.

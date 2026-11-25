@@ -1,0 +1,35 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/zstd"
+version = "0.14.4"
+
+[project.features]
+arrays = ["zstd-safe/arrays"]
+bindgen = ["zstd-safe/bindgen"]
+cmake = ["zstd-safe/cmake"]
+debug = ["zstd-safe/debug"]
+default = ["legacy", "arrays", "zdict_builder"]
+doc-cfg = []
+experimental = ["zstd-safe/experimental"]
+fat-lto = ["zstd-safe/fat-lto"]
+legacy = ["zstd-safe/legacy"]
+no_asm = ["zstd-safe/no_asm"]
+pkg-config = ["zstd-safe/pkg-config"]
+rust-backend = ["zstd-safe/rust-backend"]
+thin = ["zstd-safe/thin"]
+thin-lto = ["zstd-safe/thin-lto"]
+vendored = ["zstd-safe/vendored"]
+wasm = []
+with-rust-allocator = ["zstd-safe/with-rust-allocator"]
+zdict_builder = ["zstd-safe/zdict_builder"]
+zstdmt = ["zstd-safe/zstdmt"]
+
+[rust]
+name = "zstd"
+type = "lib"
+edition = "2018"
+build-script = false
+
+[dependencies]
+zstd-safe = { loaf = "crates-io/zstd-safe", version = "^8.3.0", features = ["std"], default-features = false }

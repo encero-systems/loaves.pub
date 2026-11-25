@@ -1,0 +1,151 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:bab341af07fee3ac37cd15a88708075bad7e6546c561bb838916638f0a4eb216",
+    "package": "ruff_macros",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:73fa6fd4df4b4becffbef35e2f733177bcc9043a59dcb9f5b16a020681259f9d",
+  "at": "2026-11-25T20:05:53Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/heck",
+      "name": "heck",
+      "optional": false,
+      "req": "^0.5.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "use_std"
+      ],
+      "loaf": "crates-io/itertools",
+      "name": "itertools",
+      "optional": false,
+      "req": "^0.15.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "proc-macro"
+      ],
+      "loaf": "crates-io/proc-macro2",
+      "name": "proc-macro2",
+      "optional": false,
+      "req": "^1.0.79"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "proc-macro"
+      ],
+      "loaf": "crates-io/quote",
+      "name": "quote",
+      "optional": false,
+      "req": "^1.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "perf",
+        "std",
+        "unicode"
+      ],
+      "loaf": "crates-io/regex",
+      "name": "regex",
+      "optional": false,
+      "req": "^1.10.2"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_python_trivia",
+      "name": "ruff_python_trivia",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "clone-impls",
+        "derive",
+        "extra-traits",
+        "full",
+        "parsing",
+        "printing",
+        "proc-macro"
+      ],
+      "loaf": "crates-io/syn",
+      "name": "syn",
+      "optional": false,
+      "req": "^3.0.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 533,
+      "digest": "sha256:e758bc9d7dd8d71bad6eea2542a264de5d842eeab1edfb03ea9b4f36edf577de",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 333,
+      "digest": "sha256:b2b3b30df851425fbd1b14394a93c0f6b921531f30f6a7b2722c035addf599f7",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:c5e91f1bdf22e3405cb602b36ced415324ed5e03749d16049e926ebde86a57aa",
+  "kind": "adopt",
+  "manifest": "sha256:179bd4c2515d836d1ebfdfe598f4039fb353be0ed3539d193158892b092ec43d",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_macros",
+    "root": "src/lib.rs",
+    "type": "proc-macro"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_macros",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_macros",
+    "system": "git"
+  }
+}

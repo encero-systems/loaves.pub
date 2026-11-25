@@ -1,0 +1,22 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/peg-macros"
+version = "0.8.6"
+
+[project.features]
+trace = []
+
+[rust]
+name = "peg_macros"
+type = "proc-macro"
+edition = "2021"
+build-script = false
+
+[rust.source]
+root = "lib.rs"
+
+[dependencies]
+peg-runtime = { loaf = "crates-io/peg-runtime", version = "=0.8.6" }
+proc-macro2 = { loaf = "crates-io/proc-macro2", version = "^1.0.24" }
+quote = { loaf = "crates-io/quote", version = "^1.0" }

@@ -19,6 +19,110 @@
         "license-file": "",
         "readme": "",
         "repository": "https://github.com/salsa-rs/salsa",
+        "rust-version": "1.95"
+      },
+      "adopted": "2026-11-25T20:05:45Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:11a1b8ee53e5483059c913531eddd11bc4bdf78066a7d959cb7c8339bccfe852",
+      "assets": [],
+      "categories": [],
+      "dependencies": [],
+      "documents": [
+        {
+          "bytes": 421,
+          "content": "content/sha256/b55e22f4846659e7eaee689847dd84a8f427bb0a45421cc6d1f56702e7b7ccdb",
+          "digest": "sha256:b55e22f4846659e7eaee689847dd84a8f427bb0a45421cc6d1f56702e7b7ccdb",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10847,
+          "content": "content/sha256/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1023,
+          "content": "content/sha256/23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "digest": "sha256:23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        },
+        {
+          "bytes": 9276,
+          "content": "content/sha256/72bee3b4f97634cf13376b76a61748fa4baa1c9356cedc5fc6322d4826cb19b5",
+          "digest": "sha256:72bee3b4f97634cf13376b76a61748fa4baa1c9356cedc5fc6322d4826cb19b5",
+          "format": "markdown",
+          "origin": "package",
+          "path": "CHANGELOG.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "accumulator": []
+      },
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [],
+      "manifest": "crates-io/salsa-macro-rules/0.28.6/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:45Z",
+          "archive": "sha256:11a1b8ee53e5483059c913531eddd11bc4bdf78066a7d959cb7c8339bccfe852",
+          "manifest": "crates-io/salsa-macro-rules/0.28.6/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "salsa_macro_rules",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:1bc5f7bf0901845dbf61e7f7ce586f74209a7621a7c30c453cecab9b92b15969",
+        "package": "salsa-macro-rules",
+        "registry": "crates-io",
+        "version": "0.28.6"
+      },
+      "vcs": {
+        "commit": "6ce831784e8809fadeea6a892837f21368e54c24",
+        "path": "components/salsa-macro-rules",
+        "system": "git"
+      },
+      "version": "0.28.6",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Salsa developers"
+        ],
+        "description": "Declarative macros for the salsa crate",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0 OR MIT",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/salsa-rs/salsa",
         "rust-version": "1.85"
       },
       "adopted": "2026-10-07T15:47:58Z",

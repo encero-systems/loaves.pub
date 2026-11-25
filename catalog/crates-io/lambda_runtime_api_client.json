@@ -1,0 +1,224 @@
+{
+  "name": "crates-io/lambda_runtime_api_client",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "lambda_runtime_api_client",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/lambda_runtime_api_client"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "David Calavera <dcalaver@amazon.com>",
+          "Harold Sun <sunhua@amazon.com>"
+        ],
+        "description": "AWS Lambda Runtime interaction API",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/aws/aws-lambda-rust-runtime",
+        "rust-version": "1.84.0"
+      },
+      "adopted": "2026-11-25T20:05:43Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:c1142147dce893e3a345081aa02d4a1700e34e6d8235f7c3951ae95c38bba046",
+      "assets": [],
+      "categories": [
+        "web-programming::http-server"
+      ],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/bytes",
+          "name": "bytes",
+          "optional": false,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/futures-channel",
+          "name": "futures-channel",
+          "optional": false,
+          "req": "^0.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/futures-util",
+          "name": "futures-util",
+          "optional": false,
+          "req": "^0.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http",
+          "name": "http",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http-body",
+          "name": "http-body",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http-body-util",
+          "name": "http-body-util",
+          "optional": false,
+          "req": "^0.1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "client",
+            "http1"
+          ],
+          "loaf": "crates-io/hyper",
+          "name": "hyper",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "client",
+            "client-legacy",
+            "http1",
+            "tokio"
+          ],
+          "loaf": "crates-io/hyper-util",
+          "name": "hyper-util",
+          "optional": false,
+          "req": "^0.1.1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "util"
+          ],
+          "loaf": "crates-io/tower",
+          "name": "tower",
+          "optional": false,
+          "req": "^0.5"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "log"
+          ],
+          "loaf": "crates-io/tracing",
+          "name": "tracing",
+          "optional": true,
+          "req": "^0.1"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "env-filter",
+            "fmt",
+            "json"
+          ],
+          "loaf": "crates-io/tracing-subscriber",
+          "name": "tracing-subscriber",
+          "optional": true,
+          "req": "^0.3"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1217,
+          "content": "content/sha256/546804a5cd9c656ee46ef7a08529cb4bb3241da94d8a8b3e5e87649960f22fce",
+          "digest": "sha256:546804a5cd9c656ee46ef7a08529cb4bb3241da94d8a8b3e5e87649960f22fce",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 380,
+          "content": "content/sha256/e2b434b5729d9d10c205f195221e4f16c69d06c60e8db3200e13f8741fd593df",
+          "digest": "sha256:e2b434b5729d9d10c205f195221e4f16c69d06c60e8db3200e13f8741fd593df",
+          "format": "text",
+          "origin": "registry",
+          "path": "LICENSE",
+          "role": "license-notice"
+        },
+        {
+          "bytes": 2447,
+          "content": "content/sha256/b736416169629d2889f067f9be757dbd1fdc1dd05f9eee899ffa9b354b0872bb",
+          "digest": "sha256:b736416169629d2889f067f9be757dbd1fdc1dd05f9eee899ffa9b354b0872bb",
+          "format": "markdown",
+          "origin": "package",
+          "path": "CHANGELOG.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "default": [
+          "tracing"
+        ],
+        "tracing": [
+          "dep:tracing",
+          "dep:tracing-subscriber"
+        ]
+      },
+      "files": {
+        "license": "registry",
+        "readme": "package"
+      },
+      "keywords": [
+        "AWS",
+        "Lambda",
+        "API"
+      ],
+      "manifest": "crates-io/lambda_runtime_api_client/1.1.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:43Z",
+          "archive": "sha256:c1142147dce893e3a345081aa02d4a1700e34e6d8235f7c3951ae95c38bba046",
+          "manifest": "crates-io/lambda_runtime_api_client/1.1.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "lambda_runtime_api_client",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:09c46c8324555826a4040136b25ed8c1abb45ab2969f7ec1c3324048ed0c29a2",
+        "package": "lambda_runtime_api_client",
+        "registry": "crates-io",
+        "version": "1.1.1"
+      },
+      "vcs": {
+        "commit": "831d4817db282a0e2f396c910bc1a1261898c947",
+        "path": "lambda-runtime-api-client",
+        "system": "git"
+      },
+      "version": "1.1.1",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

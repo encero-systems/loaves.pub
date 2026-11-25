@@ -1,0 +1,11 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/path-slash"
+version = "0.2.1"
+
+[rust]
+name = "path_slash"
+type = "lib"
+edition = "2018"
+build-script = false

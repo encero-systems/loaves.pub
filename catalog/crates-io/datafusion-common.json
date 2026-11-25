@@ -19,6 +19,297 @@
         "license-file": "",
         "readme": "README.md",
         "repository": "https://github.com/apache/datafusion",
+        "rust-version": "1.94.0"
+      },
+      "adopted": "2026-11-25T20:06:02Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:38199d25bf325059404ab0000c102e1b9664ed7c4fb044cc914d6431e355f9f9",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [
+            "chrono-tz",
+            "prettyprint"
+          ],
+          "loaf": "crates-io/arrow",
+          "name": "arrow",
+          "optional": false,
+          "req": "^59.2.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "lz4",
+            "zstd"
+          ],
+          "loaf": "crates-io/arrow-ipc",
+          "name": "arrow-ipc",
+          "optional": false,
+          "req": "^59.2.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "canonical_extension_types"
+          ],
+          "loaf": "crates-io/arrow-schema",
+          "name": "arrow-schema",
+          "optional": false,
+          "req": "^59.2.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/chrono",
+          "name": "chrono",
+          "optional": false,
+          "req": "^0.4.45"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/foldhash",
+          "name": "foldhash",
+          "optional": false,
+          "req": "^0.2"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/half",
+          "name": "half",
+          "optional": false,
+          "req": "^2.7.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/hashbrown",
+          "name": "hashbrown",
+          "optional": false,
+          "req": "^0.17.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/hex",
+          "name": "hex",
+          "optional": true,
+          "req": "^0.4.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/indexmap",
+          "name": "indexmap",
+          "optional": false,
+          "req": "^2.14.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/itertools",
+          "name": "itertools",
+          "optional": false,
+          "req": "^0.15"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/libc",
+          "name": "libc",
+          "optional": false,
+          "req": "^0.2.185"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/log",
+          "name": "log",
+          "optional": false,
+          "req": "^0.4"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/num-traits",
+          "name": "num-traits",
+          "optional": false,
+          "req": "^0.2"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/object_store",
+          "name": "object_store",
+          "optional": true,
+          "req": "^0.13.2"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "arrow",
+            "async",
+            "object_store"
+          ],
+          "loaf": "crates-io/parquet",
+          "name": "parquet",
+          "optional": true,
+          "req": "^59.2.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/recursive",
+          "name": "recursive",
+          "optional": true,
+          "req": "^0.1.1"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std",
+            "visitor"
+          ],
+          "loaf": "crates-io/sqlparser",
+          "name": "sqlparser",
+          "optional": true,
+          "req": "^0.62.0"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "macros",
+            "rt",
+            "sync"
+          ],
+          "loaf": "crates-io/tokio",
+          "name": "tokio",
+          "optional": false,
+          "req": "^1.52"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "v4"
+          ],
+          "loaf": "crates-io/uuid",
+          "name": "uuid",
+          "optional": false,
+          "req": "^1.23"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/web-time",
+          "name": "web-time",
+          "optional": false,
+          "req": "^1.1.0",
+          "target": "cfg(target_family = \"wasm\")"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1401,
+          "content": "content/sha256/75ef38236c1510e5a374afaf06c43b56501c034e26aa3e5dba216571b473efaf",
+          "digest": "sha256:75ef38236c1510e5a374afaf06c43b56501c034e26aa3e5dba216571b473efaf",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11645,
+          "content": "content/sha256/232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+          "digest": "sha256:232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "backtrace": [],
+        "force_hash_collisions": [],
+        "object_store": [
+          "dep:object_store"
+        ],
+        "parquet": [
+          "dep:parquet"
+        ],
+        "parquet_encryption": [
+          "parquet",
+          "dep:parquet",
+          "parquet/encryption",
+          "dep:hex"
+        ],
+        "recursive_protection": [
+          "dep:recursive"
+        ],
+        "sql": [
+          "sqlparser"
+        ],
+        "sqlparser": [
+          "dep:sqlparser"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "arrow",
+        "query",
+        "sql"
+      ],
+      "manifest": "crates-io/datafusion-common/55.3.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:06:02Z",
+          "archive": "sha256:38199d25bf325059404ab0000c102e1b9664ed7c4fb044cc914d6431e355f9f9",
+          "manifest": "crates-io/datafusion-common/55.3.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "datafusion_common",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:27cd16251809316e73f55cef0b8b615e6862400b49c69f9bbe18dc030a5f5342",
+        "package": "datafusion-common",
+        "registry": "crates-io",
+        "version": "55.3.0"
+      },
+      "vcs": null,
+      "version": "55.3.0",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache DataFusion <dev@datafusion.apache.org>"
+        ],
+        "description": "Common functionality for DataFusion query engine",
+        "documentation": "",
+        "homepage": "https://datafusion.apache.org",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/apache/datafusion",
         "rust-version": "1.88.0"
       },
       "adopted": "2026-10-06T13:11:49Z",

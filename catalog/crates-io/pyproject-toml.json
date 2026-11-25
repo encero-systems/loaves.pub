@@ -1,0 +1,184 @@
+{
+  "name": "crates-io/pyproject-toml",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "pyproject-toml",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/pyproject-toml"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [],
+        "description": "pyproject.toml parser in Rust",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/PyO3/pyproject-toml-rs.git",
+        "rust-version": "1.74"
+      },
+      "adopted": "2026-11-25T20:05:53Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:8cfb7a620173223adf16241e73b6f20a3bf180604ad76c92b59eda91fc32a2e0",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/glob",
+          "name": "glob",
+          "optional": true,
+          "req": "^0.3.1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "serde"
+          ],
+          "loaf": "crates-io/indexmap",
+          "name": "indexmap",
+          "optional": false,
+          "req": "^2.6.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/pep440_rs",
+          "name": "pep440_rs",
+          "optional": false,
+          "req": "^0.7.2"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/pep508_rs",
+          "name": "pep508_rs",
+          "optional": false,
+          "req": "^0.9.1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "derive"
+          ],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": false,
+          "req": "^1.0.214"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/thiserror",
+          "name": "thiserror",
+          "optional": false,
+          "req": "^2.0.12"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "parse",
+            "serde",
+            "std"
+          ],
+          "loaf": "crates-io/toml",
+          "name": "toml",
+          "optional": false,
+          "req": "^0.9.4"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1696,
+          "content": "content/sha256/dca88ff2ddb8cd1318e90eab88375aec88d82621279eae946023e792242f8946",
+          "digest": "sha256:dca88ff2ddb8cd1318e90eab88375aec88d82621279eae946023e792242f8946",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1094,
+          "content": "content/sha256/f4a1e1b67d82997496952af1e970ebda93c5dfccfa41b4834f5bed8dbfb4b06f",
+          "digest": "sha256:f4a1e1b67d82997496952af1e970ebda93c5dfccfa41b4834f5bed8dbfb4b06f",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        },
+        {
+          "bytes": 1660,
+          "content": "content/sha256/a623aee6725e1ba7280b4a7cf4c5c5b88632c53c67c3a3faf0e545d10232fa3a",
+          "digest": "sha256:a623aee6725e1ba7280b4a7cf4c5c5b88632c53c67c3a3faf0e545d10232fa3a",
+          "format": "markdown",
+          "origin": "package",
+          "path": "Changelog.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "glob": [
+          "dep:glob"
+        ],
+        "pep639-glob": [
+          "glob"
+        ],
+        "tracing": [
+          "pep440_rs/tracing",
+          "pep508_rs/tracing"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "pyproject",
+        "pep517",
+        "pep518",
+        "pep621",
+        "pep639"
+      ],
+      "manifest": "crates-io/pyproject-toml/0.13.7/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:53Z",
+          "archive": "sha256:8cfb7a620173223adf16241e73b6f20a3bf180604ad76c92b59eda91fc32a2e0",
+          "manifest": "crates-io/pyproject-toml/0.13.7/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "pyproject_toml",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:f6d755483ad14b49e76713b52285235461a5b4f73f17612353e11a5de36a5fd2",
+        "package": "pyproject-toml",
+        "registry": "crates-io",
+        "version": "0.13.7"
+      },
+      "vcs": {
+        "commit": "02d274155edf0faf08f8600f0048199067fec26d",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.13.7",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

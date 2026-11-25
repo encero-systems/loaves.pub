@@ -1,0 +1,117 @@
+{
+  "name": "crates-io/strip-ansi-escapes",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "strip-ansi-escapes",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/strip-ansi-escapes"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Ted Mielczarek <ted@mielczarek.org>"
+        ],
+        "description": "Strip ANSI escape sequences from byte streams.",
+        "documentation": "https://docs.rs/strip-ansi-escapes",
+        "homepage": "https://github.com/luser/strip-ansi-escapes",
+        "license": "Apache-2.0/MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/luser/strip-ansi-escapes",
+        "rust-version": ""
+      },
+      "adopted": "2026-11-25T20:05:49Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:8cdc5d3dcada48dd5de2af2d12f2ca5e5ae1afd6205d5b6542fe148c55652ae1",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/vte",
+          "name": "vte",
+          "optional": false,
+          "req": "^0.14"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1673,
+          "content": "content/sha256/7ad59597726c3d28dbd0ff7dce41cf710621511f0b8648bbd464da1e132967fb",
+          "digest": "sha256:7ad59597726c3d28dbd0ff7dce41cf710621511f0b8648bbd464da1e132967fb",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10847,
+          "content": "content/sha256/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1051,
+          "content": "content/sha256/1418fdabd96762bb5892098a229061f07dd624245687fd0a95ef33f3feb845a0",
+          "digest": "sha256:1418fdabd96762bb5892098a229061f07dd624245687fd0a95ef33f3feb845a0",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "ansi",
+        "escape",
+        "terminal"
+      ],
+      "manifest": "crates-io/strip-ansi-escapes/0.2.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:49Z",
+          "archive": "sha256:8cdc5d3dcada48dd5de2af2d12f2ca5e5ae1afd6205d5b6542fe148c55652ae1",
+          "manifest": "crates-io/strip-ansi-escapes/0.2.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2015",
+        "name": "strip_ansi_escapes",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:2a8f8038e7e7969abb3f1b7c2a811225e9296da208539e0f79c5251d6cac0025",
+        "package": "strip-ansi-escapes",
+        "registry": "crates-io",
+        "version": "0.2.1"
+      },
+      "vcs": {
+        "commit": "ed44550ccd633d3df2aa0299aa9203b4096e299e",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.2.1",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

@@ -1,0 +1,313 @@
+{
+  "about": {
+    "authors": [
+      "David Calavera <dcalaver@amazon.com>",
+      "Harold Sun <sunhua@amazon.com>"
+    ],
+    "description": "AWS Lambda Runtime",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/aws/aws-lambda-rust-runtime",
+    "rust-version": "1.84.0"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:299ff04ffc8ff30a26f5a45fbad8f04dbaf9f05ba035e220045754955138c19c",
+    "package": "lambda_runtime",
+    "registry": "crates-io",
+    "version": "1.5.0"
+  },
+  "archive": "sha256:836ead9f34eddb303e489ad79fda546380c425c403097fdffbb9246e922f09cc",
+  "at": "2026-11-25T20:05:48Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/anyhow",
+      "name": "anyhow",
+      "optional": true,
+      "req": "^1.0.86"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/async-stream",
+      "name": "async-stream",
+      "optional": false,
+      "req": "^0.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/base64",
+      "name": "base64",
+      "optional": false,
+      "req": "^0.22"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/bytes",
+      "name": "bytes",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/eyre",
+      "name": "eyre",
+      "optional": true,
+      "req": "^0.6.12"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/futures",
+      "name": "futures",
+      "optional": false,
+      "req": "^0.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http",
+      "name": "http",
+      "optional": false,
+      "req": "^1.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http-body-util",
+      "name": "http-body-util",
+      "optional": false,
+      "req": "^0.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http-serde",
+      "name": "http-serde",
+      "optional": false,
+      "req": "^2.0"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client",
+        "http1"
+      ],
+      "loaf": "crates-io/hyper",
+      "name": "hyper",
+      "optional": false,
+      "req": "^1.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/lambda-extension",
+      "name": "lambda-extension",
+      "optional": true,
+      "req": "^1.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/lambda_runtime_api_client",
+      "name": "lambda_runtime_api_client",
+      "optional": false,
+      "req": "^1.1.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/miette",
+      "name": "miette",
+      "optional": true,
+      "req": "^7.2.0"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "semconv_experimental"
+      ],
+      "loaf": "crates-io/opentelemetry-semantic-conventions",
+      "name": "opentelemetry-semantic-conventions",
+      "optional": true,
+      "req": "^0.32"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/pin-project",
+      "name": "pin-project",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "derive",
+        "rc"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/serde_json",
+      "name": "serde_json",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/serde_path_to_error",
+      "name": "serde_path_to_error",
+      "optional": false,
+      "req": "^0.1.11"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "io-util",
+        "macros",
+        "rt-multi-thread",
+        "sync"
+      ],
+      "loaf": "crates-io/tokio",
+      "name": "tokio",
+      "optional": false,
+      "req": "^1.46"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tokio-stream",
+      "name": "tokio-stream",
+      "optional": false,
+      "req": "^0.1.2"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "util"
+      ],
+      "loaf": "crates-io/tower",
+      "name": "tower",
+      "optional": false,
+      "req": "^0.5"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "log"
+      ],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 24796,
+      "digest": "sha256:ba2bcdd3e986604fd73c8dfe8a245d4df21f0e57425f37bc8909886d9fa0aac3",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 347,
+      "digest": "sha256:e923a854587cb7d44cce948e905b247774029600467d8c04010f85d695d20350",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    },
+    {
+      "bytes": 7164,
+      "digest": "sha256:efe3cfea1691e65c84eb600f1058adcf755bb2c8256753010de3c203483824d8",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "anyhow": [
+      "dep:anyhow"
+    ],
+    "concurrency-tokio": [],
+    "default": [
+      "tracing"
+    ],
+    "eyre": [
+      "dep:eyre"
+    ],
+    "graceful-shutdown": [
+      "tokio/rt",
+      "tokio/signal",
+      "dep:lambda-extension"
+    ],
+    "miette": [
+      "dep:miette"
+    ],
+    "opentelemetry": [
+      "opentelemetry-semantic-conventions"
+    ],
+    "opentelemetry-semantic-conventions": [
+      "dep:opentelemetry-semantic-conventions"
+    ],
+    "tracing": [
+      "lambda_runtime_api_client/tracing"
+    ]
+  },
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:f92879e39f1a3a7979ce29612f952ef7188544d2e411146919b0e78296a6aad1",
+  "kind": "adopt",
+  "manifest": "sha256:393ff152de2b0426b282c5bfbf6e558a045496b497f541ef28d53f8dab5f484c",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "lambda_runtime",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "lambda_runtime",
+    "scope": "crates-io",
+    "version": "1.5.0"
+  },
+  "taxonomy": {
+    "categories": [
+      "web-programming::http-server"
+    ],
+    "keywords": [
+      "AWS",
+      "Lambda",
+      "API"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "7f89224ce954a0ad3998cc095e80539c3d110ab9",
+    "path": "lambda-runtime",
+    "system": "git"
+  }
+}

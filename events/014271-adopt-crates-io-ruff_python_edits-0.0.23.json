@@ -1,0 +1,101 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:58b2df0fd8de0fcb44e03e4cae9bff9f937d572dc9ae5f79ae32eae872e8b5e5",
+    "package": "ruff_python_edits",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:0f79bd32999f1c6618734844e3ece12bde12a14e7696d3608ba93b53e17f1f0f",
+  "at": "2026-11-25T20:05:55Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_python_ast",
+      "name": "ruff_python_ast",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_source_file",
+      "name": "ruff_source_file",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_text_size",
+      "name": "ruff_text_size",
+      "optional": false,
+      "req": "^0.0.23"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 545,
+      "digest": "sha256:b8ed564393a4262590fe14e22dcc94a5eaed3284ca539ce5b4899af5f9aee506",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 351,
+      "digest": "sha256:8855de322f0a5695b337d5d2c6c3d29e45632036e8119a4d7c0e5f821c0d5235",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:ec8f571e81d62e695b41c5650f4ee82b515396a8e8a683d784b5563d7a5f2c46",
+  "kind": "adopt",
+  "manifest": "sha256:149b0abef156b5dd94a30d495ca25889ba65e53e106fed67453d31d1e0a629ac",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_python_edits",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_python_edits",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_python_edits",
+    "system": "git"
+  }
+}

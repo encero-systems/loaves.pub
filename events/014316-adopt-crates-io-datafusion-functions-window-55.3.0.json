@@ -1,0 +1,153 @@
+{
+  "about": {
+    "authors": [
+      "Apache DataFusion <dev@datafusion.apache.org>"
+    ],
+    "description": "Window function packages for the DataFusion query engine",
+    "documentation": "",
+    "homepage": "https://datafusion.apache.org",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/apache/datafusion",
+    "rust-version": "1.94.0"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:d146bbbdb9358b4c12be0b3dc677bbf0e284cdb4b1f21b9271fd368661b15538",
+    "package": "datafusion-functions-window",
+    "registry": "crates-io",
+    "version": "55.3.0"
+  },
+  "archive": "sha256:22473d0a9e13387566bf3af4c0c927993ad2d219d338e35d566b8207d56fed4d",
+  "at": "2026-11-25T20:06:04Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [
+        "chrono-tz",
+        "prettyprint"
+      ],
+      "loaf": "crates-io/arrow",
+      "name": "arrow",
+      "optional": false,
+      "req": "^59.2.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-common",
+      "name": "datafusion-common",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-doc",
+      "name": "datafusion-doc",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-expr",
+      "name": "datafusion-expr",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-functions-window-common",
+      "name": "datafusion-functions-window-common",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-macros",
+      "name": "datafusion-macros",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-physical-expr",
+      "name": "datafusion-physical-expr",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-physical-expr-common",
+      "name": "datafusion-physical-expr-common",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/log",
+      "name": "log",
+      "optional": false,
+      "req": "^0.4"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1380,
+      "digest": "sha256:cd2aced04b224bf59b075b4beaf5f0a0fbf55f1be7495f078a0f2646c460ba75",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11645,
+      "digest": "sha256:232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:6ec06b465738b6059d4aa03241ec20129f58e22025b9fcd711c79a780e6321ab",
+  "kind": "adopt",
+  "manifest": "sha256:50c7d5f23f1fa6a7e49d6be63bba865b7bea9769274d04e8ecd5065bf7417726",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "datafusion_functions_window",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "datafusion-functions-window",
+    "scope": "crates-io",
+    "version": "55.3.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "datafusion",
+      "logical",
+      "plan",
+      "expressions"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

@@ -1,0 +1,127 @@
+{
+  "about": {
+    "authors": [
+      "Apache Arrow <dev@arrow.apache.org>"
+    ],
+    "description": "Arrow arithmetic kernels",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "",
+    "repository": "https://github.com/apache/arrow-rs",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:de71a4e3f13a20dcf695f2fd47a4a95287d4a04e5e4e9b7ab61db5a5cfcb1c81",
+    "package": "arrow-arith",
+    "registry": "crates-io",
+    "version": "59.3.3"
+  },
+  "archive": "sha256:eb7e0cdaa03757952f9f911d2259311daca282e1af9bc48ad2687c1c8dd1607a",
+  "at": "2026-11-25T20:05:51Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-array",
+      "name": "arrow-array",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-buffer",
+      "name": "arrow-buffer",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-data",
+      "name": "arrow-data",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-schema",
+      "name": "arrow-schema",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "clock"
+      ],
+      "loaf": "crates-io/chrono",
+      "name": "chrono",
+      "optional": false,
+      "req": "^0.4.40"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-traits",
+      "name": "num-traits",
+      "optional": false,
+      "req": "^0.2.19"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 377,
+      "digest": "sha256:c0fcb6c733582edd989acabb75fdd49dc072650567830a38aa1f093c04c1a9f5",
+      "format": "markdown",
+      "origin": "registry",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11577,
+      "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "registry"
+  },
+  "id": "sha256:901768599ae9b8fb6f45f2e9c3fc44c70617ed9a2af5a5cb7e7166b40bae8027",
+  "kind": "adopt",
+  "manifest": "sha256:2ed6fbeb89dd27ccf2060dc0840bce33dbbbb0b92c4c8427cd678bb5ecec628e",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "arrow_arith",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "arrow-arith",
+    "scope": "crates-io",
+    "version": "59.3.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "arrow"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

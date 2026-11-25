@@ -1,0 +1,17 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/path-absolutize"
+version = "4.0.1"
+
+[project.features]
+fixed_workdir = ["path-dedot/fixed_workdir"]
+
+[rust]
+name = "path_absolutize"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+path-dedot = { loaf = "crates-io/path-dedot", version = "^4.0.1" }

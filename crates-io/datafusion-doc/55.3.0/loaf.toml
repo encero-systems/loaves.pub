@@ -1,0 +1,11 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-doc"
+version = "55.3.0"
+
+[rust]
+name = "datafusion_doc"
+type = "lib"
+edition = "2024"
+build-script = false

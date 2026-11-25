@@ -1,0 +1,125 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:d5381758e8f1ac2dcc174062797e84b5c9dbcb6ec3f3d48bdca88ef4d8871f8b",
+    "package": "ruff_text_size",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:87be4240a41047f99738263c753768a3799630c9ca873d41361c2812ee959236",
+  "at": "2026-11-25T20:05:45Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "compact-str",
+        "derive",
+        "hashbrown",
+        "ordermap",
+        "smallvec",
+        "std",
+        "thin-vec"
+      ],
+      "loaf": "crates-io/get-size2",
+      "name": "get-size2",
+      "optional": true,
+      "req": "^0.11.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/schemars",
+      "name": "schemars",
+      "optional": true,
+      "req": "^1.0.4"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0.197"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 539,
+      "digest": "sha256:f4c025b321a7dd469122a5371c4e4b705f02f5aa9f89c7b461772a50ebed4363",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 342,
+      "digest": "sha256:9c3546a262646a1c8b2383935479ef0c85d1d4562d1598e0bf298796c6597433",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {
+    "get-size": [
+      "dep:get-size2"
+    ],
+    "schemars": [
+      "dep:schemars"
+    ],
+    "serde": [
+      "dep:serde"
+    ]
+  },
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:8b70e8fd8dadb2bad6a0e1e9dbb79ca816b9fba6ca8e2af46678f95d54aef6c1",
+  "kind": "adopt",
+  "manifest": "sha256:b694dc6c19dbd28d9026184a4831167ea334214ed3a17d21c62628f20f7da260",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_text_size",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_text_size",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_text_size",
+    "system": "git"
+  }
+}

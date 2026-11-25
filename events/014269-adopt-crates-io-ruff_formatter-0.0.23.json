@@ -1,0 +1,177 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:38018186e0f71f57907b6082247370eed9b0260c3a5eed807efe596d1d0c4b40",
+    "package": "ruff_formatter",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:c349050549c85855715e385f4901b45037f7d0b3b6009843636210a957a91e59",
+  "at": "2026-11-25T20:05:54Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/drop_bomb",
+      "name": "drop_bomb",
+      "optional": false,
+      "req": "^0.1.5"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_cache",
+      "name": "ruff_cache",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_macros",
+      "name": "ruff_macros",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_text_size",
+      "name": "ruff_text_size",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/rustc-hash",
+      "name": "rustc-hash",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/schemars",
+      "name": "schemars",
+      "optional": true,
+      "req": "^1.0.4"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0.197"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/static_assertions",
+      "name": "static_assertions",
+      "optional": false,
+      "req": "^1.1.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "attributes",
+        "std"
+      ],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1.40"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/unicode-width",
+      "name": "unicode-width",
+      "optional": false,
+      "req": "^0.2.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 539,
+      "digest": "sha256:762b7e44c43df4935c840efa95b2a568aee4594a26f2572b134697d71fa739ba",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 342,
+      "digest": "sha256:86af9b3fc789104e9e74b4cbb692e7238d19666191da08f6d1dbcd2b48ed7484",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {
+    "schemars": [
+      "dep:schemars",
+      "ruff_text_size/schemars"
+    ],
+    "serde": [
+      "dep:serde",
+      "ruff_text_size/serde"
+    ]
+  },
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:aaa81d00c73786887c20ffec7995ec4684f32bfd56a9ede32d98e575e5a452bf",
+  "kind": "adopt",
+  "manifest": "sha256:eb73673328702ad54bbc066e9941b2a3eff5c34dab5afc4ce7bee2ff18f2996f",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_formatter",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_formatter",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_formatter",
+    "system": "git"
+  }
+}

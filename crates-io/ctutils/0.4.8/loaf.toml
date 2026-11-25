@@ -1,0 +1,19 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ctutils"
+version = "0.4.8"
+
+[project.features]
+alloc = []
+subtle = ["dep:subtle"]
+
+[rust]
+name = "ctutils"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+cmov = { loaf = "crates-io/cmov", version = "^0.5.4" }
+subtle = { loaf = "crates-io/subtle", version = "^2.6", default-features = false, optional = true }

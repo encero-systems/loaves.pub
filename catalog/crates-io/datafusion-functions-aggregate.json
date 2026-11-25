@@ -19,6 +19,203 @@
         "license-file": "",
         "readme": "README.md",
         "repository": "https://github.com/apache/datafusion",
+        "rust-version": "1.94.0"
+      },
+      "adopted": "2026-11-25T20:06:03Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:db76eaeb43a3e3db8c5703f63a6dc83af0c44b616c6f7bd35d2c939ed1a4e31a",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [
+            "chrono-tz",
+            "prettyprint"
+          ],
+          "loaf": "crates-io/arrow",
+          "name": "arrow",
+          "optional": false,
+          "req": "^59.2.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-common",
+          "name": "datafusion-common",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/datafusion-doc",
+          "name": "datafusion-doc",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-execution",
+          "name": "datafusion-execution",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-expr",
+          "name": "datafusion-expr",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/datafusion-functions-aggregate-common",
+          "name": "datafusion-functions-aggregate-common",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/datafusion-macros",
+          "name": "datafusion-macros",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-physical-expr",
+          "name": "datafusion-physical-expr",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-physical-expr-common",
+          "name": "datafusion-physical-expr-common",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/half",
+          "name": "half",
+          "optional": false,
+          "req": "^2.7.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/hashbrown",
+          "name": "hashbrown",
+          "optional": false,
+          "req": "^0.17.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/log",
+          "name": "log",
+          "optional": false,
+          "req": "^0.4"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/num-traits",
+          "name": "num-traits",
+          "optional": false,
+          "req": "^0.2"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1394,
+          "content": "content/sha256/21b5bee9321a781db926af7f44ed93a76073bd0b6febc450e78e00d6417df072",
+          "digest": "sha256:21b5bee9321a781db926af7f44ed93a76073bd0b6febc450e78e00d6417df072",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11645,
+          "content": "content/sha256/232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+          "digest": "sha256:232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "force_hash_collisions": [
+          "datafusion-common/force_hash_collisions"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "datafusion",
+        "logical",
+        "plan",
+        "expressions"
+      ],
+      "manifest": "crates-io/datafusion-functions-aggregate/55.3.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:06:03Z",
+          "archive": "sha256:db76eaeb43a3e3db8c5703f63a6dc83af0c44b616c6f7bd35d2c939ed1a4e31a",
+          "manifest": "crates-io/datafusion-functions-aggregate/55.3.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "datafusion_functions_aggregate",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:d1a8e62677e244400c1a7ff5498eed0895fff803ef64ce03ab045788b79428dd",
+        "package": "datafusion-functions-aggregate",
+        "registry": "crates-io",
+        "version": "55.3.0"
+      },
+      "vcs": null,
+      "version": "55.3.0",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache DataFusion <dev@datafusion.apache.org>"
+        ],
+        "description": "Traits and types for logical plans and expressions for DataFusion query engine",
+        "documentation": "",
+        "homepage": "https://datafusion.apache.org",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/apache/datafusion",
         "rust-version": "1.88.0"
       },
       "adopted": "2026-10-06T13:11:49Z",

@@ -4,6 +4,7 @@ The crates.io package [zstd-sys](https://crates.io/crates/zstd-sys), adopted by 
 
 | Version | Adopted | License | Build facts | Compiled units | |
 |---|---|---|---|---|---|
+| [2.1.3+zstd.1.5.7](2.1.3+zstd.1.5.7/loaf.toml) | 2026-11-25 | BSD-3-Clause AND BSD-2-Clause | 0 | 0 |  |
 | [2.1.0+zstd.1.5.7](2.1.0+zstd.1.5.7/loaf.toml) | 2026-10-06 | BSD-3-Clause | 5 | 0 |  |
 | [2.0.16+zstd.1.5.7](2.0.16+zstd.1.5.7/loaf.toml) | 2026-10-06 | MIT/Apache-2.0 | 2 | 0 |  |
 

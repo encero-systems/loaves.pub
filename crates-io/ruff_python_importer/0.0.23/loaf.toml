@@ -1,0 +1,20 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_python_importer"
+version = "0.0.23"
+
+[rust]
+name = "ruff_python_importer"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+anyhow = { loaf = "crates-io/anyhow", version = "^1.0.80", features = ["std"], default-features = false }
+ruff_diagnostics = { loaf = "crates-io/ruff_diagnostics", version = "^0.0.23" }
+ruff_python_ast = { loaf = "crates-io/ruff_python_ast", version = "^0.0.23" }
+ruff_python_codegen = { loaf = "crates-io/ruff_python_codegen", version = "^0.0.23" }
+ruff_python_trivia = { loaf = "crates-io/ruff_python_trivia", version = "^0.0.23" }
+ruff_source_file = { loaf = "crates-io/ruff_source_file", version = "^0.0.23", features = ["serde"] }
+ruff_text_size = { loaf = "crates-io/ruff_text_size", version = "^0.0.23" }

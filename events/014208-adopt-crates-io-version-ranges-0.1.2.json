@@ -1,0 +1,116 @@
+{
+  "about": {
+    "authors": [],
+    "description": "Performance-optimized type for generic version ranges and operations on them.",
+    "documentation": "",
+    "homepage": "",
+    "license": "MPL-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/pubgrub-rs/pubgrub",
+    "rust-version": ""
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:3595ffe225639f1e0fd8d7269dcc05d2fbfea93cfac2fea367daf1adb60aae91",
+    "package": "version-ranges",
+    "registry": "crates-io",
+    "version": "0.1.2"
+  },
+  "archive": "sha256:581e878c96fce2aba22aa32c7fe55f2b815fa7086fa94fa74d58b23759b0dde8",
+  "at": "2026-11-25T20:05:46Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/proptest",
+      "name": "proptest",
+      "optional": true,
+      "req": "^1.6.0"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "derive"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0.219"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "union"
+      ],
+      "loaf": "crates-io/smallvec",
+      "name": "smallvec",
+      "optional": false,
+      "req": "^1.14.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 2333,
+      "digest": "sha256:79869d4f00d4854678185a3601ea4bda06c3c2bbb43ebaa8e8c5af8a2b65da28",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 16725,
+      "digest": "sha256:1f256ecad192880510e84ad60474eab7589218784b9a50bc7ceee34c2b91f1d5",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "proptest": [
+      "dep:proptest"
+    ],
+    "serde": [
+      "dep:serde",
+      "smallvec/serde"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:7d99ad6ee2468f68d4e0e1066b054c82cc86652da7da49fca05704aca8bcad69",
+  "kind": "adopt",
+  "manifest": "sha256:00e8bc1b0db1700c2ee924df7a2eac0850683fa38ff150d1fe9d9653cfa51348",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "version_ranges",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "version-ranges",
+    "scope": "crates-io",
+    "version": "0.1.2"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "version",
+      "pubgrub",
+      "selector",
+      "ranges"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a8ed6afe8ab0d090280889eeb3bbb72bcc90b5d4",
+    "path": "version-ranges",
+    "system": "git"
+  }
+}

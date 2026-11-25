@@ -1,0 +1,112 @@
+{
+  "name": "crates-io/ruff_python_stdlib",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "ruff_python_stdlib",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/ruff_python_stdlib"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Charlie Marsh <charlie.r.marsh@gmail.com>"
+        ],
+        "description": "This is an internal component crate of Ruff",
+        "documentation": "https://docs.astral.sh/ruff",
+        "homepage": "https://docs.astral.sh/ruff",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/astral-sh/ruff",
+        "rust-version": "1.98"
+      },
+      "adopted": "2026-11-25T20:05:45Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:b70646fd11d2600959927025f90106a28cc79d2b3c1e5fc6072cb0784a4d1523",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/bitflags",
+          "name": "bitflags",
+          "optional": false,
+          "req": "^2.5.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/unicode-ident",
+          "name": "unicode-ident",
+          "optional": false,
+          "req": "^1.0.12"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 547,
+          "content": "content/sha256/0b9de95ed1057f156225e5c2de99a1ab53cd1fecd004da41e8ec32908e7a0588",
+          "digest": "sha256:0b9de95ed1057f156225e5c2de99a1ab53cd1fecd004da41e8ec32908e7a0588",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 354,
+          "content": "content/sha256/e5741f537ec93566f90da4b9c46af343d255196c672f09aa21e4b40f1a2cc7bc",
+          "digest": "sha256:e5741f537ec93566f90da4b9c46af343d255196c672f09aa21e4b40f1a2cc7bc",
+          "format": "text",
+          "origin": "registry",
+          "path": "LICENSE",
+          "role": "license-notice"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "registry",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/ruff_python_stdlib/0.0.23/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:45Z",
+          "archive": "sha256:b70646fd11d2600959927025f90106a28cc79d2b3c1e5fc6072cb0784a4d1523",
+          "manifest": "crates-io/ruff_python_stdlib/0.0.23/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "ruff_python_stdlib",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:97b22287b8adb645eec7bc16a8749a5c12fcbea6b3f9d67b7208d50356ca6dd0",
+        "package": "ruff_python_stdlib",
+        "registry": "crates-io",
+        "version": "0.0.23"
+      },
+      "vcs": {
+        "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+        "path": "crates/ruff_python_stdlib",
+        "system": "git"
+      },
+      "version": "0.0.23",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

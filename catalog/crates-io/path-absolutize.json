@@ -1,0 +1,117 @@
+{
+  "name": "crates-io/path-absolutize",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "path-absolutize",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/path-absolutize"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Magic Len <len@magiclen.org>"
+        ],
+        "description": "A library for extending `Path` and `PathBuf` in order to get an absolute path and remove the containing dots.",
+        "documentation": "",
+        "homepage": "https://magiclen.org/path-absolutize",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/magiclen/path-absolutize",
+        "rust-version": "1.80"
+      },
+      "adopted": "2026-11-25T20:05:48Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:9c51455195a75524877f4f3300451a18eedfade10cbb97f635e3ce24534cb7a5",
+      "assets": [],
+      "categories": [
+        "parser-implementations",
+        "filesystem"
+      ],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/path-dedot",
+          "name": "path-dedot",
+          "optional": false,
+          "req": "^4.0.1"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 6370,
+          "content": "content/sha256/6f568b932ec5afd00eb86eebfbde610d083c082ab2799b0f7a898293f7443eda",
+          "digest": "sha256:6f568b932ec5afd00eb86eebfbde610d083c082ab2799b0f7a898293f7443eda",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1078,
+          "content": "content/sha256/6182f32e16ddbf33d3c17d1832ee3cb90899645e9de8cd2c622a3958f10f9a0c",
+          "digest": "sha256:6182f32e16ddbf33d3c17d1832ee3cb90899645e9de8cd2c622a3958f10f9a0c",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "fixed_workdir": [
+          "path-dedot/fixed_workdir"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "path",
+        "dot",
+        "dedot",
+        "absolute",
+        "canonical"
+      ],
+      "manifest": "crates-io/path-absolutize/4.0.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:48Z",
+          "archive": "sha256:9c51455195a75524877f4f3300451a18eedfade10cbb97f635e3ce24534cb7a5",
+          "manifest": "crates-io/path-absolutize/4.0.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "path_absolutize",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:f808742975794703469f67a28dd14b1d1009a1743c18b0353b4b951dbb0068ad",
+        "package": "path-absolutize",
+        "registry": "crates-io",
+        "version": "4.0.1"
+      },
+      "vcs": {
+        "commit": "5f3d68ea978b61f0131310c78deed6b79c278f9a",
+        "path": "",
+        "system": "git"
+      },
+      "version": "4.0.1",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-functions-aggregate-common"
+version = "55.3.0"
+
+[rust]
+name = "datafusion_functions_aggregate_common"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+arrow = { loaf = "crates-io/arrow", version = "^59.2.0", features = ["chrono-tz", "prettyprint"] }
+datafusion-common = { loaf = "crates-io/datafusion-common", version = "^55.3.0", default-features = false }
+datafusion-expr-common = { loaf = "crates-io/datafusion-expr-common", version = "^55.3.0" }
+datafusion-physical-expr-common = { loaf = "crates-io/datafusion-physical-expr-common", version = "^55.3.0", default-features = false }

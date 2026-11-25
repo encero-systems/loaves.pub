@@ -1,0 +1,112 @@
+{
+  "name": "crates-io/ruff_memory_usage",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "ruff_memory_usage",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/ruff_memory_usage"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Charlie Marsh <charlie.r.marsh@gmail.com>"
+        ],
+        "description": "This is an internal component crate of Ruff",
+        "documentation": "https://docs.astral.sh/ruff",
+        "homepage": "https://docs.astral.sh/ruff",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/astral-sh/ruff",
+        "rust-version": "1.98"
+      },
+      "adopted": "2026-11-25T20:05:49Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:ca3cd84a10134aca939eaa26502c630b07c727dce66ec0b02cb321c5be6cdf2d",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [
+            "compact-str",
+            "derive",
+            "hashbrown",
+            "ordermap",
+            "smallvec",
+            "std",
+            "thin-vec"
+          ],
+          "loaf": "crates-io/get-size2",
+          "name": "get-size2",
+          "optional": false,
+          "req": "^0.11.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 545,
+          "content": "content/sha256/cfa080f6cbf67464cf5f9e2a096a98b2585e0468ca2e886ab4757ab32c728c86",
+          "digest": "sha256:cfa080f6cbf67464cf5f9e2a096a98b2585e0468ca2e886ab4757ab32c728c86",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 351,
+          "content": "content/sha256/96d92958b7a138fdde10f92498687ca7d34a4c26e0a4c8c6582f8a44be096617",
+          "digest": "sha256:96d92958b7a138fdde10f92498687ca7d34a4c26e0a4c8c6582f8a44be096617",
+          "format": "text",
+          "origin": "registry",
+          "path": "LICENSE",
+          "role": "license-notice"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "registry",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/ruff_memory_usage/0.0.23/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:49Z",
+          "archive": "sha256:ca3cd84a10134aca939eaa26502c630b07c727dce66ec0b02cb321c5be6cdf2d",
+          "manifest": "crates-io/ruff_memory_usage/0.0.23/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "ruff_memory_usage",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:9ed0ce4739dc3d30d9b37d499908795c2a5ba686a24e2df52d17049959c479d3",
+        "package": "ruff_memory_usage",
+        "registry": "crates-io",
+        "version": "0.0.23"
+      },
+      "vcs": {
+        "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+        "path": "crates/ruff_memory_usage",
+        "system": "git"
+      },
+      "version": "0.0.23",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

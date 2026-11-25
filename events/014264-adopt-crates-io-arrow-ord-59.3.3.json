@@ -1,0 +1,115 @@
+{
+  "about": {
+    "authors": [
+      "Apache Arrow <dev@arrow.apache.org>"
+    ],
+    "description": "Ordering kernels for arrow arrays",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "",
+    "repository": "https://github.com/apache/arrow-rs",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:b76eb3624bbba115639f1ad84853f94efa8ee50160f3e6a9625767b879471b46",
+    "package": "arrow-ord",
+    "registry": "crates-io",
+    "version": "59.3.3"
+  },
+  "archive": "sha256:d018df636c968db6426db7b70f8d79e66abe60d7ce4b7156a24d51633c380f38",
+  "at": "2026-11-25T20:05:54Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-array",
+      "name": "arrow-array",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-buffer",
+      "name": "arrow-buffer",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-data",
+      "name": "arrow-data",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-schema",
+      "name": "arrow-schema",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-select",
+      "name": "arrow-select",
+      "optional": false,
+      "req": "^59.3.3"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 378,
+      "digest": "sha256:83b0a3e3bc897eafabe4b2c1546e5757abab4e3b6f7398badb98f0d0aa13fc1b",
+      "format": "markdown",
+      "origin": "registry",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11577,
+      "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "registry"
+  },
+  "id": "sha256:f8709a81b033da12753acb999aa87bc94c3b3b6d9ba638baf052f17363423f55",
+  "kind": "adopt",
+  "manifest": "sha256:8bb1d31aa490d0207b62b0bc7ed690297b19aa5b16c4208c8812e7507b230133",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "arrow_ord",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "arrow-ord",
+    "scope": "crates-io",
+    "version": "59.3.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "arrow"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

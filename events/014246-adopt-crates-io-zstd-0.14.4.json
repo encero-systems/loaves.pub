@@ -1,0 +1,150 @@
+{
+  "about": {
+    "authors": [
+      "Alexandre Bury <alexandre.bury@gmail.com>"
+    ],
+    "description": "Binding for the zstd compression library.",
+    "documentation": "https://docs.rs/zstd",
+    "homepage": "",
+    "license": "BSD-3-Clause",
+    "license-file": "",
+    "readme": "Readme.md",
+    "repository": "https://github.com/gyscos/zstd-rs",
+    "rust-version": "1.64"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:ad5020ab8f27bfc0024ad0a07aed6bf022a16208f479686fbed4fdd0c85eb0b3",
+    "package": "zstd",
+    "registry": "crates-io",
+    "version": "0.14.4"
+  },
+  "archive": "sha256:05a5c0af691a347e96a7cd9ab34e664f0d60d0fde4761e2fbae6e60b15b54cc3",
+  "at": "2026-11-25T20:05:51Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/zstd-safe",
+      "name": "zstd-safe",
+      "optional": false,
+      "req": "^8.3.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 11288,
+      "digest": "sha256:206aad92b9ec516862bc52d0b1a64668b770562f58089190306b205f3d95eb28",
+      "format": "markdown",
+      "origin": "package",
+      "path": "Readme.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1501,
+      "digest": "sha256:ce4868c8e4ebe47a7d4b3c93dbf6b802033e5ae2fa7638098173f80836daac60",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "arrays": [
+      "zstd-safe/arrays"
+    ],
+    "bindgen": [
+      "zstd-safe/bindgen"
+    ],
+    "cmake": [
+      "zstd-safe/cmake"
+    ],
+    "debug": [
+      "zstd-safe/debug"
+    ],
+    "default": [
+      "legacy",
+      "arrays",
+      "zdict_builder"
+    ],
+    "doc-cfg": [],
+    "experimental": [
+      "zstd-safe/experimental"
+    ],
+    "fat-lto": [
+      "zstd-safe/fat-lto"
+    ],
+    "legacy": [
+      "zstd-safe/legacy"
+    ],
+    "no_asm": [
+      "zstd-safe/no_asm"
+    ],
+    "pkg-config": [
+      "zstd-safe/pkg-config"
+    ],
+    "rust-backend": [
+      "zstd-safe/rust-backend"
+    ],
+    "thin": [
+      "zstd-safe/thin"
+    ],
+    "thin-lto": [
+      "zstd-safe/thin-lto"
+    ],
+    "vendored": [
+      "zstd-safe/vendored"
+    ],
+    "wasm": [],
+    "with-rust-allocator": [
+      "zstd-safe/with-rust-allocator"
+    ],
+    "zdict_builder": [
+      "zstd-safe/zdict_builder"
+    ],
+    "zstdmt": [
+      "zstd-safe/zstdmt"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:e979819605a609ab48b7d712ca5a90d63f57b83891155d1426099c50482c3cd2",
+  "kind": "adopt",
+  "manifest": "sha256:8ce9627a79c40405b93abb8dfaed03a95d6a76c6b8d78f21290c9f28108b25f8",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2018",
+    "name": "zstd",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "zstd",
+    "scope": "crates-io",
+    "version": "0.14.4"
+  },
+  "taxonomy": {
+    "categories": [
+      "compression",
+      "api-bindings"
+    ],
+    "keywords": [
+      "zstd",
+      "zstandard",
+      "compression"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "5c4970b9ca1735b1bb19008729d5f4538fbdbc23",
+    "path": "",
+    "system": "git"
+  }
+}

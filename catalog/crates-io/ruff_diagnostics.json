@@ -1,0 +1,146 @@
+{
+  "name": "crates-io/ruff_diagnostics",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "ruff_diagnostics",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/ruff_diagnostics"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Charlie Marsh <charlie.r.marsh@gmail.com>"
+        ],
+        "description": "This is an internal component crate of Ruff",
+        "documentation": "https://docs.astral.sh/ruff",
+        "homepage": "https://docs.astral.sh/ruff",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/astral-sh/ruff",
+        "rust-version": "1.98"
+      },
+      "adopted": "2026-11-25T20:05:49Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:54c736927a0f760588cf1d3697e2115109631516428b68f7efec0e277e593a32",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [
+            "compact-str",
+            "derive",
+            "hashbrown",
+            "ordermap",
+            "smallvec",
+            "std",
+            "thin-vec"
+          ],
+          "loaf": "crates-io/get-size2",
+          "name": "get-size2",
+          "optional": false,
+          "req": "^0.11.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/is-macro",
+          "name": "is-macro",
+          "optional": false,
+          "req": "^0.3.5"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "get-size"
+          ],
+          "loaf": "crates-io/ruff_text_size",
+          "name": "ruff_text_size",
+          "optional": false,
+          "req": "^0.0.23"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "derive",
+            "std"
+          ],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": true,
+          "req": "^1.0.197"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 543,
+          "content": "content/sha256/41aadcaeb3fe1dca84ba7ff9fba4dbada2cc70702ae85ca1f3f7616d6fadd92a",
+          "digest": "sha256:41aadcaeb3fe1dca84ba7ff9fba4dbada2cc70702ae85ca1f3f7616d6fadd92a",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 348,
+          "content": "content/sha256/699a5307c007dd6bd5afd9ddaeb8456f5a44347ceeafaa93a2d61173436ffce5",
+          "digest": "sha256:699a5307c007dd6bd5afd9ddaeb8456f5a44347ceeafaa93a2d61173436ffce5",
+          "format": "text",
+          "origin": "registry",
+          "path": "LICENSE",
+          "role": "license-notice"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "serde": [
+          "dep:serde",
+          "ruff_text_size/serde"
+        ]
+      },
+      "files": {
+        "license": "registry",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/ruff_diagnostics/0.0.23/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:49Z",
+          "archive": "sha256:54c736927a0f760588cf1d3697e2115109631516428b68f7efec0e277e593a32",
+          "manifest": "crates-io/ruff_diagnostics/0.0.23/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "ruff_diagnostics",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:8c4e460905536e70070b75529ed7627ede9506f3b720b74cc62a9433a4d80d8d",
+        "package": "ruff_diagnostics",
+        "registry": "crates-io",
+        "version": "0.0.23"
+      },
+      "vcs": {
+        "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+        "path": "crates/ruff_diagnostics",
+        "system": "git"
+      },
+      "version": "0.0.23",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

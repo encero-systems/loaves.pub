@@ -1,0 +1,113 @@
+{
+  "about": {
+    "authors": [
+      "Kevin Mehall <km@kevinmehall.net>"
+    ],
+    "description": "A simple Parsing Expression Grammar (PEG) parser generator.",
+    "documentation": "",
+    "homepage": "",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/kevinmehall/rust-peg",
+    "rust-version": "1.82.0"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:0aad070be5b63aa72103f2fcdd70a83adbd5e90112ce5b574171ff1c65501773",
+    "package": "peg",
+    "registry": "crates-io",
+    "version": "0.8.6"
+  },
+  "archive": "sha256:12c834ddd77deac920141729febf3de2f4584edb99c795d42ec7fd6118773726",
+  "at": "2026-11-25T20:05:51Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/peg-macros",
+      "name": "peg-macros",
+      "optional": false,
+      "req": "=0.8.6"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/peg-runtime",
+      "name": "peg-runtime",
+      "optional": false,
+      "req": "=0.8.6"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 3834,
+      "digest": "sha256:bc5a7869ba209f0bb630a96a8aa5e10c43fb3fb7348cebeb0c94d1ad1c0952d5",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1056,
+      "digest": "sha256:c5a7eb83ebc1223b53b073480fbbb2af9d7d4f3a23853ae5812b04f3f7d99e3e",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "default": [
+      "std"
+    ],
+    "std": [
+      "peg-runtime/std"
+    ],
+    "trace": [
+      "peg-macros/trace"
+    ],
+    "unstable": [
+      "peg-runtime/unstable"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:5a27a5bbf9df7ac006775e6df4554ea0030b2bbe782f5afc19e9d9a17887312a",
+  "kind": "adopt",
+  "manifest": "sha256:4613b367044cde9af2aa7a8cb34487af14af8e2672e126da1bed49c755f41458",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "peg",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "peg",
+    "scope": "crates-io",
+    "version": "0.8.6"
+  },
+  "taxonomy": {
+    "categories": [
+      "parsing"
+    ],
+    "keywords": [
+      "peg",
+      "parser",
+      "parsing",
+      "grammar"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "3453b34e8dcf0482c650f917e60d43ed944a71e2",
+    "path": "",
+    "system": "git"
+  }
+}

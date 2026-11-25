@@ -1,0 +1,99 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>"
+    ],
+    "description": "Proc macros for aws-smithy-runtime-api.",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/smithy-lang/smithy-rs",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:ce237f890a2283c9b328955c3b0918d2d5bf66a1cb6ceccd36a0047246fbc6e6",
+    "package": "aws-smithy-runtime-api-macros",
+    "registry": "crates-io",
+    "version": "1.2.0"
+  },
+  "archive": "sha256:79b80d9982655e7b261a5e9bfa22c0b7eb3be8651214f296286f57cf32ca6e30",
+  "at": "2026-11-25T20:05:41Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/proc-macro2",
+      "name": "proc-macro2",
+      "optional": false,
+      "req": "^1.0.106"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/quote",
+      "name": "quote",
+      "optional": false,
+      "req": "^1.0.44"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "full"
+      ],
+      "loaf": "crates-io/syn",
+      "name": "syn",
+      "optional": false,
+      "req": "^2.0.114"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 443,
+      "digest": "sha256:735253a3c74b410621b9cdbaae546bab9511df9dbeab497ee1561224463d9f33",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10142,
+      "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:4257cd2e1b076f56eb56d4fd410af71017a39d67cb0b409618570e3b64d28617",
+  "kind": "adopt",
+  "manifest": "sha256:6abbda5782f6367501e1d7ed5dcf17610dd77019a1979e35610abef36724f5ea",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "aws_smithy_runtime_api_macros",
+    "root": "src/lib.rs",
+    "type": "proc-macro"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-smithy-runtime-api-macros",
+    "scope": "crates-io",
+    "version": "1.2.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": null
+}

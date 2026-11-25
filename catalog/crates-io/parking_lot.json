@@ -19,6 +19,151 @@
         "license-file": "",
         "readme": "README.md",
         "repository": "https://github.com/Amanieu/parking_lot",
+        "rust-version": "1.95"
+      },
+      "adopted": "2026-11-25T20:05:50Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:af5e5740c8bc6d0c0c8de24359591b1065d73d4ee2b3124fdcddccfc060a2bfe",
+      "assets": [],
+      "categories": [
+        "concurrency"
+      ],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/lock_api",
+          "name": "lock_api",
+          "optional": false,
+          "req": "^0.5.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/parking_lot_core",
+          "name": "parking_lot_core",
+          "optional": false,
+          "req": "^0.10.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 5737,
+          "content": "content/sha256/d8fa3308689b12a5bf6e1fa716ee02ee334692d4a58f8453e7206d1d317c98d7",
+          "digest": "sha256:d8fa3308689b12a5bf6e1fa716ee02ee334692d4a58f8453e7206d1d317c98d7",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10847,
+          "content": "content/sha256/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1071,
+          "content": "content/sha256/c9a75f18b9ab2927829a208fc6aa2cf4e63b8420887ba29cdb265d6619ae82d5",
+          "digest": "sha256:c9a75f18b9ab2927829a208fc6aa2cf4e63b8420887ba29cdb265d6619ae82d5",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        },
+        {
+          "bytes": 16203,
+          "content": "content/sha256/ab81443f8089746f8617b0e55963f6e29f63a8050ad86f543c8e6e84a1310506",
+          "digest": "sha256:ab81443f8089746f8617b0e55963f6e29f63a8050ad86f543c8e6e84a1310506",
+          "format": "markdown",
+          "origin": "package",
+          "path": "CHANGELOG.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "arc_lock": [
+          "lock_api/arc_lock"
+        ],
+        "deadlock_detection": [
+          "parking_lot_core/deadlock_detection"
+        ],
+        "default": [],
+        "nightly": [
+          "parking_lot_core/nightly"
+        ],
+        "owning_ref": [
+          "lock_api/owning_ref"
+        ],
+        "send_guard": [],
+        "serde": [
+          "lock_api/serde"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "mutex",
+        "condvar",
+        "rwlock",
+        "once",
+        "thread"
+      ],
+      "manifest": "crates-io/parking_lot/0.13.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:50Z",
+          "archive": "sha256:af5e5740c8bc6d0c0c8de24359591b1065d73d4ee2b3124fdcddccfc060a2bfe",
+          "manifest": "crates-io/parking_lot/0.13.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "parking_lot",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:a9cf937ca4e1d0b7578784559063422fc39ae7c5a00f02471f2614d5486fd226",
+        "package": "parking_lot",
+        "registry": "crates-io",
+        "version": "0.13.0"
+      },
+      "vcs": {
+        "commit": "1a5c3dd5c328b574234082e3ae4d8de078090d87",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.13.0",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Amanieu d'Antras <amanieu@gmail.com>"
+        ],
+        "description": "More compact and efficient implementations of the standard synchronization primitives.",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT OR Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/Amanieu/parking_lot",
         "rust-version": "1.71"
       },
       "adopted": "2026-10-06T13:11:44Z",

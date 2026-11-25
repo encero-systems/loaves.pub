@@ -1,0 +1,16 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/aws-smithy-schema"
+version = "1.2.0"
+
+[rust]
+name = "aws_smithy_schema"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+aws-smithy-runtime-api = { loaf = "crates-io/aws-smithy-runtime-api", version = "^1.20.0", features = ["client", "http-1x"] }
+aws-smithy-types = { loaf = "crates-io/aws-smithy-types", version = "^1.9.3", default-features = false }
+http = { loaf = "crates-io/http", version = "^1.3.1" }

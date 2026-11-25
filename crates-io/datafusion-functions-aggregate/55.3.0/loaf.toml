@@ -1,0 +1,29 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-functions-aggregate"
+version = "55.3.0"
+
+[project.features]
+force_hash_collisions = ["datafusion-common/force_hash_collisions"]
+
+[rust]
+name = "datafusion_functions_aggregate"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+arrow = { loaf = "crates-io/arrow", version = "^59.2.0", features = ["chrono-tz", "prettyprint"] }
+datafusion-common = { loaf = "crates-io/datafusion-common", version = "^55.3.0", default-features = false }
+datafusion-doc = { loaf = "crates-io/datafusion-doc", version = "^55.3.0" }
+datafusion-execution = { loaf = "crates-io/datafusion-execution", version = "^55.3.0", default-features = false }
+datafusion-expr = { loaf = "crates-io/datafusion-expr", version = "^55.3.0", default-features = false }
+datafusion-functions-aggregate-common = { loaf = "crates-io/datafusion-functions-aggregate-common", version = "^55.3.0" }
+datafusion-macros = { loaf = "crates-io/datafusion-macros", version = "^55.3.0" }
+datafusion-physical-expr = { loaf = "crates-io/datafusion-physical-expr", version = "^55.3.0", default-features = false }
+datafusion-physical-expr-common = { loaf = "crates-io/datafusion-physical-expr-common", version = "^55.3.0", default-features = false }
+half = { loaf = "crates-io/half", version = "^2.7.0", default-features = false }
+hashbrown = { loaf = "crates-io/hashbrown", version = "^0.17.1" }
+log = { loaf = "crates-io/log", version = "^0.4" }
+num-traits = { loaf = "crates-io/num-traits", version = "^0.2" }

@@ -140,6 +140,137 @@
       "version": "0.12.16",
       "yank-reason": "",
       "yanked": false
+    },
+    {
+      "about": {
+        "authors": [],
+        "description": "Library for building code annotations",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT OR Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/rust-lang/annotate-snippets-rs",
+        "rust-version": "1.66.0"
+      },
+      "adopted": "2026-11-25T20:05:41Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:1aa296222fb177de4117378a2467194fa869a5446588d36b44d12cb3b430d159",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/anstyle",
+          "name": "anstyle",
+          "optional": false,
+          "req": "^1.0.4"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/memchr",
+          "name": "memchr",
+          "optional": true,
+          "req": "^2.7.4"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/unicode-width",
+          "name": "unicode-width",
+          "optional": false,
+          "req": "^0.2.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 868,
+          "content": "content/sha256/2459c0cfa39f6abc3abb47aa759e96d8492034ce868ac6a59fe669d83fb382de",
+          "digest": "sha256:2459c0cfa39f6abc3abb47aa759e96d8492034ce868ac6a59fe669d83fb382de",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11358,
+          "content": "content/sha256/c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+          "digest": "sha256:c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1062,
+          "content": "content/sha256/6efb0476a1cc085077ed49357026d8c173bf33017278ef440f222fb9cbcb66e6",
+          "digest": "sha256:6efb0476a1cc085077ed49357026d8c173bf33017278ef440f222fb9cbcb66e6",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "default": [],
+        "memchr": [
+          "dep:memchr"
+        ],
+        "simd": [
+          "memchr"
+        ],
+        "testing-colors": []
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "code",
+        "analysis",
+        "ascii",
+        "errors",
+        "debug"
+      ],
+      "manifest": "crates-io/annotate-snippets/0.11.5/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:41Z",
+          "archive": "sha256:1aa296222fb177de4117378a2467194fa869a5446588d36b44d12cb3b430d159",
+          "manifest": "crates-io/annotate-snippets/0.11.5/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "annotate_snippets",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:710e8eae58854cdc1790fcb56cca04d712a17be849eeb81da2a724bf4bae2bc4",
+        "package": "annotate-snippets",
+        "registry": "crates-io",
+        "version": "0.11.5"
+      },
+      "vcs": {
+        "commit": "72dd8c7b9210bace1be990e3e3018fab46fd8291",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.11.5",
+      "yank-reason": "",
+      "yanked": false
     }
   ]
 }

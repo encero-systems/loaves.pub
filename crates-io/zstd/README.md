@@ -4,6 +4,7 @@ The crates.io package [zstd](https://crates.io/crates/zstd), adopted by [loaves.
 
 | Version | Adopted | License | Build facts | Compiled units | |
 |---|---|---|---|---|---|
+| [0.14.4](0.14.4/loaf.toml) | 2026-11-25 | BSD-3-Clause | 0 | 0 |  |
 | [0.14.0](0.14.0/loaf.toml) | 2026-10-06 | BSD-3-Clause | 1 | 0 |  |
 | [0.13.3](0.13.3/loaf.toml) | 2026-10-06 | MIT | 3 | 0 |  |
 

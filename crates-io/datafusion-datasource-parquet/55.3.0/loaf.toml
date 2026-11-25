@@ -1,0 +1,45 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-datasource-parquet"
+version = "55.3.0"
+
+[project.features]
+parquet_encryption = ["parquet/encryption", "datafusion-common/parquet_encryption", "datafusion-execution/parquet_encryption"]
+proto = ["dep:datafusion-proto-models", "datafusion-datasource/proto", "datafusion-physical-plan/proto"]
+
+[rust]
+name = "datafusion_datasource_parquet"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[rust.source]
+root = "src/mod.rs"
+
+[dependencies]
+arrow = { loaf = "crates-io/arrow", version = "^59.2.0", features = ["chrono-tz", "prettyprint"] }
+arrow-schema = { loaf = "crates-io/arrow-schema", version = "^59.2.0", default-features = false }
+async-trait = { loaf = "crates-io/async-trait", version = "^0.1.89" }
+bytes = { loaf = "crates-io/bytes", version = "^1.11" }
+datafusion-common = { loaf = "crates-io/datafusion-common", version = "^55.3.0", features = ["object_store", "parquet"], default-features = false }
+datafusion-common-runtime = { loaf = "crates-io/datafusion-common-runtime", version = "^55.3.0" }
+datafusion-datasource = { loaf = "crates-io/datafusion-datasource", version = "^55.3.0", default-features = false }
+datafusion-execution = { loaf = "crates-io/datafusion-execution", version = "^55.3.0", default-features = false }
+datafusion-expr = { loaf = "crates-io/datafusion-expr", version = "^55.3.0", default-features = false }
+datafusion-functions = { loaf = "crates-io/datafusion-functions", version = "^55.3.0" }
+datafusion-functions-aggregate-common = { loaf = "crates-io/datafusion-functions-aggregate-common", version = "^55.3.0" }
+datafusion-physical-expr = { loaf = "crates-io/datafusion-physical-expr", version = "^55.3.0", default-features = false }
+datafusion-physical-expr-adapter = { loaf = "crates-io/datafusion-physical-expr-adapter", version = "^55.3.0", default-features = false }
+datafusion-physical-expr-common = { loaf = "crates-io/datafusion-physical-expr-common", version = "^55.3.0", default-features = false }
+datafusion-physical-plan = { loaf = "crates-io/datafusion-physical-plan", version = "^55.3.0" }
+datafusion-proto-models = { loaf = "crates-io/datafusion-proto-models", version = "^55.3.0", optional = true }
+datafusion-pruning = { loaf = "crates-io/datafusion-pruning", version = "^55.3.0" }
+datafusion-session = { loaf = "crates-io/datafusion-session", version = "^55.3.0" }
+futures = { loaf = "crates-io/futures", version = "^0.3" }
+itertools = { loaf = "crates-io/itertools", version = "^0.15" }
+log = { loaf = "crates-io/log", version = "^0.4" }
+object_store = { loaf = "crates-io/object_store", version = "^0.13.2", default-features = false }
+parking_lot = { loaf = "crates-io/parking_lot", version = "^0.12" }
+parquet = { loaf = "crates-io/parquet", version = "^59.2.0", features = ["arrow", "async", "object_store"], default-features = false }
+tokio = { loaf = "crates-io/tokio", version = "^1.52", features = ["macros", "rt", "sync"] }

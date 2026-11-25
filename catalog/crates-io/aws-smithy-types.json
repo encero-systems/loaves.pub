@@ -22,6 +22,255 @@
         "repository": "https://github.com/smithy-lang/smithy-rs",
         "rust-version": "1.94.1"
       },
+      "adopted": "2026-11-25T20:05:42Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:4f4caba0c517e5b76d44b48fd1c7a624c6c61705e5fa233d0c0a2fe11c77a118",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/base64-simd",
+          "name": "base64-simd",
+          "optional": false,
+          "req": "^0.8"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/bytes",
+          "name": "bytes",
+          "optional": false,
+          "req": "^1.11.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/bytes-utils",
+          "name": "bytes-utils",
+          "optional": false,
+          "req": "^0.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/futures-core",
+          "name": "futures-core",
+          "optional": true,
+          "req": "^0.3.31"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http",
+          "name": "http",
+          "optional": true,
+          "req": "^0.2.12"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http",
+          "name": "http-1x",
+          "optional": false,
+          "req": "^1.3.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http-body",
+          "name": "http-body-0-4",
+          "optional": true,
+          "req": "^0.4.6"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http-body",
+          "name": "http-body-1-0",
+          "optional": true,
+          "req": "^1.0.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http-body-util",
+          "name": "http-body-util",
+          "optional": true,
+          "req": "^0.1.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/hyper",
+          "name": "hyper-0-14",
+          "optional": true,
+          "req": "^0.14.26"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/itoa",
+          "name": "itoa",
+          "optional": false,
+          "req": "^1.0.17"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/pin-project-lite",
+          "name": "pin-project-lite",
+          "optional": false,
+          "req": "^0.2.14"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/ryu",
+          "name": "ryu",
+          "optional": false,
+          "req": "^1.0.22"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "derive"
+          ],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": false,
+          "req": "^1.0.229",
+          "target": "cfg(aws_sdk_unstable)"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "parsing"
+          ],
+          "loaf": "crates-io/time",
+          "name": "time",
+          "optional": false,
+          "req": "^0.3.4"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/tokio",
+          "name": "tokio",
+          "optional": true,
+          "req": "^1.49.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/tokio-util",
+          "name": "tokio-util",
+          "optional": true,
+          "req": "^0.7.18"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 590,
+          "content": "content/sha256/153d3bee6c36a0676f98ec54ae1bcae979e7684f37e64225b07b582cc3868147",
+          "digest": "sha256:153d3bee6c36a0676f98ec54ae1bcae979e7684f37e64225b07b582cc3868147",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10142,
+          "content": "content/sha256/09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "byte-stream-poll-next": [],
+        "http-body-0-4-x": [
+          "dep:http-body-0-4",
+          "dep:http"
+        ],
+        "http-body-1-x": [
+          "dep:http-body-1-0",
+          "dep:http-body-util"
+        ],
+        "hyper-0-14-x": [
+          "dep:hyper-0-14"
+        ],
+        "rt-tokio": [
+          "http-body-1-x",
+          "dep:tokio-util",
+          "dep:tokio",
+          "tokio?/rt",
+          "tokio?/fs",
+          "tokio?/io-util",
+          "tokio-util?/io",
+          "dep:futures-core"
+        ],
+        "serde-deserialize": [],
+        "serde-serialize": [],
+        "test-util": []
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/aws-smithy-types/1.9.4/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:42Z",
+          "archive": "sha256:4f4caba0c517e5b76d44b48fd1c7a624c6c61705e5fa233d0c0a2fe11c77a118",
+          "manifest": "crates-io/aws-smithy-types/1.9.4/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "aws_smithy_types",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:aff4bf014c512840b2bba80a20417b723cbd6a0a65c02e2d81f50b4268aedfc7",
+        "package": "aws-smithy-types",
+        "registry": "crates-io",
+        "version": "1.9.4"
+      },
+      "vcs": null,
+      "version": "1.9.4",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+          "Russell Cohen <rcoh@amazon.com>"
+        ],
+        "description": "Types for smithy-rs codegen.",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/smithy-lang/smithy-rs",
+        "rust-version": "1.94.1"
+      },
       "adopted": "2026-10-07T07:43:34Z",
       "advisories": 0,
       "advisory-notes": [],

@@ -1,0 +1,43 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-common"
+version = "55.3.0"
+
+[project.features]
+backtrace = []
+force_hash_collisions = []
+object_store = ["dep:object_store"]
+parquet = ["dep:parquet"]
+parquet_encryption = ["parquet", "dep:parquet", "parquet/encryption", "dep:hex"]
+recursive_protection = ["dep:recursive"]
+sql = ["sqlparser"]
+sqlparser = ["dep:sqlparser"]
+
+[rust]
+name = "datafusion_common"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+arrow = { loaf = "crates-io/arrow", version = "^59.2.0", features = ["chrono-tz", "prettyprint"] }
+arrow-ipc = { loaf = "crates-io/arrow-ipc", version = "^59.2.0", features = ["lz4", "zstd"], default-features = false }
+arrow-schema = { loaf = "crates-io/arrow-schema", version = "^59.2.0", features = ["canonical_extension_types"], default-features = false }
+chrono = { loaf = "crates-io/chrono", version = "^0.4.45", default-features = false }
+foldhash = { loaf = "crates-io/foldhash", version = "^0.2" }
+half = { loaf = "crates-io/half", version = "^2.7.0", default-features = false }
+hashbrown = { loaf = "crates-io/hashbrown", version = "^0.17.1" }
+hex = { loaf = "crates-io/hex", version = "^0.4.3", optional = true }
+indexmap = { loaf = "crates-io/indexmap", version = "^2.14.0" }
+itertools = { loaf = "crates-io/itertools", version = "^0.15" }
+libc = { loaf = "crates-io/libc", version = "^0.2.185" }
+log = { loaf = "crates-io/log", version = "^0.4" }
+num-traits = { loaf = "crates-io/num-traits", version = "^0.2" }
+object_store = { loaf = "crates-io/object_store", version = "^0.13.2", default-features = false, optional = true }
+parquet = { loaf = "crates-io/parquet", version = "^59.2.0", features = ["arrow", "async", "object_store"], optional = true }
+recursive = { loaf = "crates-io/recursive", version = "^0.1.1", optional = true }
+sqlparser = { loaf = "crates-io/sqlparser", version = "^0.62.0", features = ["std", "visitor"], default-features = false, optional = true }
+tokio = { loaf = "crates-io/tokio", version = "^1.52", features = ["macros", "rt", "sync"] }
+uuid = { loaf = "crates-io/uuid", version = "^1.23", features = ["v4"] }
+web-time = { loaf = "crates-io/web-time", version = "^1.1.0", target = "cfg(target_family = \"wasm\")" }

@@ -1,0 +1,20 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/salsa-macros"
+version = "0.28.6"
+
+[project.features]
+default = []
+persistence = []
+
+[rust]
+name = "salsa_macros"
+type = "proc-macro"
+edition = "2024"
+build-script = false
+
+[dependencies]
+proc-macro2 = { loaf = "crates-io/proc-macro2", version = "^1.0" }
+quote = { loaf = "crates-io/quote", version = "^1.0" }
+syn = { loaf = "crates-io/syn", version = "^3.0.0", features = ["extra-traits", "full", "visit", "visit-mut"] }

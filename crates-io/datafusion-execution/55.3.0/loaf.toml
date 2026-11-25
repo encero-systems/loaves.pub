@@ -1,0 +1,39 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-execution"
+version = "55.3.0"
+
+[project.features]
+arrow_buffer_pool = ["arrow-buffer/pool"]
+default = ["sql"]
+parquet = ["dep:parquet"]
+parquet_encryption = ["dep:parquet", "parquet/encryption"]
+sql = []
+
+[rust]
+name = "datafusion_execution"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+arrow = { loaf = "crates-io/arrow", version = "^59.2.0", features = ["chrono-tz", "prettyprint"] }
+arrow-buffer = { loaf = "crates-io/arrow-buffer", version = "^59.2.0", default-features = false }
+async-trait = { loaf = "crates-io/async-trait", version = "^0.1.89" }
+bytes = { loaf = "crates-io/bytes", version = "^1.11" }
+dashmap = { loaf = "crates-io/dashmap", version = "^6.2.1" }
+datafusion-common = { loaf = "crates-io/datafusion-common", version = "^55.3.0", default-features = false }
+datafusion-expr = { loaf = "crates-io/datafusion-expr", version = "^55.3.0", default-features = false }
+datafusion-physical-expr-common = { loaf = "crates-io/datafusion-physical-expr-common", version = "^55.3.0", default-features = false }
+futures = { loaf = "crates-io/futures", version = "^0.3" }
+log = { loaf = "crates-io/log", version = "^0.4" }
+object_store = { loaf = "crates-io/object_store", version = "^0.13.2", features = ["fs"], default-features = false }
+parking_lot = { loaf = "crates-io/parking_lot", version = "^0.12" }
+parquet = { loaf = "crates-io/parquet", version = "^59.2.0", features = ["arrow", "async", "object_store"], default-features = false, optional = true }
+pin-project-lite = { loaf = "crates-io/pin-project-lite", version = "^0.2.7" }
+rand = { loaf = "crates-io/rand", version = "^0.9" }
+tempfile = { loaf = "crates-io/tempfile", version = "^3" }
+tokio = [{ loaf = "crates-io/tokio", version = "^1.52", features = ["fs", "macros", "rt", "sync"], target = "cfg(not(target_arch = \"wasm32\"))" }, { loaf = "crates-io/tokio", version = "^1.52", features = ["macros", "rt", "sync"] }]
+tokio-util = { loaf = "crates-io/tokio-util", version = "^0.7", features = ["io"] }
+url = { loaf = "crates-io/url", version = "^2.5.7" }

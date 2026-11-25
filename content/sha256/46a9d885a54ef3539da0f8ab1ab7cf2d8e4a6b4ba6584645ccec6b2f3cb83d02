@@ -1,0 +1,10 @@
+# arrow-cast 59.3.3
+
+Cast kernel and utilities for Apache Arrow
+
+- crates.io: https://crates.io/crates/arrow-cast/59.3.3
+- Repository: https://github.com/apache/arrow-rs
+- Documentation: https://docs.rs/arrow-cast/59.3.3
+- License: Apache-2.0
+
+The package as published on crates.io carries no README. loaves.pub wrote this one when it adopted the package as the Loaf `crates-io/arrow-cast`.

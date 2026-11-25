@@ -1,11 +1,12 @@
 # crates-io/crypto-bigint
 
-The crates.io package [crypto-bigint](https://crates.io/crates/crypto-bigint), adopted by [loaves.pub](https://loaves.pub) as Loaves. Pure Rust implementation of a big integer library which has been designed from
-the ground-up for use in cryptographic applications. Provides constant-time,
-no_std-friendly implementations of modern formulas using const generics.
+The crates.io package [crypto-bigint](https://crates.io/crates/crypto-bigint), adopted by [loaves.pub](https://loaves.pub) as Loaves. Pure Rust implementation of a big integer library which has been designed from the ground-up for use
+in cryptographic applications. Provides constant-time, `no_std`/`no_alloc`-friendly implementations
+of modern formulas using const generics. Also includes optional support for heap-backed integers.
 
 | Version | Adopted | License | Build facts | Compiled units | |
 |---|---|---|---|---|---|
+| [0.7.11](0.7.11/loaf.toml) | 2026-11-25 | Apache-2.0 OR MIT | 0 | 0 |  |
 | [0.7.5](0.7.5/loaf.toml) | 2026-10-07 | Apache-2.0 OR MIT | 0 | 20 | [units](0.7.5/assets.json) |
 | [0.5.5](0.5.5/loaf.toml) | 2026-10-07 | Apache-2.0 OR MIT | 0 | 0 |  |
 

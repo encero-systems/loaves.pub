@@ -1,0 +1,104 @@
+{
+  "name": "crates-io/supports-hyperlinks",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "supports-hyperlinks",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/supports-hyperlinks"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Kat Marchán <kzm@zkat.tech>"
+        ],
+        "description": "Detects whether a terminal supports rendering hyperlinks.",
+        "documentation": "https://docs.rs/supports-hyperlinks",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/zkat/supports-hyperlinks",
+        "rust-version": "1.70.0"
+      },
+      "adopted": "2026-11-25T20:05:46Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:4cd8018f9e59551f30ceb0319a02879a3e25aeaf1d1ee84eae602d72468e6540",
+      "assets": [],
+      "categories": [],
+      "dependencies": [],
+      "documents": [
+        {
+          "bytes": 877,
+          "content": "content/sha256/9824dd5fe4c36c5c89b46f4721fff4d543a121c26c7ef9746824329af71d7d62",
+          "digest": "sha256:9824dd5fe4c36c5c89b46f4721fff4d543a121c26c7ef9746824329af71d7d62",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10440,
+          "content": "content/sha256/02872c3ff23e11da5a9b3289df11b581be36b4956bfb7cfdc3d8043f92d64794",
+          "digest": "sha256:02872c3ff23e11da5a9b3289df11b581be36b4956bfb7cfdc3d8043f92d64794",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        },
+        {
+          "bytes": 2717,
+          "content": "content/sha256/fa22c9da99a64815b9ee7746fb41db512071a7ad09ca22feba038f646e5ea7ce",
+          "digest": "sha256:fa22c9da99a64815b9ee7746fb41db512071a7ad09ca22feba038f646e5ea7ce",
+          "format": "markdown",
+          "origin": "package",
+          "path": "CHANGELOG.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/supports-hyperlinks/3.2.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:46Z",
+          "archive": "sha256:4cd8018f9e59551f30ceb0319a02879a3e25aeaf1d1ee84eae602d72468e6540",
+          "manifest": "crates-io/supports-hyperlinks/3.2.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "supports_hyperlinks",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:e396b6523b11ccb83120b115a0b7366de372751aa6edf19844dfb13a6af97e91",
+        "package": "supports-hyperlinks",
+        "registry": "crates-io",
+        "version": "3.2.0"
+      },
+      "vcs": {
+        "commit": "d4729ba67b7d9be04169b2c96444488936cff58e",
+        "path": "",
+        "system": "git"
+      },
+      "version": "3.2.0",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

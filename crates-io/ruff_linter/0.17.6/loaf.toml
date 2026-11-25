@@ -1,0 +1,73 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_linter"
+version = "0.17.6"
+
+[project.features]
+clap = ["dep:clap"]
+default = []
+schemars = ["dep:schemars", "ruff_python_ast/schemars"]
+test-rules = []
+testing = []
+
+[rust]
+name = "ruff_linter"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+aho-corasick = { loaf = "crates-io/aho-corasick", version = "^1.1.3", features = ["perf-literal", "std"], default-features = false }
+anyhow = { loaf = "crates-io/anyhow", version = "^1.0.80", features = ["std"], default-features = false }
+bitflags = { loaf = "crates-io/bitflags", version = "^2.5.0", default-features = false }
+clap = { loaf = "crates-io/clap", version = "^4.5.3", features = ["color", "derive", "error-context", "help", "std", "string", "suggestions", "usage"], default-features = false, optional = true }
+colored = { loaf = "crates-io/colored", version = "^3.0.0", default-features = false }
+compact_str = { loaf = "crates-io/compact_str", version = "^0.10.0", features = ["std"], default-features = false }
+fern = { loaf = "crates-io/fern", version = "^0.7.0", default-features = false }
+glob = { loaf = "crates-io/glob", version = "^0.3.1", default-features = false }
+globset = { loaf = "crates-io/globset", version = "^0.4.14", features = ["log"], default-features = false }
+imperative = { loaf = "crates-io/imperative", version = "^1.0.4", default-features = false }
+is-macro = { loaf = "crates-io/is-macro", version = "^0.3.5", default-features = false }
+itertools = { loaf = "crates-io/itertools", version = "^0.15.0", features = ["use_std"], default-features = false }
+jiff = { loaf = "crates-io/jiff", version = "^0.2.0", features = ["perf-inline", "std", "tz-fat", "tz-system", "tzdb-bundle-platform", "tzdb-concatenated", "tzdb-zoneinfo"], default-features = false }
+libcst = { loaf = "crates-io/libcst", version = "^1.9.0", default-features = false }
+log = { loaf = "crates-io/log", version = "^0.4.17", default-features = false }
+memchr = { loaf = "crates-io/memchr", version = "^2.7.1", features = ["std"], default-features = false }
+natord = { loaf = "crates-io/natord", version = "^1.0.9", default-features = false }
+path-absolutize = { loaf = "crates-io/path-absolutize", version = "^4.0.0", features = ["fixed_workdir"], default-features = false }
+pep440_rs = { loaf = "crates-io/pep440_rs", version = "^0.7.1", default-features = false }
+pyproject-toml = { loaf = "crates-io/pyproject-toml", version = "^0.13.4", default-features = false }
+regex = { loaf = "crates-io/regex", version = "^1.10.2", features = ["perf", "std", "unicode"], default-features = false }
+ruff_cache = { loaf = "crates-io/ruff_cache", version = "^0.0.23" }
+ruff_db = { loaf = "crates-io/ruff_db", version = "^0.0.23", features = ["junit", "serde"], default-features = false }
+ruff_diagnostics = { loaf = "crates-io/ruff_diagnostics", version = "^0.0.23", features = ["serde"] }
+ruff_macros = { loaf = "crates-io/ruff_macros", version = "^0.0.23" }
+ruff_notebook = { loaf = "crates-io/ruff_notebook", version = "^0.0.23" }
+ruff_python_ast = { loaf = "crates-io/ruff_python_ast", version = "^0.0.23", features = ["cache", "serde"] }
+ruff_python_codegen = { loaf = "crates-io/ruff_python_codegen", version = "^0.0.23" }
+ruff_python_edits = { loaf = "crates-io/ruff_python_edits", version = "^0.0.23" }
+ruff_python_importer = { loaf = "crates-io/ruff_python_importer", version = "^0.0.23" }
+ruff_python_index = { loaf = "crates-io/ruff_python_index", version = "^0.0.23" }
+ruff_python_literal = { loaf = "crates-io/ruff_python_literal", version = "^0.0.23" }
+ruff_python_parser = { loaf = "crates-io/ruff_python_parser", version = "^0.0.23" }
+ruff_python_semantic = { loaf = "crates-io/ruff_python_semantic", version = "^0.0.23" }
+ruff_python_stdlib = { loaf = "crates-io/ruff_python_stdlib", version = "^0.0.23" }
+ruff_python_trivia = { loaf = "crates-io/ruff_python_trivia", version = "^0.0.23" }
+ruff_ranged_value = { loaf = "crates-io/ruff_ranged_value", version = "^0.0.23" }
+ruff_source_file = { loaf = "crates-io/ruff_source_file", version = "^0.0.23", features = ["serde"] }
+ruff_text_size = { loaf = "crates-io/ruff_text_size", version = "^0.0.23" }
+ruff_unicode_names2 = { loaf = "crates-io/ruff_unicode_names2", version = "^0.0.23" }
+rustc-hash = { loaf = "crates-io/rustc-hash", version = "^2.0.0", features = ["std"], default-features = false }
+schemars = { loaf = "crates-io/schemars", version = "^1.0.4", features = ["derive", "std"], default-features = false, optional = true }
+serde = { loaf = "crates-io/serde", version = "^1.0.197", features = ["derive", "std"], default-features = false }
+serde_json = { loaf = "crates-io/serde_json", version = "^1.0.113", features = ["std"], default-features = false }
+similar = { loaf = "crates-io/similar", version = "^3.0.0", features = ["inline", "std", "text"], default-features = false }
+smallvec = { loaf = "crates-io/smallvec", version = "^1.13.2", features = ["const_generics", "const_new", "union"], default-features = false }
+strum = { loaf = "crates-io/strum", version = "^0.28.0", features = ["std", "strum_macros"], default-features = false }
+strum_macros = { loaf = "crates-io/strum_macros", version = "^0.28.0", default-features = false }
+thiserror = { loaf = "crates-io/thiserror", version = "^2.0.0", features = ["std"], default-features = false }
+toml = { loaf = "crates-io/toml", version = "^1.0.0", features = ["display", "parse", "serde", "std"], default-features = false }
+typed-arena = { loaf = "crates-io/typed-arena", version = "^2.0.2", features = ["std"], default-features = false }
+unicode-normalization = { loaf = "crates-io/unicode-normalization", version = "^0.1.23", features = ["std"], default-features = false }
+unicode-width = { loaf = "crates-io/unicode-width", version = "^0.2.0", default-features = false }

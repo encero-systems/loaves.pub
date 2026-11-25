@@ -1,0 +1,298 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:da688acabe541602971031f4318366c86f8a23808a8abb5c719eacec964d10c9",
+    "package": "ruff_python_ast",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:462f3fce53b022f66c5aee7e7df76be21368e81a658a3a16321c5c1e2d2ad830",
+  "at": "2026-11-25T20:05:53Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "perf-literal",
+        "std"
+      ],
+      "loaf": "crates-io/aho-corasick",
+      "name": "aho-corasick",
+      "optional": false,
+      "req": "^1.1.3"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/arrayvec",
+      "name": "arrayvec",
+      "optional": false,
+      "req": "^0.7.6"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/bitflags",
+      "name": "bitflags",
+      "optional": false,
+      "req": "^2.5.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/char_str",
+      "name": "char_str",
+      "optional": false,
+      "req": "^0.0.4"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/compact_str",
+      "name": "compact_str",
+      "optional": false,
+      "req": "^0.10.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "compact-str",
+        "derive",
+        "hashbrown",
+        "ordermap",
+        "smallvec",
+        "std",
+        "thin-vec"
+      ],
+      "loaf": "crates-io/get-size2",
+      "name": "get-size2",
+      "optional": true,
+      "req": "^0.11.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/is-macro",
+      "name": "is-macro",
+      "optional": false,
+      "req": "^0.3.5"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/memchr",
+      "name": "memchr",
+      "optional": false,
+      "req": "^2.7.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_cache",
+      "name": "ruff_cache",
+      "optional": true,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_macros",
+      "name": "ruff_macros",
+      "optional": true,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_python_trivia",
+      "name": "ruff_python_trivia",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_source_file",
+      "name": "ruff_source_file",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_text_size",
+      "name": "ruff_text_size",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/rustc-hash",
+      "name": "rustc-hash",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "compact_str",
+        "inventory",
+        "macros",
+        "salsa_unstable"
+      ],
+      "loaf": "crates-io/salsa",
+      "name": "salsa",
+      "optional": true,
+      "req": "^0.28.5"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/schemars",
+      "name": "schemars",
+      "optional": true,
+      "req": "^1.0.4"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0.197"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/serde_json",
+      "name": "serde_json",
+      "optional": true,
+      "req": "^1.0.113"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/thin-vec",
+      "name": "thin-vec",
+      "optional": false,
+      "req": "^0.2.14"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/thiserror",
+      "name": "thiserror",
+      "optional": false,
+      "req": "^2.0.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 541,
+      "digest": "sha256:139c467959fbeade0e0ea8470aef0c7259a558c17f70356729f151b27846c3c2",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 345,
+      "digest": "sha256:22b9d2d156627d0e7e970d84c73d1029f9bb37da352ed48136bc296f60d41eb2",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {
+    "cache": [
+      "dep:ruff_cache",
+      "dep:ruff_macros"
+    ],
+    "get-size": [
+      "dep:get-size2",
+      "char_str/get-size",
+      "ruff_text_size/get-size"
+    ],
+    "salsa": [
+      "dep:salsa"
+    ],
+    "schemars": [
+      "dep:schemars",
+      "dep:serde_json"
+    ],
+    "serde": [
+      "dep:serde",
+      "ruff_text_size/serde",
+      "dep:ruff_cache",
+      "char_str/serde",
+      "compact_str/serde",
+      "thin-vec/serde"
+    ]
+  },
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:220d93b4eb29cb293ced848541b4184b66b240504fd38ac3c7e1f4baa79e6288",
+  "kind": "adopt",
+  "manifest": "sha256:3c0a82b64ee342282ca3cf33b2debe53c4f3cd64dbc0198f123e48d70e200e30",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_python_ast",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_python_ast",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_python_ast",
+    "system": "git"
+  }
+}

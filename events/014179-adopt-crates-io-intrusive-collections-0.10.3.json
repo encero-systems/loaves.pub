@@ -1,0 +1,98 @@
+{
+  "about": {
+    "authors": [
+      "Amanieu d'Antras <amanieu@gmail.com>"
+    ],
+    "description": "Intrusive collections for Rust (linked list and red-black tree)",
+    "documentation": "https://docs.rs/intrusive-collections",
+    "homepage": "",
+    "license": "MIT OR Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/Amanieu/intrusive-rs",
+    "rust-version": "1.82"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:4275b20e6057cd7733fd8df8a5a31701e4fe44497dad0f3fa0e1c4fb971506be",
+    "package": "intrusive-collections",
+    "registry": "crates-io",
+    "version": "0.10.3"
+  },
+  "archive": "sha256:39f02c835be072782d94f3f6edbb95be2fab919b46b6542ea4200c181c25e901",
+  "at": "2026-11-25T20:05:43Z",
+  "deps": [],
+  "documents": [
+    {
+      "bytes": 2083,
+      "digest": "sha256:6fd0abb1df34696ccc139ad7d34a78284a698b4fa095efca0f946fd99498cb70",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10847,
+      "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-APACHE",
+      "role": "license"
+    },
+    {
+      "bytes": 1060,
+      "digest": "sha256:ff8f68cb076caf8cefe7a6430d4ac086ce6af2ca8ce2c4e5a2004d4552ef52a2",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "alloc": [],
+    "default": [
+      "alloc"
+    ],
+    "nightly": []
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:9ec4c5f18fd76e2ef6d2305a6cb70c9c363a11a1c39b8cc3f9b8b6f231b5a61d",
+  "kind": "adopt",
+  "manifest": "sha256:526a955491951e412b250de7c153f5629a47466b4b6adda7a8ff2be253b6131a",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2018",
+    "name": "intrusive_collections",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "intrusive-collections",
+    "scope": "crates-io",
+    "version": "0.10.3"
+  },
+  "taxonomy": {
+    "categories": [
+      "data-structures",
+      "no-std"
+    ],
+    "keywords": [
+      "intrusive",
+      "no_std",
+      "list",
+      "rbtree"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "0a895642801c9a75521f93f6605c7cc707e61f73",
+    "path": "",
+    "system": "git"
+  }
+}

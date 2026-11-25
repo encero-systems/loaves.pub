@@ -302,6 +302,141 @@
         ],
         "description": "Array data abstractions for Apache Arrow",
         "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/apache/arrow-rs",
+        "rust-version": "1.85"
+      },
+      "adopted": "2026-11-25T20:05:47Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:34c471a01afc1c9b9fb00714db3c501d8aa239ffd27c70c2eef1826587c3d505",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-buffer",
+          "name": "arrow-buffer",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-schema",
+          "name": "arrow-schema",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/half",
+          "name": "half",
+          "optional": false,
+          "req": "^2.1"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/num-integer",
+          "name": "num-integer",
+          "optional": false,
+          "req": "^0.1.46"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/num-traits",
+          "name": "num-traits",
+          "optional": false,
+          "req": "^0.2.19"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 389,
+          "content": "content/sha256/c56d0f753671c4b43804e0410b2acda434a634c3012b4f1c0225f3b10c9515e9",
+          "digest": "sha256:c56d0f753671c4b43804e0410b2acda434a634c3012b4f1c0225f3b10c9515e9",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11577,
+          "content": "content/sha256/03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "ffi": [
+          "arrow-schema/ffi"
+        ],
+        "force_validate": [],
+        "pool": [
+          "arrow-buffer/pool"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [
+        "arrow"
+      ],
+      "manifest": "crates-io/arrow-data/59.3.3/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:47Z",
+          "archive": "sha256:34c471a01afc1c9b9fb00714db3c501d8aa239ffd27c70c2eef1826587c3d505",
+          "manifest": "crates-io/arrow-data/59.3.3/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "arrow_data",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:1aee86955e4b574e821fd64d65bd9bf41c2c61b863750671ecb38c75fa56de5d",
+        "package": "arrow-data",
+        "registry": "crates-io",
+        "version": "59.3.3"
+      },
+      "vcs": null,
+      "version": "59.3.3",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache Arrow <dev@arrow.apache.org>"
+        ],
+        "description": "Array data abstractions for Apache Arrow",
+        "documentation": "",
         "homepage": "https://github.com/apache/arrow-rs",
         "license": "Apache-2.0",
         "license-file": "",

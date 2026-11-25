@@ -302,6 +302,141 @@
         ],
         "description": "Defines the logical types for arrow arrays",
         "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/apache/arrow-rs",
+        "rust-version": "1.85"
+      },
+      "adopted": "2026-11-25T20:05:41Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:25eb7a5846b89d5cb3cadf46ce1789c13a75f79c0cd58f1aa687512268fd420c",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/bitflags",
+          "name": "bitflags",
+          "optional": true,
+          "req": "^2.0.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "derive"
+          ],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": true,
+          "req": "^1.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "rc",
+            "std"
+          ],
+          "loaf": "crates-io/serde_core",
+          "name": "serde_core",
+          "optional": true,
+          "req": "^1.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/serde_json",
+          "name": "serde_json",
+          "optional": true,
+          "req": "^1.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 399,
+          "content": "content/sha256/4907dd0a108cc8340122f0f6d9449bfb1c93de0bac7f7d32e50fd38efa395ebf",
+          "digest": "sha256:4907dd0a108cc8340122f0f6d9449bfb1c93de0bac7f7d32e50fd38efa395ebf",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11577,
+          "content": "content/sha256/03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "bitflags": [
+          "dep:bitflags"
+        ],
+        "canonical_extension_types": [
+          "dep:serde_core",
+          "dep:serde_json"
+        ],
+        "ffi": [
+          "bitflags"
+        ],
+        "serde": [
+          "dep:serde_core",
+          "dep:serde"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [
+        "arrow"
+      ],
+      "manifest": "crates-io/arrow-schema/59.3.3/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:41Z",
+          "archive": "sha256:25eb7a5846b89d5cb3cadf46ce1789c13a75f79c0cd58f1aa687512268fd420c",
+          "manifest": "crates-io/arrow-schema/59.3.3/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "arrow_schema",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:f56aa009563c7100bafca7f0c4259b9ae83a439d676a6314b3a8c96f12a92f51",
+        "package": "arrow-schema",
+        "registry": "crates-io",
+        "version": "59.3.3"
+      },
+      "vcs": null,
+      "version": "59.3.3",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache Arrow <dev@arrow.apache.org>"
+        ],
+        "description": "Defines the logical types for arrow arrays",
+        "documentation": "",
         "homepage": "https://github.com/apache/arrow-rs",
         "license": "Apache-2.0",
         "license-file": "",

@@ -1,0 +1,143 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:635370cff6220d9598b2e726578fb8337841d89d5098f55e2cb7c57a1a6a8758",
+    "package": "ruff_cache",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:aa49aa96e104cb4a2c6db6edb6a559882411925bda2550523e1c67827a80cd00",
+  "at": "2026-11-25T20:05:49Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/char_str",
+      "name": "char_str",
+      "optional": false,
+      "req": "^0.0.4"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/filetime",
+      "name": "filetime",
+      "optional": false,
+      "req": "^0.2.23"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/glob",
+      "name": "glob",
+      "optional": false,
+      "req": "^0.3.1"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "log"
+      ],
+      "loaf": "crates-io/globset",
+      "name": "globset",
+      "optional": false,
+      "req": "^0.4.14"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "use_std"
+      ],
+      "loaf": "crates-io/itertools",
+      "name": "itertools",
+      "optional": false,
+      "req": "^0.15.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "perf",
+        "std",
+        "unicode"
+      ],
+      "loaf": "crates-io/regex",
+      "name": "regex",
+      "optional": false,
+      "req": "^1.10.2"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/seahash",
+      "name": "seahash",
+      "optional": false,
+      "req": "^4.1.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 531,
+      "digest": "sha256:5998ac0120cc84c444c172bffa238882f33418d52aecb5bd39cfa1d6fae64773",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 330,
+      "digest": "sha256:e9c7f6281f5272679122778b904d725296be3547e973b8040f03083dbd85346f",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:3321f4ea40aa443cea50c3ae7ec9ce6c07557ed7a0ebf38f3336c3c6f60d467d",
+  "kind": "adopt",
+  "manifest": "sha256:45dd148d1dfdbe0656a5a2d6e5f57a2f2b8478e4b16ea0c5a7a9ef377c3283d3",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_cache",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_cache",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_cache",
+    "system": "git"
+  }
+}

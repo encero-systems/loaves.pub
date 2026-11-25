@@ -1,0 +1,14 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/salsa-macro-rules"
+version = "0.28.6"
+
+[project.features]
+accumulator = []
+
+[rust]
+name = "salsa_macro_rules"
+type = "lib"
+edition = "2024"
+build-script = false

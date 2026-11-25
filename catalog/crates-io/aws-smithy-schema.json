@@ -21,6 +21,114 @@
         "repository": "https://github.com/smithy-lang/smithy-rs",
         "rust-version": "1.94.1"
       },
+      "adopted": "2026-11-25T20:05:50Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:530ad7432712e895c4892e4c0898070c49f767161d34594c5aa4412b779f9350",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [
+            "client",
+            "http-1x"
+          ],
+          "loaf": "crates-io/aws-smithy-runtime-api",
+          "name": "aws-smithy-runtime-api",
+          "optional": false,
+          "req": "^1.20.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/aws-smithy-types",
+          "name": "aws-smithy-types",
+          "optional": false,
+          "req": "^1.9.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http",
+          "name": "http",
+          "optional": false,
+          "req": "^1.3.1"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 331,
+          "content": "content/sha256/eb88bcfa0921b5ae0f5db811d8cedca9846cd2a7e0ec9ff6b89dbadb326f70d1",
+          "digest": "sha256:eb88bcfa0921b5ae0f5db811d8cedca9846cd2a7e0ec9ff6b89dbadb326f70d1",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10142,
+          "content": "content/sha256/09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/aws-smithy-schema/1.2.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:50Z",
+          "archive": "sha256:530ad7432712e895c4892e4c0898070c49f767161d34594c5aa4412b779f9350",
+          "manifest": "crates-io/aws-smithy-schema/1.2.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "aws_smithy_schema",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:f7ef30d39e131651359b60a1c560de9a9502a4c3754172ab2d6e8734fe21bcba",
+        "package": "aws-smithy-schema",
+        "registry": "crates-io",
+        "version": "1.2.0"
+      },
+      "vcs": null,
+      "version": "1.2.0",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "AWS Rust SDK Team <aws-sdk-rust@amazon.com>"
+        ],
+        "description": "Schema types for the smithy-rs ecosystem",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/smithy-lang/smithy-rs",
+        "rust-version": "1.94.1"
+      },
       "adopted": "2026-10-07T07:43:35Z",
       "advisories": 0,
       "advisory-notes": [],

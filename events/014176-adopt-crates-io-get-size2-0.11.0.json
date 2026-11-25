@@ -1,0 +1,307 @@
+{
+  "about": {
+    "authors": [
+      "Denis Kerp",
+      "Nicolas"
+    ],
+    "description": "Determine the size in bytes an object occupies inside RAM.",
+    "documentation": "",
+    "homepage": "",
+    "license": "MIT OR Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/bircni/get-size2",
+    "rust-version": ""
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:d4d338de392104417fe6fdbe588c52383b9236956d8afe5654f0077176edc632",
+    "package": "get-size2",
+    "registry": "crates-io",
+    "version": "0.11.0"
+  },
+  "archive": "sha256:4f35b06d8a2104bf74973bdf3e89d13e5320b7ebc0104cb4e9c9108dab18f5a9",
+  "at": "2026-11-25T20:05:42Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/bytes",
+      "name": "bytes",
+      "optional": true,
+      "req": "^1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/chrono",
+      "name": "chrono",
+      "optional": true,
+      "req": "^0.4"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/chrono-tz",
+      "name": "chrono-tz",
+      "optional": true,
+      "req": "^0.10"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/compact_str",
+      "name": "compact_str",
+      "optional": true,
+      "req": "^0.10"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/dashmap",
+      "name": "dashmap",
+      "optional": true,
+      "req": "^6"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/get-size-derive2",
+      "name": "get-size-derive2",
+      "optional": true,
+      "req": "^0.11.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/half",
+      "name": "half",
+      "optional": true,
+      "req": "^2"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/hashbrown",
+      "name": "hashbrown",
+      "optional": true,
+      "req": "^0.17"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/indexmap",
+      "name": "indexmap",
+      "optional": true,
+      "req": "^2.14"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/ordermap",
+      "name": "ordermap",
+      "optional": true,
+      "req": "^1.2"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/orx-concurrent-vec",
+      "name": "orx-concurrent-vec",
+      "optional": true,
+      "req": "^3.10"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/parking_lot",
+      "name": "parking_lot",
+      "optional": true,
+      "req": "^0.12"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "fallback"
+      ],
+      "loaf": "crates-io/portable-atomic",
+      "name": "portable-atomic",
+      "optional": true,
+      "req": "^1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/roaring",
+      "name": "roaring",
+      "optional": true,
+      "req": "^0.11"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/smallvec",
+      "name": "smallvec",
+      "optional": true,
+      "req": "^1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/thin-vec",
+      "name": "thin-vec",
+      "optional": true,
+      "req": "^0.2"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/url",
+      "name": "url",
+      "optional": true,
+      "req": "^2"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 2745,
+      "digest": "sha256:1c473ce627bd000d2ea7481c460408cb32d80598b5d79cea4459ee897acc8d91",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1082,
+      "digest": "sha256:013ca8b1499479ce162f0d68ff25f4ac0a98dae625d55a8eabfb1fb4aa38933d",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "all-features-no-std": [
+      "alloc",
+      "derive",
+      "bytes",
+      "chrono",
+      "chrono-tz",
+      "compact-str",
+      "half",
+      "hashbrown",
+      "indexmap",
+      "ordermap",
+      "orx-concurrent-vec",
+      "portable-atomic",
+      "roaring",
+      "smallvec",
+      "thin-vec",
+      "url"
+    ],
+    "alloc": [],
+    "bytes": [
+      "dep:bytes"
+    ],
+    "chrono": [
+      "dep:chrono"
+    ],
+    "chrono-tz": [
+      "dep:chrono-tz"
+    ],
+    "compact-str": [
+      "dep:compact_str"
+    ],
+    "dashmap": [
+      "dep:dashmap",
+      "std"
+    ],
+    "default": [
+      "std"
+    ],
+    "derive": [
+      "get-size-derive2"
+    ],
+    "get-size-derive2": [
+      "dep:get-size-derive2"
+    ],
+    "half": [
+      "dep:half"
+    ],
+    "hashbrown": [
+      "dep:hashbrown"
+    ],
+    "indexmap": [
+      "dep:indexmap"
+    ],
+    "ordermap": [
+      "dep:ordermap"
+    ],
+    "orx-concurrent-vec": [
+      "dep:orx-concurrent-vec"
+    ],
+    "parking_lot": [
+      "dep:parking_lot",
+      "std"
+    ],
+    "portable-atomic": [
+      "dep:portable-atomic"
+    ],
+    "roaring": [
+      "dep:roaring"
+    ],
+    "smallvec": [
+      "dep:smallvec"
+    ],
+    "std": [
+      "alloc"
+    ],
+    "thin-vec": [
+      "dep:thin-vec"
+    ],
+    "url": [
+      "dep:url"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:7bfe1bc248c140e6af73f1dffc4784636c8d43e37dbb4bccef89d2a070a087f2",
+  "kind": "adopt",
+  "manifest": "sha256:a0f36095a92543e7f39da85b3951f06d79314122d06622fcde72883baf084059",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "get_size2",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "get-size2",
+    "scope": "crates-io",
+    "version": "0.11.0"
+  },
+  "taxonomy": {
+    "categories": [
+      "memory-management",
+      "caching"
+    ],
+    "keywords": [
+      "size",
+      "heap",
+      "ram",
+      "memory",
+      "get-size"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "7b99cd79d94125a365344377ea19ff8b98e324e5",
+    "path": "crates/get-size2",
+    "system": "git"
+  }
+}

@@ -1,0 +1,34 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-functions-nested"
+version = "55.3.0"
+
+[project.features]
+default = ["sql"]
+sql = ["datafusion-expr/sql"]
+
+[rust]
+name = "datafusion_functions_nested"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+arrow = { loaf = "crates-io/arrow", version = "^59.2.0", features = ["chrono-tz", "prettyprint"] }
+arrow-ord = { loaf = "crates-io/arrow-ord", version = "^59.2.0", default-features = false }
+datafusion-common = { loaf = "crates-io/datafusion-common", version = "^55.3.0", default-features = false }
+datafusion-doc = { loaf = "crates-io/datafusion-doc", version = "^55.3.0" }
+datafusion-execution = { loaf = "crates-io/datafusion-execution", version = "^55.3.0", default-features = false }
+datafusion-expr = { loaf = "crates-io/datafusion-expr", version = "^55.3.0", default-features = false }
+datafusion-expr-common = { loaf = "crates-io/datafusion-expr-common", version = "^55.3.0" }
+datafusion-functions = { loaf = "crates-io/datafusion-functions", version = "^55.3.0" }
+datafusion-functions-aggregate = { loaf = "crates-io/datafusion-functions-aggregate", version = "^55.3.0" }
+datafusion-functions-aggregate-common = { loaf = "crates-io/datafusion-functions-aggregate-common", version = "^55.3.0" }
+datafusion-macros = { loaf = "crates-io/datafusion-macros", version = "^55.3.0" }
+datafusion-physical-expr-common = { loaf = "crates-io/datafusion-physical-expr-common", version = "^55.3.0", default-features = false }
+hashbrown = { loaf = "crates-io/hashbrown", version = "^0.17.1" }
+itertools = { loaf = "crates-io/itertools", version = "^0.15", features = ["use_std"] }
+itoa = { loaf = "crates-io/itoa", version = "^1.0" }
+log = { loaf = "crates-io/log", version = "^0.4" }
+memchr = { loaf = "crates-io/memchr", version = "^2.8.1" }

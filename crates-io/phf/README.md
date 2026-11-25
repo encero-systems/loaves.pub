@@ -5,6 +5,7 @@ The crates.io package [phf](https://crates.io/crates/phf), adopted by [loaves.pu
 | Version | Adopted | License | Build facts | Compiled units | |
 |---|---|---|---|---|---|
 | [0.14.0](0.14.0/loaf.toml) | 2026-10-07 | MIT | 0 | 17 | [units](0.14.0/assets.json) |
+| [0.13.1](0.13.1/loaf.toml) | 2026-11-25 | MIT | 0 | 0 |  |
 | [0.12.1](0.12.1/loaf.toml) | 2026-10-06 | MIT | 1 | 4 | [units](0.12.1/assets.json) |
 
 Each version's Loaf carries the package's own LICENSE and README, or ones loaves.pub wrote where the package shipped none. Source archives and compiled units are on the GitHub Container Registry as `ghcr.io/encero-systems/loaves.pub/crates-io/phf`; a client verifies them against this index: the archive by the `cksum` on its version's line in [index/crates-io/phf](../../index/crates-io/phf), the units by each version's `assets.json`.

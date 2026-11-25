@@ -1,0 +1,29 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/vte"
+version = "0.14.1"
+
+[project.features]
+ansi = ["log", "cursor-icon", "bitflags"]
+arrayvec = ["dep:arrayvec"]
+bitflags = ["dep:bitflags"]
+cursor-icon = ["dep:cursor-icon"]
+default = ["no_std"]
+log = ["dep:log"]
+no_std = ["arrayvec"]
+serde = ["dep:serde"]
+
+[rust]
+name = "vte"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+arrayvec = { loaf = "crates-io/arrayvec", version = "^0.7.2", default-features = false, optional = true }
+bitflags = { loaf = "crates-io/bitflags", version = "^2.3.3", default-features = false, optional = true }
+cursor-icon = { loaf = "crates-io/cursor-icon", version = "^1.0.0", default-features = false, optional = true }
+log = { loaf = "crates-io/log", version = "^0.4.17", optional = true }
+memchr = { loaf = "crates-io/memchr", version = "^2.7.4" }
+serde = { loaf = "crates-io/serde", version = "^1.0.160", features = ["derive"], optional = true }

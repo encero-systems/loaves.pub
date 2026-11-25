@@ -1,0 +1,19 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-macros"
+version = "55.3.0"
+
+[rust]
+name = "datafusion_macros"
+type = "proc-macro"
+edition = "2024"
+build-script = false
+
+[rust.source]
+root = "src/user_doc.rs"
+
+[dependencies]
+datafusion-doc = { loaf = "crates-io/datafusion-doc", version = "^55.3.0" }
+quote = { loaf = "crates-io/quote", version = "^1.0.44" }
+syn = { loaf = "crates-io/syn", version = "^3.0.2", features = ["full"] }

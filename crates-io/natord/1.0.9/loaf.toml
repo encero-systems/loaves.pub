@@ -1,0 +1,14 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/natord"
+version = "1.0.9"
+
+[rust]
+name = "natord"
+type = "lib"
+edition = "2015"
+build-script = false
+
+[rust.source]
+root = "lib.rs"

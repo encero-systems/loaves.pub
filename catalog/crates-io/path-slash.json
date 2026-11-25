@@ -1,0 +1,108 @@
+{
+  "name": "crates-io/path-slash",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "path-slash",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/path-slash"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "rhysd <https://rhysd.github.io>"
+        ],
+        "description": "Conversion to/from a file path from/to slash path",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/rhysd/path-slash",
+        "rust-version": "1.38"
+      },
+      "adopted": "2026-11-25T20:05:44Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:2820dc01361284cdde2f7483893d1fd8730c99a4d671834b1a7aaba94a197279",
+      "assets": [],
+      "categories": [
+        "filesystem"
+      ],
+      "dependencies": [],
+      "documents": [
+        {
+          "bytes": 3794,
+          "content": "content/sha256/37584dd3f6364e2d0a1c9ae2ccf0e073b2ddc12acaeba5f195d7c16d08a4f8c9",
+          "digest": "sha256:37584dd3f6364e2d0a1c9ae2ccf0e073b2ddc12acaeba5f195d7c16d08a4f8c9",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1067,
+          "content": "content/sha256/f7b081371a375fb07115d6622a39dad5eb1aa157ec038d23a105df715dc3c3e1",
+          "digest": "sha256:f7b081371a375fb07115d6622a39dad5eb1aa157ec038d23a105df715dc3c3e1",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        },
+        {
+          "bytes": 4448,
+          "content": "content/sha256/6a5b72c9744930e123846b2ba52bebe6cb0f4c35e55f0d6084e41f89afcf11b0",
+          "digest": "sha256:6a5b72c9744930e123846b2ba52bebe6cb0f4c35e55f0d6084e41f89afcf11b0",
+          "format": "markdown",
+          "origin": "package",
+          "path": "CHANGELOG.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "path"
+      ],
+      "manifest": "crates-io/path-slash/0.2.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:44Z",
+          "archive": "sha256:2820dc01361284cdde2f7483893d1fd8730c99a4d671834b1a7aaba94a197279",
+          "manifest": "crates-io/path-slash/0.2.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2018",
+        "name": "path_slash",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:1e91099d4268b0e11973f036e885d652fb0b21fedcf69738c627f94db6a44f42",
+        "package": "path-slash",
+        "registry": "crates-io",
+        "version": "0.2.1"
+      },
+      "vcs": {
+        "commit": "222a3add08b43a424d2d4dbaacf014fc68174063",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.2.1",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

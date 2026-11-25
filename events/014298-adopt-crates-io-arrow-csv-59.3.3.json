@@ -1,0 +1,137 @@
+{
+  "about": {
+    "authors": [
+      "Apache Arrow <dev@arrow.apache.org>"
+    ],
+    "description": "Support for parsing CSV format to and from the Arrow format",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/apache/arrow-rs",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:430e8bf06a50850ce9c33c87484fe059b464ab8e2cd3c7d0df0d2252df06aa74",
+    "package": "arrow-csv",
+    "registry": "crates-io",
+    "version": "59.3.3"
+  },
+  "archive": "sha256:a22d386d2d4f877a78067a04ff3f09bd103a19f92fe8244941f516be6f354430",
+  "at": "2026-11-25T20:06:00Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-array",
+      "name": "arrow-array",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-cast",
+      "name": "arrow-cast",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-schema",
+      "name": "arrow-schema",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "clock"
+      ],
+      "loaf": "crates-io/chrono",
+      "name": "chrono",
+      "optional": false,
+      "req": "^0.4.40"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/csv",
+      "name": "csv",
+      "optional": false,
+      "req": "^1.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/csv-core",
+      "name": "csv-core",
+      "optional": false,
+      "req": "^0.1"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "perf",
+        "std",
+        "unicode"
+      ],
+      "loaf": "crates-io/regex",
+      "name": "regex",
+      "optional": false,
+      "req": "^1.7.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1306,
+      "digest": "sha256:4d3f8ebed0a693793d8d4833a0cd491cadac7c7c3a67c90c1ff6dc77eb557fbd",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11577,
+      "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:3efb859b72c6cd249defa4f4577805879ee4ae3e0f80e11d56973c674f5328c9",
+  "kind": "adopt",
+  "manifest": "sha256:f970419cc0d509d90eb8800f87c3abcc480d755795d6ff26ef4bd785f50c8ea5",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "arrow_csv",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "arrow-csv",
+    "scope": "crates-io",
+    "version": "59.3.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "arrow"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

@@ -1,0 +1,124 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>",
+      "RustPython Team"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:577c1fec1be8f7bc277113414f46fb5f3c885c0027954c0ad6dd33315452f1ea",
+    "package": "ruff_python_literal",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:478012a06b42ad13d96fba4b7c342d4aa281e5309c40f7c6be7b975a3838158a",
+  "at": "2026-11-25T20:05:55Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/bitflags",
+      "name": "bitflags",
+      "optional": false,
+      "req": "^2.5.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "compiled_data"
+      ],
+      "loaf": "crates-io/icu_normalizer",
+      "name": "icu_normalizer",
+      "optional": false,
+      "req": "^2.1.2"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "compiled_data"
+      ],
+      "loaf": "crates-io/icu_properties",
+      "name": "icu_properties",
+      "optional": false,
+      "req": "^2.1.2"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "use_std"
+      ],
+      "loaf": "crates-io/itertools",
+      "name": "itertools",
+      "optional": false,
+      "req": "^0.15.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_python_ast",
+      "name": "ruff_python_ast",
+      "optional": false,
+      "req": "^0.0.23"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 549,
+      "digest": "sha256:479dbbf602baa55581005c691aa7e2ab3f29483e2431e11e5147d04b4f489054",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 357,
+      "digest": "sha256:4f0ac60ab09e3fcaa6cd3dda89d9f1da789244cd53b5c8fcaa930b89c5d0a1f6",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:c921a23f138f6a8fbe0bc73865fa268a40b2c058dd46a3d1b48b1e9f1f8a1ba9",
+  "kind": "adopt",
+  "manifest": "sha256:bfa00892558859a15027c0cd476a42f109fd6fe0bd4c064d02e29a9755b9d8f3",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_python_literal",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_python_literal",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_python_literal",
+    "system": "git"
+  }
+}

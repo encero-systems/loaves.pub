@@ -1,0 +1,24 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/parking_lot"
+version = "0.13.0"
+
+[project.features]
+arc_lock = ["lock_api/arc_lock"]
+deadlock_detection = ["parking_lot_core/deadlock_detection"]
+default = []
+nightly = ["parking_lot_core/nightly"]
+owning_ref = ["lock_api/owning_ref"]
+send_guard = []
+serde = ["lock_api/serde"]
+
+[rust]
+name = "parking_lot"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+lock_api = { loaf = "crates-io/lock_api", version = "^0.5.0" }
+parking_lot_core = { loaf = "crates-io/parking_lot_core", version = "^0.10.0" }

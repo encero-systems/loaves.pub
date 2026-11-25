@@ -1,0 +1,20 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_cache"
+version = "0.0.23"
+
+[rust]
+name = "ruff_cache"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+char_str = { loaf = "crates-io/char_str", version = "^0.0.4", features = ["std"], default-features = false }
+filetime = { loaf = "crates-io/filetime", version = "^0.2.23", default-features = false }
+glob = { loaf = "crates-io/glob", version = "^0.3.1", default-features = false }
+globset = { loaf = "crates-io/globset", version = "^0.4.14", features = ["log"], default-features = false }
+itertools = { loaf = "crates-io/itertools", version = "^0.15.0", features = ["use_std"], default-features = false }
+regex = { loaf = "crates-io/regex", version = "^1.10.2", features = ["perf", "std", "unicode"], default-features = false }
+seahash = { loaf = "crates-io/seahash", version = "^4.1.0", default-features = false }

@@ -1,0 +1,216 @@
+{
+  "about": {
+    "authors": [
+      "Apache DataFusion <dev@datafusion.apache.org>"
+    ],
+    "description": "datafusion-catalog",
+    "documentation": "",
+    "homepage": "https://datafusion.apache.org",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/apache/datafusion",
+    "rust-version": "1.94.0"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:5fe012dc63cd690f5aeeb9f21d94643e0f226cf9cdb857ae42ba3758e68da4c9",
+    "package": "datafusion-catalog",
+    "registry": "crates-io",
+    "version": "55.3.0"
+  },
+  "archive": "sha256:138d1f9a18a943e3fa3ee870a2660b76f7926833c418bac9283247c5eabf317d",
+  "at": "2026-11-25T20:06:05Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [
+        "chrono-tz",
+        "prettyprint"
+      ],
+      "loaf": "crates-io/arrow",
+      "name": "arrow",
+      "optional": false,
+      "req": "^59.2.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/async-trait",
+      "name": "async-trait",
+      "optional": false,
+      "req": "^0.1.89"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/dashmap",
+      "name": "dashmap",
+      "optional": false,
+      "req": "^6.2.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-common",
+      "name": "datafusion-common",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-common-runtime",
+      "name": "datafusion-common-runtime",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-datasource",
+      "name": "datafusion-datasource",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-execution",
+      "name": "datafusion-execution",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-expr",
+      "name": "datafusion-expr",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/datafusion-physical-expr",
+      "name": "datafusion-physical-expr",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-physical-plan",
+      "name": "datafusion-physical-plan",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/datafusion-session",
+      "name": "datafusion-session",
+      "optional": false,
+      "req": "^55.3.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/futures",
+      "name": "futures",
+      "optional": false,
+      "req": "^0.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/itertools",
+      "name": "itertools",
+      "optional": false,
+      "req": "^0.15"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/log",
+      "name": "log",
+      "optional": false,
+      "req": "^0.4"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/object_store",
+      "name": "object_store",
+      "optional": false,
+      "req": "^0.13.2"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/parking_lot",
+      "name": "parking_lot",
+      "optional": false,
+      "req": "^0.12"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "macros",
+        "rt",
+        "sync"
+      ],
+      "loaf": "crates-io/tokio",
+      "name": "tokio",
+      "optional": false,
+      "req": "^1.52"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1444,
+      "digest": "sha256:6caeec4916a4c3d4adc12076be3b55aab8dcc5cf560374589be452997ef5ed54",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11645,
+      "digest": "sha256:232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:e7011177fef930908b3e9142a817f8bd5288c12e11c1d73ee5bb6f23195c14d2",
+  "kind": "adopt",
+  "manifest": "sha256:bd9c05e0224c15f42400ae66790f38acc6a1d653f3dba5cad99f3f303ba41d57",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "datafusion_catalog",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "datafusion-catalog",
+    "scope": "crates-io",
+    "version": "55.3.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": null
+}

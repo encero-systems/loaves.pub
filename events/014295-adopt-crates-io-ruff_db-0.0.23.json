@@ -1,0 +1,492 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:a523275196a74028611929d16539e70ca6c4bc27d556fa0081fe4bd8008e524e",
+    "package": "ruff_db",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:fe16e0cb2a5849f5edfb54362e1ee6479734b2da457576e848fae64da0c4fb08",
+  "at": "2026-11-25T20:06:00Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/anstyle",
+      "name": "anstyle",
+      "optional": false,
+      "req": "^1.0.10"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/arc-swap",
+      "name": "arc-swap",
+      "optional": false,
+      "req": "^1.7.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/camino",
+      "name": "camino",
+      "optional": false,
+      "req": "^1.1.7"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/compact_str",
+      "name": "compact_str",
+      "optional": false,
+      "req": "^0.10.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/dashmap",
+      "name": "dashmap",
+      "optional": false,
+      "req": "^6.0.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/dunce",
+      "name": "dunce",
+      "optional": false,
+      "req": "^1.0.5"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/etcetera",
+      "name": "etcetera",
+      "optional": true,
+      "req": "^0.11.0",
+      "target": "cfg(not(target_arch = \"wasm32\"))"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/filetime",
+      "name": "filetime",
+      "optional": false,
+      "req": "^0.2.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "compact-str",
+        "derive",
+        "hashbrown",
+        "ordermap",
+        "smallvec",
+        "std",
+        "thin-vec"
+      ],
+      "loaf": "crates-io/get-size2",
+      "name": "get-size2",
+      "optional": false,
+      "req": "^0.11.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/ignore",
+      "name": "ignore",
+      "optional": true,
+      "req": "^0.4.30"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/matchit",
+      "name": "matchit",
+      "optional": false,
+      "req": "^0.9.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/path-slash",
+      "name": "path-slash",
+      "optional": false,
+      "req": "^0.2.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/pathdiff",
+      "name": "pathdiff",
+      "optional": false,
+      "req": "^0.2.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/quick-xml",
+      "name": "quick-xml",
+      "optional": true,
+      "req": "^0.41.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_annotate_snippets",
+      "name": "ruff_annotate_snippets",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_cache",
+      "name": "ruff_cache",
+      "optional": true,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_diagnostics",
+      "name": "ruff_diagnostics",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_memory_usage",
+      "name": "ruff_memory_usage",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_notebook",
+      "name": "ruff_notebook",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "get-size"
+      ],
+      "loaf": "crates-io/ruff_python_ast",
+      "name": "ruff_python_ast",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_python_parser",
+      "name": "ruff_python_parser",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_python_trivia",
+      "name": "ruff_python_trivia",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "get-size"
+      ],
+      "loaf": "crates-io/ruff_source_file",
+      "name": "ruff_source_file",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_text_size",
+      "name": "ruff_text_size",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/rustc-hash",
+      "name": "rustc-hash",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "compact_str",
+        "inventory",
+        "macros",
+        "salsa_unstable"
+      ],
+      "loaf": "crates-io/salsa",
+      "name": "salsa",
+      "optional": false,
+      "req": "^0.28.5"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/same-file",
+      "name": "same-file",
+      "optional": true,
+      "req": "^1.0.6"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/schemars",
+      "name": "schemars",
+      "optional": true,
+      "req": "^1.0.4"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "derive",
+        "std"
+      ],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": "^1.0.197"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/serde_json",
+      "name": "serde_json",
+      "optional": true,
+      "req": "^1.0.113"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "inline",
+        "std",
+        "text"
+      ],
+      "loaf": "crates-io/similar",
+      "name": "similar",
+      "optional": false,
+      "req": "^3.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/strip-ansi-escapes",
+      "name": "strip-ansi-escapes",
+      "optional": true,
+      "req": "^0.2.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/supports-hyperlinks",
+      "name": "supports-hyperlinks",
+      "optional": false,
+      "req": "^3.1.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/thiserror",
+      "name": "thiserror",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "attributes",
+        "std"
+      ],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1.40"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "ansi",
+        "env-filter",
+        "fmt",
+        "smallvec"
+      ],
+      "loaf": "crates-io/tracing-subscriber",
+      "name": "tracing-subscriber",
+      "optional": true,
+      "req": "^0.3.18"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ty_static",
+      "name": "ty_static",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/url",
+      "name": "url",
+      "optional": true,
+      "req": "^2.5.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/web-time",
+      "name": "web-time",
+      "optional": false,
+      "req": "^1.1.0",
+      "target": "cfg(target_arch = \"wasm32\")"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "real-sys"
+      ],
+      "loaf": "crates-io/which",
+      "name": "which",
+      "optional": true,
+      "req": "^8.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/zip",
+      "name": "zip",
+      "optional": false,
+      "req": "^9.5.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 525,
+      "digest": "sha256:fbd4cd547a88f688487725ffb521db2e8d5c48ff56a9af367b6ee38d96c27795",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 321,
+      "digest": "sha256:e6f52bed6cdc16fe151a6611307f040c8cda00cfcd40f1017214db7ae7c57ae5",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {
+    "cache": [
+      "ruff_cache"
+    ],
+    "ignore": [
+      "dep:ignore"
+    ],
+    "junit": [
+      "dep:quick-xml",
+      "dep:strip-ansi-escapes"
+    ],
+    "os": [
+      "ignore",
+      "dep:etcetera",
+      "dep:same-file",
+      "dep:which"
+    ],
+    "ruff_cache": [
+      "dep:ruff_cache"
+    ],
+    "schemars": [
+      "dep:schemars"
+    ],
+    "serde": [
+      "camino/serde1",
+      "dep:serde",
+      "dep:serde_json",
+      "dep:url",
+      "ruff_diagnostics/serde"
+    ],
+    "testing": [
+      "tracing-subscriber"
+    ],
+    "tracing-subscriber": [
+      "dep:tracing-subscriber"
+    ]
+  },
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:4ed9fc2ecb01e1aa6d4f8be32459420c28cf6be52b99cbb6e556ffb4be1839fc",
+  "kind": "adopt",
+  "manifest": "sha256:4c6f341e73ac1f1f0da0e583390082f09493a849e6739b0d03c32f6d3771cfbc",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_db",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_db",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_db",
+    "system": "git"
+  }
+}

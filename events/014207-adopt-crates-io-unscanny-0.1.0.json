@@ -1,0 +1,90 @@
+{
+  "about": {
+    "authors": [
+      "Laurenz <laurmaedje@gmail.com>"
+    ],
+    "description": "Painless string scanning.",
+    "documentation": "",
+    "homepage": "",
+    "license": "MIT OR Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/typst/unscanny",
+    "rust-version": ""
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:e9df2af067a7953e9c3831320f35c1cc0600c30d44d9f7a12b01db1cd88d6b47",
+    "package": "unscanny",
+    "registry": "crates-io",
+    "version": "0.1.0"
+  },
+  "archive": "sha256:7c7c1af0a623b7138265cfb3788f9dfe08153d44f02396ba2c68b8988f8a77fb",
+  "at": "2026-11-25T20:05:46Z",
+  "deps": [],
+  "documents": [
+    {
+      "bytes": 1597,
+      "digest": "sha256:16b859fdb8ee21f1e9a36f90a2de2398dcd3ef144555523c410773ed75ed9c27",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 9723,
+      "digest": "sha256:62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-APACHE",
+      "role": "license"
+    },
+    {
+      "bytes": 1036,
+      "digest": "sha256:508a77d2e7b51d98adeed32648ad124b7b30241a8e70b2e72c99f92d8e5874d1",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:cbc6b05c3f83e4bd231a2e5364737bff06a2f815e30c00fe07d3d40c48ef2e67",
+  "kind": "adopt",
+  "manifest": "sha256:94adbb783ed4a274b97902c491c0e5737cdcd3a4b93e598b18b6ce658f55f3dc",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "unscanny",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "unscanny",
+    "scope": "crates-io",
+    "version": "0.1.0"
+  },
+  "taxonomy": {
+    "categories": [
+      "parsing",
+      "text-processing"
+    ],
+    "keywords": [
+      "scanning",
+      "tokenizing"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "168fa7a05fe2931f86a788e26d7bfb67185767b5",
+    "path": "",
+    "system": "git"
+  }
+}

@@ -1,0 +1,11 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/supports-hyperlinks"
+version = "3.2.0"
+
+[rust]
+name = "supports_hyperlinks"
+type = "lib"
+edition = "2021"
+build-script = false

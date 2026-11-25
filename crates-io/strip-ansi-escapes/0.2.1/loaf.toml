@@ -1,0 +1,14 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/strip-ansi-escapes"
+version = "0.2.1"
+
+[rust]
+name = "strip_ansi_escapes"
+type = "lib"
+edition = "2015"
+build-script = false
+
+[dependencies]
+vte = { loaf = "crates-io/vte", version = "^0.14", default-features = false }

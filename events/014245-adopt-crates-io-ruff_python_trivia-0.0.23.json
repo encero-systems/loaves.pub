@@ -1,0 +1,151 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:0e1bb843ece076f810b8489e4c3ab12730803e6f14881707cce0570b38b406a4",
+    "package": "ruff_python_trivia",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:9878fb140b718d0e4139ea055a51a85e412d342fb8b5f6e2f6f24f36232e288b",
+  "at": "2026-11-25T20:05:51Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/bstr",
+      "name": "bstr",
+      "optional": false,
+      "req": "^1.9.1"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "use_std"
+      ],
+      "loaf": "crates-io/itertools",
+      "name": "itertools",
+      "optional": false,
+      "req": "^0.15.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/memchr",
+      "name": "memchr",
+      "optional": false,
+      "req": "^2.7.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_source_file",
+      "name": "ruff_source_file",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_text_size",
+      "name": "ruff_text_size",
+      "optional": false,
+      "req": "^0.0.23"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/rustc-hash",
+      "name": "rustc-hash",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/unicode-ident",
+      "name": "unicode-ident",
+      "optional": false,
+      "req": "^1.0.12"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/unicode-normalization",
+      "name": "unicode-normalization",
+      "optional": false,
+      "req": "^0.1.23"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 547,
+      "digest": "sha256:79bc2ad82401a86e39cc6df188ce58b2fc29a0a7649c8b1c7144036e41db33b1",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 354,
+      "digest": "sha256:ed1a05680d41b4ca2bdacf7f38d9d4852cc40158946e412b784a416e838ed41b",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:9ab13812e0357292c9b99b5050999262b74b4a60aeff59f21f739e7a8ed354ef",
+  "kind": "adopt",
+  "manifest": "sha256:999aa63b3941adc21c45469f7248c720e362771e8c463f3e817e1a3a146b113b",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ruff_python_trivia",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ruff_python_trivia",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ruff_python_trivia",
+    "system": "git"
+  }
+}

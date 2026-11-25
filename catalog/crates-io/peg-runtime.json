@@ -1,0 +1,98 @@
+{
+  "name": "crates-io/peg-runtime",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "peg-runtime",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/peg-runtime"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Kevin Mehall <km@kevinmehall.net>"
+        ],
+        "description": "Runtime support for rust-peg grammars. To use rust-peg, see the `peg` crate.",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/kevinmehall/rust-peg",
+        "rust-version": "1.82.0"
+      },
+      "adopted": "2026-11-25T20:05:44Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:4bb6f2bd1f1be4b3adb6d86b2f5a841b955ae39ad87b63b15a27e2dbe7d1c86f",
+      "assets": [],
+      "categories": [],
+      "dependencies": [],
+      "documents": [
+        {
+          "bytes": 424,
+          "content": "content/sha256/6e98dbc553e2cbeaa01aa8d02782e59f41cca573bd58d55ba1e05f35cf60b4ab",
+          "digest": "sha256:6e98dbc553e2cbeaa01aa8d02782e59f41cca573bd58d55ba1e05f35cf60b4ab",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1056,
+          "content": "content/sha256/c5a7eb83ebc1223b53b073480fbbb2af9d7d4f3a23853ae5812b04f3f7d99e3e",
+          "digest": "sha256:c5a7eb83ebc1223b53b073480fbbb2af9d7d4f3a23853ae5812b04f3f7d99e3e",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "std": [],
+        "unstable": []
+      },
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [],
+      "manifest": "crates-io/peg-runtime/0.8.6/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:44Z",
+          "archive": "sha256:4bb6f2bd1f1be4b3adb6d86b2f5a841b955ae39ad87b63b15a27e2dbe7d1c86f",
+          "manifest": "crates-io/peg-runtime/0.8.6/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "peg_runtime",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:7011d97b484a5ebdc4b1fdb3b12d5e4bbbea56e9d22b688f2e79e04b65a7d8a6",
+        "package": "peg-runtime",
+        "registry": "crates-io",
+        "version": "0.8.6"
+      },
+      "vcs": {
+        "commit": "3453b34e8dcf0482c650f917e60d43ed944a71e2",
+        "path": "peg-runtime",
+        "system": "git"
+      },
+      "version": "0.8.6",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

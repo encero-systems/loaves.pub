@@ -1,0 +1,15 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_unicode_names2_generator"
+version = "0.0.23"
+
+[rust]
+name = "unicode_names2_generator"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+phf_codegen = { loaf = "crates-io/phf_codegen", version = "^0.14.0", default-features = false }
+rand = { loaf = "crates-io/rand", version = "^0.10.0", features = ["std_rng"], default-features = false }

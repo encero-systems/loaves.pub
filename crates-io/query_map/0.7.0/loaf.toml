@@ -1,0 +1,24 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/query_map"
+version = "0.7.0"
+
+[project.features]
+default = []
+form_urlencoded = ["dep:form_urlencoded"]
+serde = ["serde_crate", "serde_derive"]
+serde_crate = ["dep:serde_crate"]
+serde_derive = ["dep:serde_derive"]
+url-query = ["form_urlencoded"]
+
+[rust]
+name = "query_map"
+type = "lib"
+edition = "2018"
+build-script = false
+
+[dependencies]
+form_urlencoded = { loaf = "crates-io/form_urlencoded", version = "^1", optional = true }
+serde_crate = { loaf = "crates-io/serde", version = "^1", features = ["rc"], optional = true }
+serde_derive = { loaf = "crates-io/serde_derive", version = "^1", optional = true }

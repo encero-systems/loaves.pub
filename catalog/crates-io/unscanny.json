@@ -1,0 +1,110 @@
+{
+  "name": "crates-io/unscanny",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "unscanny",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/unscanny"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Laurenz <laurmaedje@gmail.com>"
+        ],
+        "description": "Painless string scanning.",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT OR Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/typst/unscanny",
+        "rust-version": ""
+      },
+      "adopted": "2026-11-25T20:05:46Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:7c7c1af0a623b7138265cfb3788f9dfe08153d44f02396ba2c68b8988f8a77fb",
+      "assets": [],
+      "categories": [
+        "parsing",
+        "text-processing"
+      ],
+      "dependencies": [],
+      "documents": [
+        {
+          "bytes": 1597,
+          "content": "content/sha256/16b859fdb8ee21f1e9a36f90a2de2398dcd3ef144555523c410773ed75ed9c27",
+          "digest": "sha256:16b859fdb8ee21f1e9a36f90a2de2398dcd3ef144555523c410773ed75ed9c27",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 9723,
+          "content": "content/sha256/62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+          "digest": "sha256:62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1036,
+          "content": "content/sha256/508a77d2e7b51d98adeed32648ad124b7b30241a8e70b2e72c99f92d8e5874d1",
+          "digest": "sha256:508a77d2e7b51d98adeed32648ad124b7b30241a8e70b2e72c99f92d8e5874d1",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "scanning",
+        "tokenizing"
+      ],
+      "manifest": "crates-io/unscanny/0.1.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:46Z",
+          "archive": "sha256:7c7c1af0a623b7138265cfb3788f9dfe08153d44f02396ba2c68b8988f8a77fb",
+          "manifest": "crates-io/unscanny/0.1.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "unscanny",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:e9df2af067a7953e9c3831320f35c1cc0600c30d44d9f7a12b01db1cd88d6b47",
+        "package": "unscanny",
+        "registry": "crates-io",
+        "version": "0.1.0"
+      },
+      "vcs": {
+        "commit": "168fa7a05fe2931f86a788e26d7bfb67185767b5",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.1.0",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

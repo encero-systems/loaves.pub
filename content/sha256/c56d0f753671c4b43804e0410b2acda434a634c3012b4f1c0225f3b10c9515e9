@@ -1,0 +1,10 @@
+# arrow-data 59.3.3
+
+Array data abstractions for Apache Arrow
+
+- crates.io: https://crates.io/crates/arrow-data/59.3.3
+- Repository: https://github.com/apache/arrow-rs
+- Documentation: https://docs.rs/arrow-data/59.3.3
+- License: Apache-2.0
+
+The package as published on crates.io carries no README. loaves.pub wrote this one when it adopted the package as the Loaf `crates-io/arrow-data`.

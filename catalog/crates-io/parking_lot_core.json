@@ -19,6 +19,180 @@
         "license-file": "",
         "readme": "",
         "repository": "https://github.com/Amanieu/parking_lot",
+        "rust-version": "1.95"
+      },
+      "adopted": "2026-11-25T20:05:48Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:cd611529731b0370022fb772c937a18a776b85a7a31e32460e6370024ec64ddb",
+      "assets": [],
+      "categories": [
+        "concurrency"
+      ],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/backtrace",
+          "name": "backtrace",
+          "optional": true,
+          "req": "^0.3.76"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/libc",
+          "name": "libc",
+          "optional": false,
+          "req": "^0.2.189",
+          "target": "cfg(target_os = \"aix\")"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/libc",
+          "name": "libc",
+          "optional": false,
+          "req": "^0.2.191",
+          "target": "cfg(any(all(unix, not(target_os = \"aix\")), target_os = \"wasi\"))"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/petgraph",
+          "name": "petgraph",
+          "optional": true,
+          "req": "^0.8.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/redox_syscall",
+          "name": "redox_syscall",
+          "optional": false,
+          "req": "^0.9.2",
+          "target": "cfg(target_os = \"redox\")"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/smallvec",
+          "name": "smallvec",
+          "optional": false,
+          "req": "^1.15.2"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/windows-link",
+          "name": "windows-link",
+          "optional": false,
+          "req": "^0.2.1",
+          "target": "cfg(windows)"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 447,
+          "content": "content/sha256/e2c29b03d82753e851325b3ac2b87a4aa14cfde90591abb4b2e94a212bbec84d",
+          "digest": "sha256:e2c29b03d82753e851325b3ac2b87a4aa14cfde90591abb4b2e94a212bbec84d",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10847,
+          "content": "content/sha256/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1071,
+          "content": "content/sha256/c9a75f18b9ab2927829a208fc6aa2cf4e63b8420887ba29cdb265d6619ae82d5",
+          "digest": "sha256:c9a75f18b9ab2927829a208fc6aa2cf4e63b8420887ba29cdb265d6619ae82d5",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "backtrace": [
+          "dep:backtrace"
+        ],
+        "deadlock_detection": [
+          "petgraph",
+          "backtrace"
+        ],
+        "nightly": [],
+        "petgraph": [
+          "dep:petgraph"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [
+        "mutex",
+        "condvar",
+        "rwlock",
+        "once",
+        "thread"
+      ],
+      "manifest": "crates-io/parking_lot_core/0.10.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:48Z",
+          "archive": "sha256:cd611529731b0370022fb772c937a18a776b85a7a31e32460e6370024ec64ddb",
+          "manifest": "crates-io/parking_lot_core/0.10.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "parking_lot_core",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:9cfff060068cc18aa7815010fcaf80c68c7fb9e85fc7f5c0f9bf142c21d19826",
+        "package": "parking_lot_core",
+        "registry": "crates-io",
+        "version": "0.10.0"
+      },
+      "vcs": {
+        "commit": "1a5c3dd5c328b574234082e3ae4d8de078090d87",
+        "path": "core",
+        "system": "git"
+      },
+      "version": "0.10.0",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Amanieu d'Antras <amanieu@gmail.com>"
+        ],
+        "description": "An advanced API for creating custom synchronization primitives.",
+        "documentation": "",
+        "homepage": "",
+        "license": "MIT OR Apache-2.0",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/Amanieu/parking_lot",
         "rust-version": "1.71.0"
       },
       "adopted": "2026-10-06T13:11:44Z",

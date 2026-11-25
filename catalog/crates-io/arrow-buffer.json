@@ -364,6 +364,127 @@
         ],
         "description": "Buffer abstractions for Apache Arrow",
         "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/apache/arrow-rs",
+        "rust-version": "1.85"
+      },
+      "adopted": "2026-11-25T20:05:41Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:478430d5d1ad8fc611335b3fd5ecf699c610c854991643009eac464fa43cdaf3",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/bytes",
+          "name": "bytes",
+          "optional": false,
+          "req": "^1.4"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/half",
+          "name": "half",
+          "optional": false,
+          "req": "^2.1"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/num-bigint",
+          "name": "num-bigint",
+          "optional": false,
+          "req": "^0.5.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/num-traits",
+          "name": "num-traits",
+          "optional": false,
+          "req": "^0.2.19"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 393,
+          "content": "content/sha256/d2589a3c1c19bcc57aa2a6f571b0354ce61af6eafd90be7ead0707180898cd23",
+          "digest": "sha256:d2589a3c1c19bcc57aa2a6f571b0354ce61af6eafd90be7ead0707180898cd23",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11577,
+          "content": "content/sha256/03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "pool": []
+      },
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [
+        "arrow"
+      ],
+      "manifest": "crates-io/arrow-buffer/59.3.3/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:41Z",
+          "archive": "sha256:478430d5d1ad8fc611335b3fd5ecf699c610c854991643009eac464fa43cdaf3",
+          "manifest": "crates-io/arrow-buffer/59.3.3/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "arrow_buffer",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:d2efd8a063bdc2e88c67a6f5fa130346bb0ec9089754dea276380858535030c5",
+        "package": "arrow-buffer",
+        "registry": "crates-io",
+        "version": "59.3.3"
+      },
+      "vcs": null,
+      "version": "59.3.3",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache Arrow <dev@arrow.apache.org>"
+        ],
+        "description": "Buffer abstractions for Apache Arrow",
+        "documentation": "",
         "homepage": "https://github.com/apache/arrow-rs",
         "license": "Apache-2.0",
         "license-file": "",

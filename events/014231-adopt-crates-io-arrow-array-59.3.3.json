@@ -1,0 +1,229 @@
+{
+  "about": {
+    "authors": [
+      "Apache Arrow <dev@arrow.apache.org>"
+    ],
+    "description": "Array abstractions for Apache Arrow",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0 AND MIT",
+    "license-file": "",
+    "readme": "",
+    "repository": "https://github.com/apache/arrow-rs",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:48fd7dff6ff36252331feeb62a29b343e75f24d07f5519fd8ef0b175d06570fc",
+    "package": "arrow-array",
+    "registry": "crates-io",
+    "version": "59.3.3"
+  },
+  "archive": "sha256:745eb852e0d472a5d367029f8dcebf6048dcfc0baf30afa2723d08f06eaecfd0",
+  "at": "2026-11-25T20:05:49Z",
+  "deps": [
+    {
+      "default-features": false,
+      "features": [
+        "compile-time-rng"
+      ],
+      "loaf": "crates-io/ahash",
+      "name": "ahash",
+      "optional": false,
+      "req": "^0.8",
+      "target": "cfg(target_arch = \"wasm32\")"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "runtime-rng"
+      ],
+      "loaf": "crates-io/ahash",
+      "name": "ahash",
+      "optional": false,
+      "req": "^0.8",
+      "target": "cfg(not(target_arch = \"wasm32\"))"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-buffer",
+      "name": "arrow-buffer",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-data",
+      "name": "arrow-data",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-schema",
+      "name": "arrow-schema",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "clock"
+      ],
+      "loaf": "crates-io/chrono",
+      "name": "chrono",
+      "optional": false,
+      "req": "^0.4.40"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/chrono-tz",
+      "name": "chrono-tz",
+      "optional": true,
+      "req": "^0.10"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/futures",
+      "name": "futures",
+      "optional": true,
+      "req": "^0.3"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "num-traits"
+      ],
+      "loaf": "crates-io/half",
+      "name": "half",
+      "optional": false,
+      "req": "^2.1"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/hashbrown",
+      "name": "hashbrown",
+      "optional": false,
+      "req": "^0.17.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/libc",
+      "name": "libc",
+      "optional": true,
+      "req": "^0.2",
+      "target": "cfg(not(all(target_family = \"wasm\", target_os = \"unknown\")))"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-complex",
+      "name": "num-complex",
+      "optional": false,
+      "req": "^0.4.6"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-integer",
+      "name": "num-integer",
+      "optional": false,
+      "req": "^0.1.46"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-traits",
+      "name": "num-traits",
+      "optional": false,
+      "req": "^0.2.19"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 396,
+      "digest": "sha256:a0d20cd5704becf7f2b4a48d7541f5a4a38707f54cc2df14e0f2bc4fbe3716b3",
+      "format": "markdown",
+      "origin": "registry",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1077,
+      "digest": "sha256:a01a418b6ffb1de8f4c3814e386b35e1a93a14529b68f17d286550f355b298e1",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    },
+    {
+      "bytes": 11577,
+      "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "async": [
+      "dep:futures"
+    ],
+    "chrono-tz": [
+      "dep:chrono-tz"
+    ],
+    "ffi": [
+      "arrow-schema/ffi",
+      "arrow-data/ffi",
+      "dep:libc"
+    ],
+    "force_validate": [],
+    "pool": [
+      "arrow-buffer/pool",
+      "arrow-data/pool"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "registry"
+  },
+  "id": "sha256:e1d153edab8fb1474841ca5ad348a4763f8c63d6aff7b320a2066f8e9a1b9a87",
+  "kind": "adopt",
+  "manifest": "sha256:c9dbe7aec764fe6dc55bb94b44740c7dc0bc6f16ab743729ae83710beb97bc39",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "arrow_array",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "arrow-array",
+    "scope": "crates-io",
+    "version": "59.3.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "arrow"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

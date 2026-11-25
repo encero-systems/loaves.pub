@@ -1,0 +1,253 @@
+{
+  "name": "crates-io/ruff_python_parser",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "ruff_python_parser",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/ruff_python_parser"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Charlie Marsh <charlie.r.marsh@gmail.com>",
+          "RustPython Team"
+        ],
+        "description": "This is an internal component crate of Ruff",
+        "documentation": "https://docs.astral.sh/ruff",
+        "homepage": "https://docs.astral.sh/ruff",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/astral-sh/ruff",
+        "rust-version": "1.98"
+      },
+      "adopted": "2026-11-25T20:05:55Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:f283630d7ced4a963c79eddb58b1b9eb392d139ce196b367f0eb80f1a0e4cbc0",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/bitflags",
+          "name": "bitflags",
+          "optional": false,
+          "req": "^2.5.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/bstr",
+          "name": "bstr",
+          "optional": false,
+          "req": "^1.9.1"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/drop_bomb",
+          "name": "drop_bomb",
+          "optional": false,
+          "req": "^0.1.5"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "compact-str",
+            "derive",
+            "hashbrown",
+            "ordermap",
+            "smallvec",
+            "std",
+            "thin-vec"
+          ],
+          "loaf": "crates-io/get-size2",
+          "name": "get-size2",
+          "optional": false,
+          "req": "^0.11.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "inline-more"
+          ],
+          "loaf": "crates-io/hashbrown",
+          "name": "hashbrown",
+          "optional": false,
+          "req": "^0.17.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/memchr",
+          "name": "memchr",
+          "optional": false,
+          "req": "^2.7.1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "get-size"
+          ],
+          "loaf": "crates-io/ruff_python_ast",
+          "name": "ruff_python_ast",
+          "optional": false,
+          "req": "^0.0.23"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/ruff_python_trivia",
+          "name": "ruff_python_trivia",
+          "optional": false,
+          "req": "^0.0.23"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "get-size"
+          ],
+          "loaf": "crates-io/ruff_text_size",
+          "name": "ruff_text_size",
+          "optional": false,
+          "req": "^0.0.23"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/ruff_unicode_names2",
+          "name": "ruff_unicode_names2",
+          "optional": false,
+          "req": "^0.0.23"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/rustc-hash",
+          "name": "rustc-hash",
+          "optional": false,
+          "req": "^2.0.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/stacker",
+          "name": "stacker",
+          "optional": true,
+          "req": "^0.1.24"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/static_assertions",
+          "name": "static_assertions",
+          "optional": false,
+          "req": "^1.1.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/thin-vec",
+          "name": "thin-vec",
+          "optional": false,
+          "req": "^0.2.14"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/unicode-ident",
+          "name": "unicode-ident",
+          "optional": false,
+          "req": "^1.0.12"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/unicode-normalization",
+          "name": "unicode-normalization",
+          "optional": false,
+          "req": "^0.1.23"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1426,
+          "content": "content/sha256/e32a07edbff1c391491a31168013893250178e0e3f0b1f0478c70e74982e4861",
+          "digest": "sha256:e32a07edbff1c391491a31168013893250178e0e3f0b1f0478c70e74982e4861",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 354,
+          "content": "content/sha256/40020dc03a459899d9f96e5bd1de203ad0f3212ef60745234e75312054eda61a",
+          "digest": "sha256:40020dc03a459899d9f96e5bd1de203ad0f3212ef60745234e75312054eda61a",
+          "format": "text",
+          "origin": "registry",
+          "path": "LICENSE",
+          "role": "license-notice"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "stacker": [
+          "dep:stacker"
+        ]
+      },
+      "files": {
+        "license": "registry",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/ruff_python_parser/0.0.23/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:55Z",
+          "archive": "sha256:f283630d7ced4a963c79eddb58b1b9eb392d139ce196b367f0eb80f1a0e4cbc0",
+          "manifest": "crates-io/ruff_python_parser/0.0.23/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "ruff_python_parser",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:a89b8f125cd57b841691ee7ce6e4cde84cb311e5996c4e6ebb5251c261c93b09",
+        "package": "ruff_python_parser",
+        "registry": "crates-io",
+        "version": "0.0.23"
+      },
+      "vcs": {
+        "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+        "path": "crates/ruff_python_parser",
+        "system": "git"
+      },
+      "version": "0.0.23",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

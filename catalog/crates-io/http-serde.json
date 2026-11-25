@@ -1,0 +1,120 @@
+{
+  "name": "crates-io/http-serde",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "http-serde",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/http-serde"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Kornel <kornel@geekhood.net>"
+        ],
+        "description": "Serde support for the http crate. (De)serialize HeaderMap, Uri, Method, StatusCode",
+        "documentation": "",
+        "homepage": "https://lib.rs/crates/http-serde",
+        "license": "Apache-2.0 OR MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://gitlab.com/kornelski/http-serde",
+        "rust-version": ""
+      },
+      "adopted": "2026-11-25T20:05:42Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:b8660ed0e1f6e9072bc72c32b8f42bc8c0148283cab112fab97a43d371aa8137",
+      "assets": [],
+      "categories": [
+        "encoding"
+      ],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/http",
+          "name": "http",
+          "optional": false,
+          "req": "^1.1.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": false,
+          "req": "^1.0.203"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1290,
+          "content": "content/sha256/53776543dda743fba676b0fb0b40357183313802a74f6eb019404ad8928e80f4",
+          "digest": "sha256:53776543dda743fba676b0fb0b40357183313802a74f6eb019404ad8928e80f4",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 342,
+          "content": "content/sha256/0f1620bfe37f7918bd1ddd32c41a092ee86cd976cae16065af920bc4d4150bf3",
+          "digest": "sha256:0f1620bfe37f7918bd1ddd32c41a092ee86cd976cae16065af920bc4d4150bf3",
+          "format": "text",
+          "origin": "registry",
+          "path": "LICENSE",
+          "role": "license-notice"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "registry",
+        "readme": "package"
+      },
+      "keywords": [
+        "http",
+        "serde",
+        "deserialize",
+        "status",
+        "url"
+      ],
+      "manifest": "crates-io/http-serde/2.1.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:42Z",
+          "archive": "sha256:b8660ed0e1f6e9072bc72c32b8f42bc8c0148283cab112fab97a43d371aa8137",
+          "manifest": "crates-io/http-serde/2.1.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "http_serde",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:0f056c8559e3757392c8d091e796416e4649d8e49e88b8d76df6c002f05027fd",
+        "package": "http-serde",
+        "registry": "crates-io",
+        "version": "2.1.1"
+      },
+      "vcs": {
+        "commit": "c2403fb3d64bc0db31a05ca5d340ff82686163b1",
+        "path": "",
+        "system": "git"
+      },
+      "version": "2.1.1",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

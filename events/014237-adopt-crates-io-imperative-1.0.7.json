@@ -1,0 +1,103 @@
+{
+  "about": {
+    "authors": [
+      "Ed Page <eopage@gmail.com>"
+    ],
+    "description": "Check for imperative mood in text",
+    "documentation": "https://docs.rs/imperative",
+    "homepage": "",
+    "license": "MIT OR Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/crate-ci/imperative",
+    "rust-version": "1.74"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:35e1d0bd9c575c52e59aad8e122a11786e852a154678d0c86e9e243d55273970",
+    "package": "imperative",
+    "registry": "crates-io",
+    "version": "1.0.7"
+  },
+  "archive": "sha256:4bc0985f20db34f9f7c5d18f3537de94c64182cf64c3f9e0f747daf910ba6073",
+  "at": "2026-11-25T20:05:50Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/phf",
+      "name": "phf",
+      "optional": false,
+      "req": "^0.13"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/rust-stemmers",
+      "name": "rust-stemmers",
+      "optional": false,
+      "req": "^1.2.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1372,
+      "digest": "sha256:f3c257786860734117554900a980d2423bb5b1ddb4b47fe5f0ec3c2e884ae539",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11358,
+      "digest": "sha256:c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-APACHE",
+      "role": "license"
+    },
+    {
+      "bytes": 1180,
+      "digest": "sha256:4c1b73a2101f5a4d6bf23caa9b3cee5a4ccda82eecb5a61bf82353e043eb0328",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE-MIT",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:444ce9c42c070f2ec5c50ff0d7c4b51d10f33b7540a6f7a9e5c10f57467412d4",
+  "kind": "adopt",
+  "manifest": "sha256:424c1831fa703f6497b8e93d28ddd2fb2954969ab8f6669fbff69819836c567d",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "imperative",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "imperative",
+    "scope": "crates-io",
+    "version": "1.0.7"
+  },
+  "taxonomy": {
+    "categories": [
+      "text-processing"
+    ],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "809281d6c3c194fc173566515641abdf4225091f",
+    "path": "",
+    "system": "git"
+  }
+}

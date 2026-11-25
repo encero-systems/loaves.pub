@@ -1,0 +1,113 @@
+{
+  "about": {
+    "authors": [
+      "Apache Arrow <dev@arrow.apache.org>"
+    ],
+    "description": "Buffer abstractions for Apache Arrow",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "",
+    "repository": "https://github.com/apache/arrow-rs",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:d2efd8a063bdc2e88c67a6f5fa130346bb0ec9089754dea276380858535030c5",
+    "package": "arrow-buffer",
+    "registry": "crates-io",
+    "version": "59.3.3"
+  },
+  "archive": "sha256:478430d5d1ad8fc611335b3fd5ecf699c610c854991643009eac464fa43cdaf3",
+  "at": "2026-11-25T20:05:41Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/bytes",
+      "name": "bytes",
+      "optional": false,
+      "req": "^1.4"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/half",
+      "name": "half",
+      "optional": false,
+      "req": "^2.1"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-bigint",
+      "name": "num-bigint",
+      "optional": false,
+      "req": "^0.5.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "std"
+      ],
+      "loaf": "crates-io/num-traits",
+      "name": "num-traits",
+      "optional": false,
+      "req": "^0.2.19"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 393,
+      "digest": "sha256:d2589a3c1c19bcc57aa2a6f571b0354ce61af6eafd90be7ead0707180898cd23",
+      "format": "markdown",
+      "origin": "registry",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11577,
+      "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "pool": []
+  },
+  "files": {
+    "license": "package",
+    "readme": "registry"
+  },
+  "id": "sha256:9a441734499ee1a178caf7bdaf89d271a60aa857e574f028ac23631ff573dc6d",
+  "kind": "adopt",
+  "manifest": "sha256:099591ae9fcd984f31b7fb153433dbce2933231aac9464a8a8df1b89fb156543",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "arrow_buffer",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "arrow-buffer",
+    "scope": "crates-io",
+    "version": "59.3.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "arrow"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

@@ -1,0 +1,158 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+      "Russell Cohen <rcoh@amazon.com>"
+    ],
+    "description": "Cross-service types for the AWS SDK.",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/smithy-lang/smithy-rs",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:6ba0d970d3947bb064d2ae1d823efa186c1dbde88f88afa8f6549946e5d8deee",
+    "package": "aws-types",
+    "registry": "crates-io",
+    "version": "1.7.0"
+  },
+  "archive": "sha256:3a17ec6199f12ff6160885e5ddb08637c6a44154c20dfa064717594a1236d6b2",
+  "at": "2026-11-25T20:05:53Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-credential-types",
+      "name": "aws-credential-types",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-async",
+      "name": "aws-smithy-async",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-runtime",
+      "name": "aws-smithy-runtime",
+      "optional": true,
+      "req": "^1.16.1"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime-api",
+      "name": "aws-smithy-runtime-api",
+      "optional": false,
+      "req": "^1.19.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-schema",
+      "name": "aws-smithy-schema",
+      "optional": false,
+      "req": "^1.0.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-types",
+      "name": "aws-smithy-types",
+      "optional": false,
+      "req": "^1.9.0"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "http2",
+        "webpki-roots"
+      ],
+      "loaf": "crates-io/hyper-rustls",
+      "name": "hyper-rustls",
+      "optional": true,
+      "req": "^0.24.2"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1.44"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 458,
+      "digest": "sha256:524a7976bca883bc13b152d872d14eb1cc79f0bea466eb3cd42faa097da7bde5",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10142,
+      "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "aws-smithy-runtime": [
+      "dep:aws-smithy-runtime"
+    ],
+    "examples": [
+      "dep:hyper-rustls",
+      "dep:aws-smithy-runtime",
+      "aws-smithy-runtime/client",
+      "aws-smithy-runtime/connector-hyper-0-14-x",
+      "aws-smithy-runtime/tls-rustls"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:87f765d02079cb099af4a38de0c0822a2916111f9b9f07994a7880f6070c8567",
+  "kind": "adopt",
+  "manifest": "sha256:4235e19dc526fb0257fd24a23f843aa4f4af1aae1eca494e115f78c3e005ca95",
+  "revision": 1,
+  "rust": {
+    "build-script": true,
+    "edition": "2021",
+    "name": "aws_types",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-types",
+    "scope": "crates-io",
+    "version": "1.7.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "b964fc77de60b0a492ff788c40bb66524fd26a44",
+    "path": "sdk/aws-types",
+    "system": "git"
+  }
+}

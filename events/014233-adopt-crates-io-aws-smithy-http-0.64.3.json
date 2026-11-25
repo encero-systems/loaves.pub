@@ -1,0 +1,194 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+      "Russell Cohen <rcoh@amazon.com>"
+    ],
+    "description": "Smithy HTTP logic for smithy-rs.",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/smithy-lang/smithy-rs",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:19af609dd5edf8b056cd0bb001c706c8b3b1458055328b334ec13d7f46f6aaa8",
+    "package": "aws-smithy-http",
+    "registry": "crates-io",
+    "version": "0.64.3"
+  },
+  "archive": "sha256:0deaf264b6bccdb04b6267f128d79be04a85194acdc2f4e7aaae536e7a178015",
+  "at": "2026-11-25T20:05:50Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-eventstream",
+      "name": "aws-smithy-eventstream",
+      "optional": true,
+      "req": "^0.61.6"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client",
+        "http-1x"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime-api",
+      "name": "aws-smithy-runtime-api",
+      "optional": false,
+      "req": "^1.19.2"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "byte-stream-poll-next",
+        "http-body-1-x"
+      ],
+      "loaf": "crates-io/aws-smithy-types",
+      "name": "aws-smithy-types",
+      "optional": false,
+      "req": "^1.9.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/bytes",
+      "name": "bytes",
+      "optional": false,
+      "req": "^1.11.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/bytes-utils",
+      "name": "bytes-utils",
+      "optional": false,
+      "req": "^0.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/futures-core",
+      "name": "futures-core",
+      "optional": false,
+      "req": "^0.3.31"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/futures-util",
+      "name": "futures-util",
+      "optional": false,
+      "req": "^0.3.29"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http",
+      "name": "http-1x",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http-body",
+      "name": "http-body-1x",
+      "optional": false,
+      "req": "^1.0.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http-body-util",
+      "name": "http-body-util",
+      "optional": false,
+      "req": "^0.1.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/percent-encoding",
+      "name": "percent-encoding",
+      "optional": false,
+      "req": "^2.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/pin-project-lite",
+      "name": "pin-project-lite",
+      "optional": false,
+      "req": "^0.2.14"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1.44"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 618,
+      "digest": "sha256:9bc056dbb268f3d24ec4cd7d563bccbc5907fe0fa9cd7c3e6ea40c121965033a",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10142,
+      "digest": "sha256:09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "aws-smithy-eventstream": [
+      "dep:aws-smithy-eventstream"
+    ],
+    "event-stream": [
+      "aws-smithy-eventstream"
+    ],
+    "rt-tokio": [
+      "aws-smithy-types/rt-tokio"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:3e43f282ef9d23334673e0d83cf70aeac5fe79176956ff0afc5cc1844b1e41df",
+  "kind": "adopt",
+  "manifest": "sha256:75adad7f73ce08d26e29419d3dea83a1571b71dd56cbd13fa97c082e36ff6933",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "aws_smithy_http",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-smithy-http",
+    "scope": "crates-io",
+    "version": "0.64.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": null
+}

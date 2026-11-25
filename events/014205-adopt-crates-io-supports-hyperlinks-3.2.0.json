@@ -1,0 +1,84 @@
+{
+  "about": {
+    "authors": [
+      "Kat Marchán <kzm@zkat.tech>"
+    ],
+    "description": "Detects whether a terminal supports rendering hyperlinks.",
+    "documentation": "https://docs.rs/supports-hyperlinks",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/zkat/supports-hyperlinks",
+    "rust-version": "1.70.0"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:e396b6523b11ccb83120b115a0b7366de372751aa6edf19844dfb13a6af97e91",
+    "package": "supports-hyperlinks",
+    "registry": "crates-io",
+    "version": "3.2.0"
+  },
+  "archive": "sha256:4cd8018f9e59551f30ceb0319a02879a3e25aeaf1d1ee84eae602d72468e6540",
+  "at": "2026-11-25T20:05:46Z",
+  "deps": [],
+  "documents": [
+    {
+      "bytes": 877,
+      "digest": "sha256:9824dd5fe4c36c5c89b46f4721fff4d543a121c26c7ef9746824329af71d7d62",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 10440,
+      "digest": "sha256:02872c3ff23e11da5a9b3289df11b581be36b4956bfb7cfdc3d8043f92d64794",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    },
+    {
+      "bytes": 2717,
+      "digest": "sha256:fa22c9da99a64815b9ee7746fb41db512071a7ad09ca22feba038f646e5ea7ce",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:bcb5484a87e3d8270af7853e79cb3269de775c8417b978555c8036ea33eca7ac",
+  "kind": "adopt",
+  "manifest": "sha256:b504fcace4a830c0e58c38189acf354145c94c2576e344bfeaf074264b2d6dba",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "supports_hyperlinks",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "supports-hyperlinks",
+    "scope": "crates-io",
+    "version": "3.2.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "d4729ba67b7d9be04169b2c96444488936cff58e",
+    "path": "",
+    "system": "git"
+  }
+}

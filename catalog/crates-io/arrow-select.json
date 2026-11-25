@@ -308,6 +308,139 @@
         ],
         "description": "Selection kernels for arrow arrays",
         "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "",
+        "repository": "https://github.com/apache/arrow-rs",
+        "rust-version": "1.85"
+      },
+      "adopted": "2026-11-25T20:05:52Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:4fc29066759ea8c9b7c1918f6e092a722c71b890468265d3239a839b91bb2c62",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/ahash",
+          "name": "ahash",
+          "optional": false,
+          "req": "^0.8"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-array",
+          "name": "arrow-array",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-buffer",
+          "name": "arrow-buffer",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-data",
+          "name": "arrow-data",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-schema",
+          "name": "arrow-schema",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/num-traits",
+          "name": "num-traits",
+          "optional": false,
+          "req": "^0.2.19"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 391,
+          "content": "content/sha256/d040da660e9439b52fd8a7fc3f1e2246ac67f7cf67be8429910f8a7670a9361a",
+          "digest": "sha256:d040da660e9439b52fd8a7fc3f1e2246ac67f7cf67be8429910f8a7670a9361a",
+          "format": "markdown",
+          "origin": "registry",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11577,
+          "content": "content/sha256/03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "registry"
+      },
+      "keywords": [
+        "arrow"
+      ],
+      "manifest": "crates-io/arrow-select/59.3.3/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:52Z",
+          "archive": "sha256:4fc29066759ea8c9b7c1918f6e092a722c71b890468265d3239a839b91bb2c62",
+          "manifest": "crates-io/arrow-select/59.3.3/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "arrow_select",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:83df2939d169e46983b07a65bea222bcca9aa564d33e1529877ecb3395cd20e6",
+        "package": "arrow-select",
+        "registry": "crates-io",
+        "version": "59.3.3"
+      },
+      "vcs": null,
+      "version": "59.3.3",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache Arrow <dev@arrow.apache.org>"
+        ],
+        "description": "Selection kernels for arrow arrays",
+        "documentation": "",
         "homepage": "https://github.com/apache/arrow-rs",
         "license": "Apache-2.0",
         "license-file": "",

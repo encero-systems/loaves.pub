@@ -1,0 +1,249 @@
+{
+  "about": {
+    "authors": [
+      "AWS Rust SDK Team <aws-sdk-rust@amazon.com>",
+      "Russell Cohen <rcoh@amazon.com>"
+    ],
+    "description": "AWS SDK for AWS Glue",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/awslabs/aws-sdk-rust",
+    "rust-version": "1.94.1"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:5312ad1babeb61e32eb68123690d052cc4b9d3b652f15eedc8ef0a517204a36b",
+    "package": "aws-sdk-glue",
+    "registry": "crates-io",
+    "version": "1.189.0"
+  },
+  "archive": "sha256:41430999909d6d6879491e7cb948fcfcc0f3a1539ff0efb0eb705de9dfac8df6",
+  "at": "2026-11-25T20:05:58Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arc-swap",
+      "name": "arc-swap",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-credential-types",
+      "name": "aws-credential-types",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-runtime",
+      "name": "aws-runtime",
+      "optional": false,
+      "req": "^1.10.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-async",
+      "name": "aws-smithy-async",
+      "optional": false,
+      "req": "^1.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-http",
+      "name": "aws-smithy-http",
+      "optional": false,
+      "req": "^0.64.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-json",
+      "name": "aws-smithy-json",
+      "optional": false,
+      "req": "^0.65.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-observability",
+      "name": "aws-smithy-observability",
+      "optional": false,
+      "req": "^0.3.1"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime",
+      "name": "aws-smithy-runtime",
+      "optional": false,
+      "req": "^1.16.4"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "client",
+        "http-1x"
+      ],
+      "loaf": "crates-io/aws-smithy-runtime-api",
+      "name": "aws-smithy-runtime-api",
+      "optional": false,
+      "req": "^1.22.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-smithy-schema",
+      "name": "aws-smithy-schema",
+      "optional": false,
+      "req": "^1.2.0"
+    },
+    {
+      "default-features": true,
+      "features": [
+        "http-body-1-x"
+      ],
+      "loaf": "crates-io/aws-smithy-types",
+      "name": "aws-smithy-types",
+      "optional": false,
+      "req": "^1.9.4"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/aws-types",
+      "name": "aws-types",
+      "optional": false,
+      "req": "^1.7.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/bytes",
+      "name": "bytes",
+      "optional": false,
+      "req": "^1.4.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/fastrand",
+      "name": "fastrand",
+      "optional": false,
+      "req": "^2.0.0"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/http",
+      "name": "http-1x",
+      "optional": false,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/regex-lite",
+      "name": "regex-lite",
+      "optional": false,
+      "req": "^0.1.5"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/tracing",
+      "name": "tracing",
+      "optional": false,
+      "req": "^0.1"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1991,
+      "digest": "sha256:3c4ac9fbd051ae597a965d2ee5cb2838cefd96b3bcaeb7b7e0dd0daa96ac39da",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11391,
+      "digest": "sha256:929e8ca5ef8ec9905c00a89d004d1f6933bae951996992c8579734875bbf46a8",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "behavior-version-latest": [],
+    "default": [
+      "rustls",
+      "default-https-client",
+      "rt-tokio"
+    ],
+    "default-https-client": [
+      "aws-smithy-runtime/default-https-client"
+    ],
+    "gated-tests": [],
+    "legacy-https-client": [
+      "aws-smithy-runtime/tls-rustls"
+    ],
+    "legacy-test-util": [
+      "test-util",
+      "aws-smithy-runtime/legacy-test-util"
+    ],
+    "rt-tokio": [
+      "aws-smithy-async/rt-tokio",
+      "aws-smithy-types/rt-tokio"
+    ],
+    "rustls": [
+      "aws-smithy-runtime/tls-rustls"
+    ],
+    "test-util": [
+      "aws-credential-types/test-util"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:b11abb01aa8d6cfe78ef579eda73d3e93410cc4a0a5aa68871ac5e817d571fe5",
+  "kind": "adopt",
+  "manifest": "sha256:ed2c5cbca7372e9ae27a9d395dc878255b32e0e1c2141c388b6a31616322dd3d",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "aws_sdk_glue",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "aws-sdk-glue",
+    "scope": "crates-io",
+    "version": "1.189.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "9e523be2152965eeb297324ebb27d1880845cabf",
+    "path": "sdk/glue",
+    "system": "git"
+  }
+}

@@ -1,0 +1,20 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_macros"
+version = "0.0.23"
+
+[rust]
+name = "ruff_macros"
+type = "proc-macro"
+edition = "2024"
+build-script = false
+
+[dependencies]
+heck = { loaf = "crates-io/heck", version = "^0.5.0", default-features = false }
+itertools = { loaf = "crates-io/itertools", version = "^0.15.0", features = ["use_std"], default-features = false }
+proc-macro2 = { loaf = "crates-io/proc-macro2", version = "^1.0.79", features = ["proc-macro"], default-features = false }
+quote = { loaf = "crates-io/quote", version = "^1.0.23", features = ["proc-macro"], default-features = false }
+regex = { loaf = "crates-io/regex", version = "^1.10.2", features = ["perf", "std", "unicode"], default-features = false }
+ruff_python_trivia = { loaf = "crates-io/ruff_python_trivia", version = "^0.0.23" }
+syn = { loaf = "crates-io/syn", version = "^3.0.0", features = ["clone-impls", "derive", "extra-traits", "full", "parsing", "printing", "proc-macro"], default-features = false }

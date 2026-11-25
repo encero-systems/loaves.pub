@@ -2,14 +2,14 @@
   "counts": {
     "assets": 10624,
     "facts": 1456,
-    "packages": 1315,
-    "versions": 1713
+    "packages": 1394,
+    "versions": 1882
   },
   "log": {
-    "events": 14164,
+    "events": 14333,
     "last": {
-      "at": "2026-11-15T20:06:58Z",
-      "id": "sha256:f782a247c978756d57730315cf671bd5b6b9acaaa6ce4f12563d66bc67a13ac5"
+      "at": "2026-11-25T20:06:06Z",
+      "id": "sha256:4934c6053da47846b43695766ff1a2cb050c05861fa44fb27dd9b5829d1c215c"
     }
   },
   "packages": [
@@ -206,7 +206,7 @@
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/annotate-snippets",
       "page": "catalog/crates-io/annotate-snippets.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -482,7 +482,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow",
       "page": "catalog/crates-io/arrow.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -494,7 +494,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-arith",
       "page": "catalog/crates-io/arrow-arith.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -506,7 +506,7 @@
       "license": "Apache-2.0 AND MIT",
       "name": "crates-io/arrow-array",
       "page": "catalog/crates-io/arrow-array.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -518,7 +518,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-buffer",
       "page": "catalog/crates-io/arrow-buffer.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -530,7 +530,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-cast",
       "page": "catalog/crates-io/arrow-cast.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -554,7 +554,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-csv",
       "page": "catalog/crates-io/arrow-csv.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -566,7 +566,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-data",
       "page": "catalog/crates-io/arrow-data.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -578,7 +578,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-ipc",
       "page": "catalog/crates-io/arrow-ipc.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -590,7 +590,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-json",
       "page": "catalog/crates-io/arrow-json.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -602,7 +602,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-ord",
       "page": "catalog/crates-io/arrow-ord.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -614,7 +614,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-row",
       "page": "catalog/crates-io/arrow-row.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -626,7 +626,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-schema",
       "page": "catalog/crates-io/arrow-schema.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -638,7 +638,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-select",
       "page": "catalog/crates-io/arrow-select.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -650,7 +650,7 @@
       "license": "Apache-2.0",
       "name": "crates-io/arrow-string",
       "page": "catalog/crates-io/arrow-string.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -926,6 +926,24 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Clap like parsing for attributes in proc-macros",
+      "latest": "0.11.0",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/attribute-derive",
+      "page": "catalog/crates-io/attribute-derive.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Clap for proc macro attributes",
+      "latest": "0.11.0",
+      "license": "MIT",
+      "name": "crates-io/attribute-derive-macro",
+      "page": "catalog/crates-io/attribute-derive-macro.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -1018,23 +1036,20 @@
     {
       "build-targets": [],
       "description": "AWS SDK config and credential provider implementations.",
-      "latest": "1.12.0",
+      "latest": "1.13.3",
       "license": "Apache-2.0",
       "name": "crates-io/aws-config",
       "page": "catalog/crates-io/aws-config.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Types for AWS SDK credentials.",
-      "latest": "1.3.0",
+      "latest": "1.3.1",
       "license": "Apache-2.0",
       "name": "crates-io/aws-credential-types",
       "page": "catalog/crates-io/aws-credential-types.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
@@ -1055,243 +1070,309 @@
       "versions": 1
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Runtime support code for the AWS SDK. This crate isn't intended to be used directly.",
-      "latest": "1.10.0",
+      "latest": "1.10.4",
       "license": "Apache-2.0",
       "name": "crates-io/aws-runtime",
       "page": "catalog/crates-io/aws-runtime.json",
+      "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for Amazon Athena",
+      "latest": "1.132.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-athena",
+      "page": "catalog/crates-io/aws-sdk-athena.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for AWS Batch",
+      "latest": "1.141.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-batch",
+      "page": "catalog/crates-io/aws-sdk-batch.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for Amazon CloudWatch Logs",
+      "latest": "1.166.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-cloudwatchlogs",
+      "page": "catalog/crates-io/aws-sdk-cloudwatchlogs.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for Amazon DynamoDB",
+      "latest": "1.140.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-dynamodb",
+      "page": "catalog/crates-io/aws-sdk-dynamodb.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for Amazon EC2 Container Service",
+      "latest": "1.161.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-ecs",
+      "page": "catalog/crates-io/aws-sdk-ecs.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for Amazon EventBridge",
+      "latest": "1.130.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-eventbridge",
+      "page": "catalog/crates-io/aws-sdk-eventbridge.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for AWS Glue",
+      "latest": "1.189.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-glue",
+      "page": "catalog/crates-io/aws-sdk-glue.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for AWS Lambda",
+      "latest": "1.162.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-lambda",
+      "page": "catalog/crates-io/aws-sdk-lambda.json",
       "versions": 1
     },
     {
       "build-targets": [],
       "description": "AWS SDK for Amazon Simple Storage Service",
-      "latest": "1.152.0",
+      "latest": "1.161.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-sdk-s3",
       "page": "catalog/crates-io/aws-sdk-s3.json",
+      "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for Amazon EventBridge Scheduler",
+      "latest": "1.123.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-scheduler",
+      "page": "catalog/crates-io/aws-sdk-scheduler.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for AWS Secrets Manager",
+      "latest": "1.129.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-secretsmanager",
+      "page": "catalog/crates-io/aws-sdk-secretsmanager.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for AWS Step Functions",
+      "latest": "1.128.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-sfn",
+      "page": "catalog/crates-io/aws-sdk-sfn.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS SDK for Amazon Simple Queue Service",
+      "latest": "1.122.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/aws-sdk-sqs",
+      "page": "catalog/crates-io/aws-sdk-sqs.json",
       "versions": 1
     },
     {
       "build-targets": [],
       "description": "AWS SDK for AWS Single Sign-On",
-      "latest": "1.114.0",
+      "latest": "1.122.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-sdk-sso",
       "page": "catalog/crates-io/aws-sdk-sso.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "AWS SDK for AWS SSO OIDC",
-      "latest": "1.116.0",
+      "latest": "1.124.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-sdk-ssooidc",
       "page": "catalog/crates-io/aws-sdk-ssooidc.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "AWS SDK for AWS Security Token Service",
-      "latest": "1.119.0",
+      "latest": "1.128.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-sdk-sts",
       "page": "catalog/crates-io/aws-sdk-sts.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "SigV4 signer for HTTP requests and Event Stream messages.",
-      "latest": "1.6.0",
+      "latest": "1.6.6",
       "license": "Apache-2.0",
       "name": "crates-io/aws-sigv4",
       "page": "catalog/crates-io/aws-sigv4.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Async runtime agnostic abstractions for smithy-rs.",
-      "latest": "1.3.0",
+      "latest": "1.3.1",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-async",
       "page": "catalog/crates-io/aws-smithy-async.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Checksum calculation and verification callbacks",
-      "latest": "0.65.0",
+      "latest": "0.65.1",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-checksums",
       "page": "catalog/crates-io/aws-smithy-checksums.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Event stream logic for smithy-rs.",
-      "latest": "0.61.4",
+      "latest": "0.61.6",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-eventstream",
       "page": "catalog/crates-io/aws-smithy-eventstream.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Smithy HTTP logic for smithy-rs.",
-      "latest": "0.64.1",
+      "latest": "0.64.3",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-http",
       "page": "catalog/crates-io/aws-smithy-http.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "HTTP client abstractions for generated smithy clients",
-      "latest": "1.5.0",
+      "latest": "1.5.3",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-http-client",
       "page": "catalog/crates-io/aws-smithy-http-client.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Token streaming JSON parser for smithy-rs.",
-      "latest": "0.63.1",
+      "latest": "0.65.1",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-json",
       "page": "catalog/crates-io/aws-smithy-json.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Smithy observability implementation.",
-      "latest": "0.3.0",
+      "latest": "0.3.1",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-observability",
       "page": "catalog/crates-io/aws-smithy-observability.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "AWSQuery and EC2Query Smithy protocol logic for smithy-rs.",
-      "latest": "0.62.1",
+      "latest": "0.64.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-query",
       "page": "catalog/crates-io/aws-smithy-query.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "The new smithy runtime crate",
-      "latest": "1.16.0",
+      "latest": "1.16.4",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-runtime",
       "page": "catalog/crates-io/aws-smithy-runtime.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Smithy runtime types.",
-      "latest": "1.19.0",
+      "latest": "1.22.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-runtime-api",
       "page": "catalog/crates-io/aws-smithy-runtime-api.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Proc macros for aws-smithy-runtime-api.",
-      "latest": "1.1.0",
+      "latest": "1.2.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-runtime-api-macros",
       "page": "catalog/crates-io/aws-smithy-runtime-api-macros.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Schema types for the smithy-rs ecosystem",
-      "latest": "0.2.1",
+      "latest": "1.2.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-schema",
       "page": "catalog/crates-io/aws-smithy-schema.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Types for smithy-rs codegen.",
-      "latest": "1.8.1",
+      "latest": "1.9.4",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-types",
       "page": "catalog/crates-io/aws-smithy-types.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "XML parsing logic for Smithy protocols.",
-      "latest": "0.62.1",
+      "latest": "0.64.1",
       "license": "Apache-2.0",
       "name": "crates-io/aws-smithy-xml",
       "page": "catalog/crates-io/aws-smithy-xml.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Cross-service types for the AWS SDK.",
-      "latest": "1.6.0",
+      "latest": "1.7.0",
       "license": "Apache-2.0",
       "name": "crates-io/aws-types",
       "page": "catalog/crates-io/aws-types.json",
+      "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "AWS Lambda event definitions",
+      "latest": "1.2.1",
+      "license": "MIT",
+      "name": "crates-io/aws_lambda_events",
+      "page": "catalog/crates-io/aws_lambda_events.json",
       "versions": 1
     },
     {
@@ -2099,6 +2180,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Compact owned string types forked from lean_string for Ruff and ty.",
+      "latest": "0.0.4",
+      "license": "MIT",
+      "name": "crates-io/char_str",
+      "page": "catalog/crates-io/char_str.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -2287,6 +2377,15 @@
       "license": "Apache-2.0",
       "name": "crates-io/codespan-reporting",
       "page": "catalog/crates-io/codespan-reporting.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Easy-to-use macros for initializing any collection",
+      "latest": "1.0.3",
+      "license": "MIT",
+      "name": "crates-io/collection_literals",
+      "page": "catalog/crates-io/collection_literals.json",
       "versions": 1
     },
     {
@@ -2973,16 +3072,13 @@
       "versions": 1
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
-      "description": "Pure Rust implementation of a big integer library which has been designed from\nthe ground-up for use in cryptographic applications. Provides constant-time,\nno_std-friendly implementations of modern formulas using const generics.",
-      "latest": "0.7.5",
+      "build-targets": [],
+      "description": "Pure Rust implementation of a big integer library which has been designed from the ground-up for use\nin cryptographic applications. Provides constant-time, `no_std`/`no_alloc`-friendly implementations\nof modern formulas using const generics. Also includes optional support for heap-backed integers.",
+      "latest": "0.7.11",
       "license": "Apache-2.0 OR MIT",
       "name": "crates-io/crypto-bigint",
       "page": "catalog/crates-io/crypto-bigint.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -3093,16 +3189,13 @@
       "versions": 1
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Constant-time utility library with selection and equality testing support targeting cryptographic\napplications. Supports `const fn` where appropriate. Built on the `cmov` crate which provides\narchitecture-specific predication intrinsics. Heavily inspired by the `subtle` crate.",
-      "latest": "0.4.3",
+      "latest": "0.4.8",
       "license": "Apache-2.0 OR MIT",
       "name": "crates-io/ctutils",
       "page": "catalog/crates-io/ctutils.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -3191,281 +3284,281 @@
     {
       "build-targets": [],
       "description": "DataFusion is an in-memory query engine that uses Apache Arrow as the memory model",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion",
       "page": "catalog/crates-io/datafusion.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-catalog",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-catalog",
       "page": "catalog/crates-io/datafusion-catalog.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-catalog-listing",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-catalog-listing",
       "page": "catalog/crates-io/datafusion-catalog-listing.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Common functionality for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-common",
       "page": "catalog/crates-io/datafusion-common.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Common Runtime functionality for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-common-runtime",
       "page": "catalog/crates-io/datafusion-common-runtime.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-datasource",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-datasource",
       "page": "catalog/crates-io/datafusion-datasource.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-datasource-arrow",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-datasource-arrow",
       "page": "catalog/crates-io/datafusion-datasource-arrow.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-datasource-csv",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-datasource-csv",
       "page": "catalog/crates-io/datafusion-datasource-csv.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-datasource-json",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-datasource-json",
       "page": "catalog/crates-io/datafusion-datasource-json.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-datasource-parquet",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-datasource-parquet",
       "page": "catalog/crates-io/datafusion-datasource-parquet.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Documentation module for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-doc",
       "page": "catalog/crates-io/datafusion-doc.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Execution configuration support for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-execution",
       "page": "catalog/crates-io/datafusion-execution.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Logical plan and expression representation for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-expr",
       "page": "catalog/crates-io/datafusion-expr.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Logical plan and expression representation for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-expr-common",
       "page": "catalog/crates-io/datafusion-expr-common.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Function packages for the DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-functions",
       "page": "catalog/crates-io/datafusion-functions.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Traits and types for logical plans and expressions for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-functions-aggregate",
       "page": "catalog/crates-io/datafusion-functions-aggregate.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Utility functions for implementing aggregate functions for the DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-functions-aggregate-common",
       "page": "catalog/crates-io/datafusion-functions-aggregate-common.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Nested Type Function packages for the DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-functions-nested",
       "page": "catalog/crates-io/datafusion-functions-nested.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Traits and types for logical plans and expressions for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-functions-table",
       "page": "catalog/crates-io/datafusion-functions-table.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Window function packages for the DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-functions-window",
       "page": "catalog/crates-io/datafusion-functions-window.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Common functions for implementing user-defined window functions for the DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-functions-window-common",
       "page": "catalog/crates-io/datafusion-functions-window-common.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Procedural macros for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-macros",
       "page": "catalog/crates-io/datafusion-macros.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "DataFusion Query Optimizer",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-optimizer",
       "page": "catalog/crates-io/datafusion-optimizer.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Physical expression implementation for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-physical-expr",
       "page": "catalog/crates-io/datafusion-physical-expr.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Physical expression schema adaptation utilities for DataFusion",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-physical-expr-adapter",
       "page": "catalog/crates-io/datafusion-physical-expr-adapter.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Common functionality of physical expression for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-physical-expr-common",
       "page": "catalog/crates-io/datafusion-physical-expr-common.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "DataFusion Physical Optimizer",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-physical-optimizer",
       "page": "catalog/crates-io/datafusion-physical-optimizer.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Physical (ExecutionPlan) implementations for DataFusion query engine",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-physical-plan",
       "page": "catalog/crates-io/datafusion-physical-plan.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "DataFusion Pruning Logic",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-pruning",
       "page": "catalog/crates-io/datafusion-pruning.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "datafusion-session",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-session",
       "page": "catalog/crates-io/datafusion-session.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "DataFusion SQL Query Planner",
-      "latest": "53.1.0",
+      "latest": "55.3.0",
       "license": "Apache-2.0",
       "name": "crates-io/datafusion-sql",
       "page": "catalog/crates-io/datafusion-sql.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
@@ -4971,6 +5064,24 @@
       "versions": 3
     },
     {
+      "build-targets": [],
+      "description": "Derives the GetSize trait.",
+      "latest": "0.11.1",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/get-size-derive2",
+      "page": "catalog/crates-io/get-size-derive2.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Determine the size in bytes an object occupies inside RAM.",
+      "latest": "0.11.0",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/get-size2",
+      "page": "catalog/crates-io/get-size2.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -5398,6 +5509,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Serde support for the http crate. (De)serialize HeaderMap, Uri, Method, StatusCode",
+      "latest": "2.1.1",
+      "license": "Apache-2.0 OR MIT",
+      "name": "crates-io/http-serde",
+      "page": "catalog/crates-io/http-serde.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -5799,6 +5919,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Check for imperative mood in text",
+      "latest": "1.0.7",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/imperative",
+      "page": "catalog/crates-io/imperative.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -5949,12 +6078,21 @@
     },
     {
       "build-targets": [],
+      "description": "runtime format strings, fully compatible with std's macros",
+      "latest": "0.5.0",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/interpolator",
+      "page": "catalog/crates-io/interpolator.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
       "description": "Intrusive collections for Rust (linked list and red-black tree)",
-      "latest": "0.9.7",
-      "license": "Apache-2.0/MIT",
+      "latest": "0.10.3",
+      "license": "MIT OR Apache-2.0",
       "name": "crates-io/intrusive-collections",
       "page": "catalog/crates-io/intrusive-collections.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -6032,6 +6170,15 @@
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/iri-string",
       "page": "catalog/crates-io/iri-string.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Derive methods for using custom enums like Option / Result",
+      "latest": "0.3.8",
+      "license": "Apache-2.0",
+      "name": "crates-io/is-macro",
+      "page": "catalog/crates-io/is-macro.json",
       "versions": 1
     },
     {
@@ -6473,6 +6620,33 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Application Load Balancer and API Gateway event types for AWS Lambda",
+      "latest": "1.3.2",
+      "license": "Apache-2.0",
+      "name": "crates-io/lambda_http",
+      "page": "catalog/crates-io/lambda_http.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS Lambda Runtime",
+      "latest": "1.5.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/lambda_runtime",
+      "page": "catalog/crates-io/lambda_runtime.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "AWS Lambda Runtime interaction API",
+      "latest": "1.1.1",
+      "license": "Apache-2.0",
+      "name": "crates-io/lambda_runtime_api_client",
+      "page": "catalog/crates-io/lambda_runtime_api_client.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -6602,16 +6776,31 @@
       "versions": 1
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Raw FFI bindings to platform libraries like libc.",
-      "latest": "0.2.190",
+      "latest": "0.2.191",
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/libc",
       "page": "catalog/crates-io/libc.json",
-      "versions": 3
+      "versions": 4
+    },
+    {
+      "build-targets": [],
+      "description": "A Python parser and Concrete Syntax Tree library.",
+      "latest": "1.9.0",
+      "license": "MIT AND (MIT AND PSF-2.0)",
+      "name": "crates-io/libcst",
+      "page": "catalog/crates-io/libcst.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Proc macro helpers for libcst.",
+      "latest": "1.9.0",
+      "license": "MIT",
+      "name": "crates-io/libcst_derive",
+      "page": "catalog/crates-io/libcst_derive.json",
+      "versions": 1
     },
     {
       "build-targets": [],
@@ -6784,16 +6973,13 @@
       "versions": 1
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Wrappers to create fully-featured Mutex and RwLock types. Compatible with no_std.",
-      "latest": "0.4.14",
+      "latest": "0.5.0",
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/lock_api",
       "page": "catalog/crates-io/lock_api.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -6903,11 +7089,11 @@
     {
       "build-targets": [],
       "description": "LZMA / LZMA2 / LZIP / XZ compression ported from 'tukaani xz for java'",
-      "latest": "0.16.5",
+      "latest": "0.25.0",
       "license": "Apache-2.0",
       "name": "crates-io/lzma-rust2",
       "page": "catalog/crates-io/lzma-rust2.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
@@ -6938,6 +7124,24 @@
       "name": "crates-io/macro-string",
       "page": "catalog/crates-io/macro-string.json",
       "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "proc macro error handling à la anyhow x proc-macro-error",
+      "latest": "0.14.1",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/manyhow",
+      "page": "catalog/crates-io/manyhow.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Macro for manyhow",
+      "latest": "0.14.1",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/manyhow-macros",
+      "page": "catalog/crates-io/manyhow-macros.json",
+      "versions": 1
     },
     {
       "build-targets": [
@@ -7317,6 +7521,15 @@
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/native-tls",
       "page": "catalog/crates-io/native-tls.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Natural ordering for Rust",
+      "latest": "1.0.9",
+      "license": "MIT",
+      "name": "crates-io/natord",
+      "page": "catalog/crates-io/natord.json",
       "versions": 1
     },
     {
@@ -8208,6 +8421,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "A hash table with consistent order and fast iteration.",
+      "latest": "1.2.2",
+      "license": "Apache-2.0 OR MIT",
+      "name": "crates-io/ordermap",
+      "page": "catalog/crates-io/ordermap.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -8292,37 +8514,31 @@
       "versions": 1
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "More compact and efficient implementations of the standard synchronization primitives.",
-      "latest": "0.12.5",
+      "latest": "0.13.0",
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/parking_lot",
       "page": "catalog/crates-io/parking_lot.json",
-      "versions": 1
+      "versions": 2
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "An advanced API for creating custom synchronization primitives.",
-      "latest": "0.9.12",
+      "latest": "0.10.0",
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/parking_lot_core",
       "page": "catalog/crates-io/parking_lot_core.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Apache Parquet implementation in Rust",
-      "latest": "58.4.0",
+      "latest": "59.3.3",
       "license": "Apache-2.0",
       "name": "crates-io/parquet",
       "page": "catalog/crates-io/parquet.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -8359,6 +8575,33 @@
       "name": "crates-io/pastey",
       "page": "catalog/crates-io/pastey.json",
       "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "A library for extending `Path` and `PathBuf` in order to get an absolute path and remove the containing dots.",
+      "latest": "4.0.1",
+      "license": "MIT",
+      "name": "crates-io/path-absolutize",
+      "page": "catalog/crates-io/path-absolutize.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "A library for extending `Path` and `PathBuf` in order to parse the path which contains dots.",
+      "latest": "4.0.1",
+      "license": "MIT",
+      "name": "crates-io/path-dedot",
+      "page": "catalog/crates-io/path-dedot.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Conversion to/from a file path from/to slash path",
+      "latest": "0.2.1",
+      "license": "MIT",
+      "name": "crates-io/path-slash",
+      "page": "catalog/crates-io/path-slash.json",
+      "versions": 1
     },
     {
       "build-targets": [
@@ -8434,6 +8677,33 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "A simple Parsing Expression Grammar (PEG) parser generator.",
+      "latest": "0.8.6",
+      "license": "MIT",
+      "name": "crates-io/peg",
+      "page": "catalog/crates-io/peg.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Procedural macros for rust-peg. To use rust-peg, see the `peg` crate.",
+      "latest": "0.8.6",
+      "license": "MIT",
+      "name": "crates-io/peg-macros",
+      "page": "catalog/crates-io/peg-macros.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Runtime support for rust-peg grammars. To use rust-peg, see the `peg` crate.",
+      "latest": "0.8.6",
+      "license": "MIT",
+      "name": "crates-io/peg-runtime",
+      "page": "catalog/crates-io/peg-runtime.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -8456,6 +8726,24 @@
       "name": "crates-io/pem-rfc7468",
       "page": "catalog/crates-io/pem-rfc7468.json",
       "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "A library for python version numbers and specifiers, implementing PEP 440",
+      "latest": "0.7.3",
+      "license": "Apache-2.0 OR BSD-2-Clause",
+      "name": "crates-io/pep440_rs",
+      "page": "catalog/crates-io/pep440_rs.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "A library for python dependency specifiers, better known as PEP 508",
+      "latest": "0.9.2",
+      "license": "Apache-2.0 OR BSD-2-Clause",
+      "name": "crates-io/pep508_rs",
+      "page": "catalog/crates-io/pep508_rs.json",
+      "versions": 1
     },
     {
       "build-targets": [
@@ -8569,7 +8857,7 @@
       "license": "MIT",
       "name": "crates-io/phf",
       "page": "catalog/crates-io/phf.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -8617,7 +8905,7 @@
       "license": "MIT",
       "name": "crates-io/phf_shared",
       "page": "catalog/crates-io/phf_shared.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [
@@ -9118,6 +9406,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "low-level utilities on proc-macro and proc-macro2 types",
+      "latest": "0.10.0",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/proc-macro-utils",
+      "page": "catalog/crates-io/proc-macro-utils.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -9457,6 +9754,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "pyproject.toml parser in Rust",
+      "latest": "0.13.7",
+      "license": "MIT",
+      "name": "crates-io/pyproject-toml",
+      "page": "catalog/crates-io/pyproject-toml.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -9481,6 +9787,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "VectorMap is a generic wrapper around HashMap<String, Vec<String>> to handle different transformations like URL query strings.",
+      "latest": "0.7.0",
+      "license": "MIT",
+      "name": "crates-io/query_map",
+      "page": "catalog/crates-io/query_map.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -9502,7 +9817,7 @@
       "license": "MIT",
       "name": "crates-io/quick-xml",
       "page": "catalog/crates-io/quick-xml.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
@@ -9545,6 +9860,24 @@
       "name": "crates-io/quote",
       "page": "catalog/crates-io/quote.json",
       "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "Support `use` in procmacros hygienically",
+      "latest": "0.9.0",
+      "license": "MIT",
+      "name": "crates-io/quote-use",
+      "page": "catalog/crates-io/quote-use.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Support `use` in procmacros hygienically",
+      "latest": "0.9.0",
+      "license": "MIT",
+      "name": "crates-io/quote-use-macros",
+      "page": "catalog/crates-io/quote-use-macros.json",
+      "versions": 1
     },
     {
       "build-targets": [
@@ -10555,6 +10888,240 @@
     },
     {
       "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/ruff_annotate_snippets",
+      "page": "catalog/crates-io/ruff_annotate_snippets.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_cache",
+      "page": "catalog/crates-io/ruff_cache.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_db",
+      "page": "catalog/crates-io/ruff_db.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_diagnostics",
+      "page": "catalog/crates-io/ruff_diagnostics.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_formatter",
+      "page": "catalog/crates-io/ruff_formatter.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_index",
+      "page": "catalog/crates-io/ruff_index.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.17.6",
+      "license": "MIT",
+      "name": "crates-io/ruff_linter",
+      "page": "catalog/crates-io/ruff_linter.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_macros",
+      "page": "catalog/crates-io/ruff_macros.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_memory_usage",
+      "page": "catalog/crates-io/ruff_memory_usage.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_notebook",
+      "page": "catalog/crates-io/ruff_notebook.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_ast",
+      "page": "catalog/crates-io/ruff_python_ast.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_codegen",
+      "page": "catalog/crates-io/ruff_python_codegen.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_edits",
+      "page": "catalog/crates-io/ruff_python_edits.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_formatter",
+      "page": "catalog/crates-io/ruff_python_formatter.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_importer",
+      "page": "catalog/crates-io/ruff_python_importer.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_index",
+      "page": "catalog/crates-io/ruff_python_index.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_literal",
+      "page": "catalog/crates-io/ruff_python_literal.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_parser",
+      "page": "catalog/crates-io/ruff_python_parser.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_semantic",
+      "page": "catalog/crates-io/ruff_python_semantic.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_stdlib",
+      "page": "catalog/crates-io/ruff_python_stdlib.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_python_trivia",
+      "page": "catalog/crates-io/ruff_python_trivia.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_ranged_value",
+      "page": "catalog/crates-io/ruff_ranged_value.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_source_file",
+      "page": "catalog/crates-io/ruff_source_file.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ruff_text_size",
+      "page": "catalog/crates-io/ruff_text_size.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "(MIT OR Apache-2.0) AND Unicode-DFS-2016",
+      "name": "crates-io/ruff_unicode_names2",
+      "page": "catalog/crates-io/ruff_unicode_names2.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/ruff_unicode_names2_generator",
+      "page": "catalog/crates-io/ruff_unicode_names2_generator.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
       "description": "Ergonomic wrapper for SQLite",
       "latest": "0.40.2",
       "license": "MIT",
@@ -10583,6 +11150,15 @@
       "license": "MIT",
       "name": "crates-io/rust-ini",
       "page": "catalog/crates-io/rust-ini.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "A rust implementation of some popular snowball stemming algorithms",
+      "latest": "1.2.0",
+      "license": "MIT/BSD-3-Clause",
+      "name": "crates-io/rust-stemmers",
+      "page": "catalog/crates-io/rust-stemmers.json",
       "versions": 1
     },
     {
@@ -10828,29 +11404,29 @@
     {
       "build-targets": [],
       "description": "A generic framework for on-demand, incrementalized computation (experimental)",
-      "latest": "0.25.2",
+      "latest": "0.28.6",
       "license": "Apache-2.0 OR MIT",
       "name": "crates-io/salsa",
       "page": "catalog/crates-io/salsa.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Declarative macros for the salsa crate",
-      "latest": "0.25.2",
+      "latest": "0.28.6",
       "license": "Apache-2.0 OR MIT",
       "name": "crates-io/salsa-macro-rules",
       "page": "catalog/crates-io/salsa-macro-rules.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
       "description": "Procedural macros for the salsa crate",
-      "latest": "0.25.2",
+      "latest": "0.28.6",
       "license": "Apache-2.0 OR MIT",
       "name": "crates-io/salsa-macros",
       "page": "catalog/crates-io/salsa-macros.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -11208,6 +11784,15 @@
       "name": "crates-io/serde_derive_internals",
       "page": "catalog/crates-io/serde_derive_internals.json",
       "versions": 2
+    },
+    {
+      "build-targets": [],
+      "description": "serde serializer/deserializer for DynamoDB items that supports aws-sdk-dynamodb, aws_lambda_events, and rusoto_dynamodb",
+      "latest": "4.3.0",
+      "license": "MIT",
+      "name": "crates-io/serde_dynamo",
+      "page": "catalog/crates-io/serde_dynamo.json",
+      "versions": 1
     },
     {
       "build-targets": [
@@ -11758,11 +12343,11 @@
     {
       "build-targets": [],
       "description": "Extensible SQL Lexer and Parser with support for ANSI SQL:2011",
-      "latest": "0.61.0",
+      "latest": "0.62.0",
       "license": "Apache-2.0",
       "name": "crates-io/sqlparser",
       "page": "catalog/crates-io/sqlparser.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [],
@@ -11924,6 +12509,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Strip ANSI escape sequences from byte streams.",
+      "latest": "0.2.1",
+      "license": "Apache-2.0/MIT",
+      "name": "crates-io/strip-ansi-escapes",
+      "page": "catalog/crates-io/strip-ansi-escapes.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -11978,6 +12572,15 @@
       "license": "BSD-3-Clause",
       "name": "crates-io/subtle",
       "page": "catalog/crates-io/subtle.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Detects whether a terminal supports rendering hyperlinks.",
+      "latest": "3.2.0",
+      "license": "Apache-2.0",
+      "name": "crates-io/supports-hyperlinks",
+      "page": "catalog/crates-io/supports-hyperlinks.json",
       "versions": 1
     },
     {
@@ -12864,6 +13467,15 @@
       "versions": 2
     },
     {
+      "build-targets": [],
+      "description": "This is an internal component crate of Ruff",
+      "latest": "0.0.23",
+      "license": "MIT",
+      "name": "crates-io/ty_static",
+      "page": "catalog/crates-io/ty_static.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -12876,16 +13488,13 @@
       "versions": 1
     },
     {
-      "build-targets": [
-        "aarch64-apple-darwin",
-        "x86_64-unknown-linux-gnu"
-      ],
+      "build-targets": [],
       "description": "Provides typed variants of Path and PathBuf for Unix and Windows",
-      "latest": "0.12.3",
+      "latest": "0.13.0",
       "license": "MIT OR Apache-2.0",
       "name": "crates-io/typed-path",
       "page": "catalog/crates-io/typed-path.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -13173,6 +13782,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Painless string scanning.",
+      "latest": "0.1.0",
+      "license": "MIT OR Apache-2.0",
+      "name": "crates-io/unscanny",
+      "page": "catalog/crates-io/unscanny.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -13359,6 +13977,15 @@
       "versions": 1
     },
     {
+      "build-targets": [],
+      "description": "Performance-optimized type for generic version ranges and operations on them.",
+      "latest": "0.1.2",
+      "license": "MPL-2.0",
+      "name": "crates-io/version-ranges",
+      "page": "catalog/crates-io/version-ranges.json",
+      "versions": 1
+    },
+    {
       "build-targets": [
         "aarch64-apple-darwin",
         "x86_64-unknown-linux-gnu"
@@ -13380,6 +14007,15 @@
       "license": "MIT",
       "name": "crates-io/vsimd",
       "page": "catalog/crates-io/vsimd.json",
+      "versions": 1
+    },
+    {
+      "build-targets": [],
+      "description": "Parser for implementing terminal emulators",
+      "latest": "0.14.1",
+      "license": "Apache-2.0 OR MIT",
+      "name": "crates-io/vte",
+      "page": "catalog/crates-io/vte.json",
       "versions": 1
     },
     {
@@ -14743,11 +15379,11 @@
     {
       "build-targets": [],
       "description": "Library to support the reading and writing of zip files.",
-      "latest": "8.6.0",
+      "latest": "9.8.1",
       "license": "MIT",
       "name": "crates-io/zip",
       "page": "catalog/crates-io/zip.json",
-      "versions": 1
+      "versions": 2
     },
     {
       "build-targets": [
@@ -14788,29 +15424,29 @@
     {
       "build-targets": [],
       "description": "Binding for the zstd compression library.",
-      "latest": "0.14.0",
+      "latest": "0.14.4",
       "license": "BSD-3-Clause",
       "name": "crates-io/zstd",
       "page": "catalog/crates-io/zstd.json",
-      "versions": 2
-    },
-    {
-      "build-targets": [],
-      "description": "Safe low-level bindings for the zstd compression library.",
-      "latest": "8.0.0",
-      "license": "BSD-3-Clause",
-      "name": "crates-io/zstd-safe",
-      "page": "catalog/crates-io/zstd-safe.json",
       "versions": 3
     },
     {
       "build-targets": [],
-      "description": "Low-level bindings for the zstd compression library.",
-      "latest": "2.1.0+zstd.1.5.7",
+      "description": "Safe low-level bindings for the zstd compression library.",
+      "latest": "8.3.0",
       "license": "BSD-3-Clause",
+      "name": "crates-io/zstd-safe",
+      "page": "catalog/crates-io/zstd-safe.json",
+      "versions": 4
+    },
+    {
+      "build-targets": [],
+      "description": "Low-level bindings for the zstd compression library.",
+      "latest": "2.1.3+zstd.1.5.7",
+      "license": "BSD-3-Clause AND BSD-2-Clause",
       "name": "crates-io/zstd-sys",
       "page": "catalog/crates-io/zstd-sys.json",
-      "versions": 2
+      "versions": 3
     },
     {
       "build-targets": [

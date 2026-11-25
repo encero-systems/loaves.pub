@@ -1,0 +1,23 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/lock_api"
+version = "0.5.0"
+
+[project.features]
+arc_lock = []
+atomic_usize = []
+default = ["atomic_usize"]
+owning_ref = ["dep:owning_ref"]
+serde = ["dep:serde"]
+
+[rust]
+name = "lock_api"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+owning_ref = { loaf = "crates-io/owning_ref", version = "^0.4.1", optional = true }
+scopeguard = { loaf = "crates-io/scopeguard", version = "^1.2.0", default-features = false }
+serde = { loaf = "crates-io/serde", version = "^1.0.229", default-features = false, optional = true }

@@ -1,0 +1,122 @@
+{
+  "about": {
+    "authors": [
+      "Steven Fackler <sfackler@gmail.com>"
+    ],
+    "description": "Support code shared by PHF libraries",
+    "documentation": "",
+    "homepage": "",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/rust-phf/rust-phf",
+    "rust-version": "1.66"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:e57fef6bc5981e38c2ce2d63bfa546861309f875b8a75f092d1d54ae2d64f266",
+    "package": "phf_shared",
+    "registry": "crates-io",
+    "version": "0.13.1"
+  },
+  "archive": "sha256:17811c6cae761f7758360a20f25a3e93a005ee3017205ed08802c47cad1e14b3",
+  "at": "2026-11-25T20:05:44Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/siphasher",
+      "name": "siphasher",
+      "optional": false,
+      "req": "^1.0"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/uncased",
+      "name": "uncased",
+      "optional": true,
+      "req": "^0.9.9"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/unicase",
+      "name": "unicase",
+      "optional": true,
+      "req": "^2.4.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 127,
+      "digest": "sha256:9fe30ff85b7670ed85175c5f572cf499d0ed231f1b60de4189aff394afa8fe9d",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1099,
+      "digest": "sha256:0ab4d106b6faac07fb6a051815fd1b4d862d730895e2d7d7358c2f13565e7a38",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    },
+    {
+      "bytes": 33259,
+      "digest": "sha256:b02f7b92559e6feeeb238365be367eb4ff0ff1b53c3448e13318e4076b1de39d",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "default": [
+      "std"
+    ],
+    "std": [],
+    "uncased": [
+      "dep:uncased"
+    ],
+    "unicase": [
+      "dep:unicase"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:1433a68e5dc3c758c0c587e3b624bc34049ad4a1040d67263838831851369cdc",
+  "kind": "adopt",
+  "manifest": "sha256:fa536b2d4c259d6e1dd7bf70dff727a1d5a384a18841372394f02f4ba491d331",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "phf_shared",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "phf_shared",
+    "scope": "crates-io",
+    "version": "0.13.1"
+  },
+  "taxonomy": {
+    "categories": [
+      "data-structures"
+    ],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "1e518a6e94a2444b8df7d89078cfc69859537971",
+    "path": "phf_shared",
+    "system": "git"
+  }
+}

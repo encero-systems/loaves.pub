@@ -1,0 +1,87 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/aws_lambda_events"
+version = "1.2.1"
+
+[project.features]
+activemq = []
+alb = ["bytes", "http", "http-body", "http-serde", "query_map"]
+apigw = ["bytes", "http", "http-body", "http-serde", "iam", "query_map"]
+appsync = []
+autoscaling = ["chrono"]
+bedrock_agent_runtime = []
+bon = ["dep:bon"]
+builders = ["bon"]
+bytes = ["dep:bytes"]
+catch-all-fields = []
+chime_bot = ["chrono"]
+chrono = ["dep:chrono"]
+clientvpn = []
+cloudformation = []
+cloudwatch_alarms = ["chrono"]
+cloudwatch_events = ["chrono"]
+cloudwatch_logs = ["flate2"]
+code_commit = ["chrono"]
+codebuild = ["chrono"]
+codedeploy = ["chrono"]
+codepipeline = []
+codepipeline_cloudwatch = ["chrono"]
+codepipeline_job = []
+cognito = []
+config = []
+connect = []
+controltower = []
+default = ["activemq", "alb", "apigw", "appsync", "autoscaling", "bedrock_agent_runtime", "chime_bot", "clientvpn", "cloudformation", "cloudwatch_alarms", "cloudwatch_events", "cloudwatch_logs", "code_commit", "codebuild", "codedeploy", "codepipeline_cloudwatch", "codepipeline_job", "cognito", "config", "connect", "dynamodb", "ecr_scan", "firehose", "iam", "iot", "iot_1_click", "iot_button", "iot_deprecated", "kafka", "kinesis", "kinesis_analytics", "lambda_function_urls", "lex", "rabbitmq", "s3", "s3_batch_job", "ses", "secretsmanager", "sns", "sqs", "streams", "documentdb", "eventbridge", "controltower", "vpc_lattice"]
+documentdb = []
+dynamodb = ["chrono", "serde_dynamo", "streams"]
+ecr_scan = []
+eventbridge = ["chrono", "serde_with"]
+firehose = ["chrono"]
+flate2 = ["dep:flate2"]
+http = ["dep:http"]
+http-body = ["dep:http-body"]
+http-serde = ["dep:http-serde"]
+iam = []
+iot = ["bytes", "http", "http-body", "http-serde", "iam"]
+iot_1_click = []
+iot_button = []
+iot_deprecated = ["iot"]
+kafka = ["chrono"]
+kinesis = ["chrono"]
+kinesis_analytics = ["kinesis"]
+lambda_function_urls = ["bytes", "http", "http-body", "http-serde"]
+lex = []
+query_map = ["dep:query_map"]
+rabbitmq = []
+s3 = ["bytes", "chrono", "http", "http-body", "http-serde"]
+s3_batch_job = ["s3"]
+secretsmanager = []
+serde_dynamo = ["dep:serde_dynamo"]
+serde_with = ["dep:serde_with"]
+ses = ["chrono"]
+sns = ["chrono", "serde_with"]
+sqs = ["serde_with"]
+streams = []
+vpc_lattice = ["bytes", "http", "http-body", "http-serde", "iam", "query_map"]
+
+[rust]
+name = "aws_lambda_events"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+base64 = { loaf = "crates-io/base64", version = "^0.22" }
+bon = { loaf = "crates-io/bon", version = "^3", optional = true }
+bytes = { loaf = "crates-io/bytes", version = "^1", features = ["serde"], optional = true }
+chrono = { loaf = "crates-io/chrono", version = "^0.4.35", features = ["clock", "serde", "std"], default-features = false, optional = true }
+flate2 = { loaf = "crates-io/flate2", version = "^1.0.24", optional = true }
+http = { loaf = "crates-io/http", version = "^1.0", optional = true }
+http-body = { loaf = "crates-io/http-body", version = "^1.0", optional = true }
+http-serde = { loaf = "crates-io/http-serde", version = "^2.0", optional = true }
+query_map = { loaf = "crates-io/query_map", version = "^0.7", features = ["serde", "url-query"], optional = true }
+serde = { loaf = "crates-io/serde", version = "^1", features = ["derive"] }
+serde_dynamo = { loaf = "crates-io/serde_dynamo", version = "^4.1", optional = true }
+serde_json = { loaf = "crates-io/serde_json", version = "^1" }
+serde_with = { loaf = "crates-io/serde_with", version = "^3", features = ["json"], optional = true }

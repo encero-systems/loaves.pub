@@ -1,0 +1,25 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/phf"
+version = "0.13.1"
+
+[project.features]
+default = ["std"]
+macros = ["phf_macros"]
+phf_macros = ["dep:phf_macros"]
+serde = ["dep:serde"]
+std = ["phf_shared/std", "serde?/std"]
+uncased = ["phf_macros?/uncased", "phf_shared/uncased"]
+unicase = ["phf_macros?/unicase", "phf_shared/unicase"]
+
+[rust]
+name = "phf"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+phf_macros = { loaf = "crates-io/phf_macros", version = "^0.13.1", optional = true }
+phf_shared = { loaf = "crates-io/phf_shared", version = "^0.13.1", default-features = false }
+serde = { loaf = "crates-io/serde", version = "^1.0", default-features = false, optional = true }

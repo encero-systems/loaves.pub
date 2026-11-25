@@ -21,6 +21,164 @@
         "repository": "https://github.com/gyscos/zstd-rs",
         "rust-version": "1.64"
       },
+      "adopted": "2026-11-25T20:05:51Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:05a5c0af691a347e96a7cd9ab34e664f0d60d0fde4761e2fbae6e60b15b54cc3",
+      "assets": [],
+      "categories": [
+        "compression",
+        "api-bindings"
+      ],
+      "dependencies": [
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/zstd-safe",
+          "name": "zstd-safe",
+          "optional": false,
+          "req": "^8.3.0"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 11288,
+          "content": "content/sha256/206aad92b9ec516862bc52d0b1a64668b770562f58089190306b205f3d95eb28",
+          "digest": "sha256:206aad92b9ec516862bc52d0b1a64668b770562f58089190306b205f3d95eb28",
+          "format": "markdown",
+          "origin": "package",
+          "path": "Readme.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1501,
+          "content": "content/sha256/ce4868c8e4ebe47a7d4b3c93dbf6b802033e5ae2fa7638098173f80836daac60",
+          "digest": "sha256:ce4868c8e4ebe47a7d4b3c93dbf6b802033e5ae2fa7638098173f80836daac60",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "arrays": [
+          "zstd-safe/arrays"
+        ],
+        "bindgen": [
+          "zstd-safe/bindgen"
+        ],
+        "cmake": [
+          "zstd-safe/cmake"
+        ],
+        "debug": [
+          "zstd-safe/debug"
+        ],
+        "default": [
+          "legacy",
+          "arrays",
+          "zdict_builder"
+        ],
+        "doc-cfg": [],
+        "experimental": [
+          "zstd-safe/experimental"
+        ],
+        "fat-lto": [
+          "zstd-safe/fat-lto"
+        ],
+        "legacy": [
+          "zstd-safe/legacy"
+        ],
+        "no_asm": [
+          "zstd-safe/no_asm"
+        ],
+        "pkg-config": [
+          "zstd-safe/pkg-config"
+        ],
+        "rust-backend": [
+          "zstd-safe/rust-backend"
+        ],
+        "thin": [
+          "zstd-safe/thin"
+        ],
+        "thin-lto": [
+          "zstd-safe/thin-lto"
+        ],
+        "vendored": [
+          "zstd-safe/vendored"
+        ],
+        "wasm": [],
+        "with-rust-allocator": [
+          "zstd-safe/with-rust-allocator"
+        ],
+        "zdict_builder": [
+          "zstd-safe/zdict_builder"
+        ],
+        "zstdmt": [
+          "zstd-safe/zstdmt"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "zstd",
+        "zstandard",
+        "compression"
+      ],
+      "manifest": "crates-io/zstd/0.14.4/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:51Z",
+          "archive": "sha256:05a5c0af691a347e96a7cd9ab34e664f0d60d0fde4761e2fbae6e60b15b54cc3",
+          "manifest": "crates-io/zstd/0.14.4/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2018",
+        "name": "zstd",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:ad5020ab8f27bfc0024ad0a07aed6bf022a16208f479686fbed4fdd0c85eb0b3",
+        "package": "zstd",
+        "registry": "crates-io",
+        "version": "0.14.4"
+      },
+      "vcs": {
+        "commit": "5c4970b9ca1735b1bb19008729d5f4538fbdbc23",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.14.4",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Alexandre Bury <alexandre.bury@gmail.com>"
+        ],
+        "description": "Binding for the zstd compression library.",
+        "documentation": "https://docs.rs/zstd",
+        "homepage": "",
+        "license": "BSD-3-Clause",
+        "license-file": "",
+        "readme": "Readme.md",
+        "repository": "https://github.com/gyscos/zstd-rs",
+        "rust-version": "1.64"
+      },
       "adopted": "2026-10-06T13:11:44Z",
       "advisories": 0,
       "advisory-notes": [],

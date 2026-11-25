@@ -1,0 +1,106 @@
+{
+  "name": "crates-io/path-dedot",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "path-dedot",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/path-dedot"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [
+          "Magic Len <len@magiclen.org>"
+        ],
+        "description": "A library for extending `Path` and `PathBuf` in order to parse the path which contains dots.",
+        "documentation": "",
+        "homepage": "https://magiclen.org/path-dedot",
+        "license": "MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/magiclen/path-dedot",
+        "rust-version": "1.80"
+      },
+      "adopted": "2026-11-25T20:05:44Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:22fa78650e147859982ebf3dc8f14ce8b01e989aa3432de3ce3ecb735fbb46f4",
+      "assets": [],
+      "categories": [
+        "parser-implementations",
+        "filesystem"
+      ],
+      "dependencies": [],
+      "documents": [
+        {
+          "bytes": 4479,
+          "content": "content/sha256/bb5b74670c61b4ec3187669ba409cdf02f90b6868aa6b9e3428604ce95645370",
+          "digest": "sha256:bb5b74670c61b4ec3187669ba409cdf02f90b6868aa6b9e3428604ce95645370",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 1078,
+          "content": "content/sha256/6182f32e16ddbf33d3c17d1832ee3cb90899645e9de8cd2c622a3958f10f9a0c",
+          "digest": "sha256:6182f32e16ddbf33d3c17d1832ee3cb90899645e9de8cd2c622a3958f10f9a0c",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "fixed_workdir": []
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "path",
+        "dot",
+        "dedot",
+        "absolute",
+        "canonical"
+      ],
+      "manifest": "crates-io/path-dedot/4.0.1/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:44Z",
+          "archive": "sha256:22fa78650e147859982ebf3dc8f14ce8b01e989aa3432de3ce3ecb735fbb46f4",
+          "manifest": "crates-io/path-dedot/4.0.1/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "path_dedot",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:03351d0f1c066c114015408dc6a3e101f080fc03ef9d8d799aa58ec760cac5a6",
+        "package": "path-dedot",
+        "registry": "crates-io",
+        "version": "4.0.1"
+      },
+      "vcs": {
+        "commit": "d808a929403c7bb9db74b913860ab08adc513088",
+        "path": "",
+        "system": "git"
+      },
+      "version": "4.0.1",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

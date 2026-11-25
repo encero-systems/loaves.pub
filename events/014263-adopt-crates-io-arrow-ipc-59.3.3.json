@@ -1,0 +1,153 @@
+{
+  "about": {
+    "authors": [
+      "Apache Arrow <dev@arrow.apache.org>"
+    ],
+    "description": "Support for the Arrow IPC format",
+    "documentation": "",
+    "homepage": "",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/apache/arrow-rs",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:ea79f6056557715de2b463ea7f979fe54fbfd6088ffcd144401a777ef28914f9",
+    "package": "arrow-ipc",
+    "registry": "crates-io",
+    "version": "59.3.3"
+  },
+  "archive": "sha256:e5bde253a36899b07463582b9480d5abf5b2e295c05af799b32331f248ed32a5",
+  "at": "2026-11-25T20:05:54Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-array",
+      "name": "arrow-array",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-buffer",
+      "name": "arrow-buffer",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-data",
+      "name": "arrow-data",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-schema",
+      "name": "arrow-schema",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/arrow-select",
+      "name": "arrow-select",
+      "optional": false,
+      "req": "^59.3.3"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/flatbuffers",
+      "name": "flatbuffers",
+      "optional": false,
+      "req": "^25.2.10"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "frame",
+        "std"
+      ],
+      "loaf": "crates-io/lz4_flex",
+      "name": "lz4_flex",
+      "optional": true,
+      "req": "^0.14"
+    },
+    {
+      "default-features": false,
+      "features": [],
+      "loaf": "crates-io/zstd",
+      "name": "zstd",
+      "optional": true,
+      "req": "^0.13.0"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1422,
+      "digest": "sha256:bbd58fd1c7d2910a2b7887c188d858dc6e56d87742891dc5da407885049f96d8",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11577,
+      "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "default": [],
+    "lz4": [
+      "lz4_flex"
+    ],
+    "lz4_flex": [
+      "dep:lz4_flex"
+    ],
+    "zstd": [
+      "dep:zstd"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:999665c853e59315a35748adad59d0e8fe580be27fd94aec7427bd7006f0540c",
+  "kind": "adopt",
+  "manifest": "sha256:2144b2f13e42f353711069496ca8e3a2b07f5cee27f3d1cb05ad60ce8d96e780",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "arrow_ipc",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "arrow-ipc",
+    "scope": "crates-io",
+    "version": "59.3.3"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "arrow"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

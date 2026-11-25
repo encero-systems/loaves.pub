@@ -1,0 +1,116 @@
+{
+  "about": {
+    "authors": [],
+    "description": "LZMA / LZMA2 / LZIP / XZ compression ported from 'tukaani xz for java'",
+    "documentation": "",
+    "homepage": "https://github.com/hasenbanck/lzma-rust2/",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/hasenbanck/lzma-rust2/",
+    "rust-version": "1.85"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:ef1d73c59a56771343712b22ea5615092c612c16ba291c0979e3105dfeec4890",
+    "package": "lzma-rust2",
+    "registry": "crates-io",
+    "version": "0.25.0"
+  },
+  "archive": "sha256:a7499695ac80593a01ffc10e762cf1a4280973b900fb79d0e69e34a2dc67c029",
+  "at": "2026-11-25T20:05:43Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/sha2",
+      "name": "sha2",
+      "optional": true,
+      "req": "^0.11"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 1831,
+      "digest": "sha256:e005f8b4b8cd186ad6cedf9134f7dd3299a41c19b96471afbf3e6c6312c79970",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11356,
+      "digest": "sha256:43070e2d4e532684de521b885f385d0841030efa2b1a20bafb76133a5e1379c1",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE",
+      "role": "license"
+    },
+    {
+      "bytes": 17281,
+      "digest": "sha256:f4546517e298e2bc271c459f19747b700eaee896a1c3fb30aaea4a9fcdb437b6",
+      "format": "markdown",
+      "origin": "package",
+      "path": "CHANGELOG.md",
+      "role": "changelog"
+    }
+  ],
+  "features": {
+    "default": [
+      "std",
+      "encoder",
+      "optimization",
+      "lzip",
+      "xz"
+    ],
+    "encoder": [],
+    "lzip": [],
+    "optimization": [],
+    "sha2": [
+      "dep:sha2"
+    ],
+    "std": [],
+    "xz": [
+      "sha2"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:5a9b91cf6bc7c7fdce1b024e998fc88da23d8a8e5100c19bf3d6a20b151f2318",
+  "kind": "adopt",
+  "manifest": "sha256:ddedf34d83de2c8090677000b67f6023d148c648cd33b883d0b2acde948b5ded",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "lzma_rust2",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "lzma-rust2",
+    "scope": "crates-io",
+    "version": "0.25.0"
+  },
+  "taxonomy": {
+    "categories": [
+      "compression",
+      "no-std"
+    ],
+    "keywords": [
+      "lzma",
+      "lzip",
+      "xz"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "bb2fff61f7d9a9eec5cbd88393a817401824e809",
+    "path": "",
+    "system": "git"
+  }
+}

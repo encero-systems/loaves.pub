@@ -1,0 +1,170 @@
+{
+  "about": {
+    "authors": [],
+    "description": "High performance xml reader and writer",
+    "documentation": "https://docs.rs/quick-xml",
+    "homepage": "",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/tafia/quick-xml",
+    "rust-version": "1.79"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:e660451e55124f798a69a5af3f49ccfbefbd41910eefd25caf2393e1f3473ec1",
+    "package": "quick-xml",
+    "registry": "crates-io",
+    "version": "0.41.0"
+  },
+  "archive": "sha256:030c659ef151655234062e809e334ba3fc4bd1405b7f94bde0e2248bd9b81923",
+  "at": "2026-11-25T20:05:45Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [
+        "derive"
+      ],
+      "loaf": "crates-io/arbitrary",
+      "name": "arbitrary",
+      "optional": true,
+      "req": "^1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/document-features",
+      "name": "document-features",
+      "optional": true,
+      "req": "^0.2"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/encoding_rs",
+      "name": "encoding_rs",
+      "optional": true,
+      "req": "^0.8"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/memchr",
+      "name": "memchr",
+      "optional": false,
+      "req": "^2.1"
+    },
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/serde",
+      "name": "serde",
+      "optional": true,
+      "req": ">=1.0.180"
+    },
+    {
+      "default-features": false,
+      "features": [
+        "io-util"
+      ],
+      "loaf": "crates-io/tokio",
+      "name": "tokio",
+      "optional": true,
+      "req": "^1.10"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 6633,
+      "digest": "sha256:4b9658d440245bed7332ce50d0297ec5b8a94e6708b6274769438da88b8b6d03",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 1105,
+      "digest": "sha256:5b2c207dcf571267ebe0bbdd5bf321f561ddc22ff597e7b363e96f4539507a29",
+      "format": "markdown",
+      "origin": "package",
+      "path": "LICENSE-MIT.md",
+      "role": "license"
+    }
+  ],
+  "features": {
+    "arbitrary": [
+      "dep:arbitrary"
+    ],
+    "async-tokio": [
+      "tokio"
+    ],
+    "default": [],
+    "document-features": [
+      "dep:document-features"
+    ],
+    "encoding": [
+      "encoding_rs"
+    ],
+    "encoding_rs": [
+      "dep:encoding_rs"
+    ],
+    "escape-html": [],
+    "overlapped-lists": [],
+    "serde": [
+      "dep:serde"
+    ],
+    "serde-types": [
+      "dep:serde",
+      "serde/derive"
+    ],
+    "serialize": [
+      "serde"
+    ],
+    "tokio": [
+      "dep:tokio"
+    ]
+  },
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:ffcbdca395857f8bfb60b4cf2ee9c72c9cf26cd8cd4913c1fe6adbac1ff76af0",
+  "kind": "adopt",
+  "manifest": "sha256:e094b224aae2b3508616f951f6c9923b1d42e1cdbf11b34706b06bd8bf163ae3",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2021",
+    "name": "quick_xml",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "quick-xml",
+    "scope": "crates-io",
+    "version": "0.41.0"
+  },
+  "taxonomy": {
+    "categories": [
+      "asynchronous",
+      "encoding",
+      "parsing",
+      "parser-implementations"
+    ],
+    "keywords": [
+      "xml",
+      "serde",
+      "parser",
+      "writer",
+      "html"
+    ]
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "4deda08abeffdc188c269360229cf47e12a77a9f",
+    "path": "",
+    "system": "git"
+  }
+}

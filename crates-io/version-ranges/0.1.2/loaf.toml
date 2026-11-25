@@ -1,0 +1,20 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/version-ranges"
+version = "0.1.2"
+
+[project.features]
+proptest = ["dep:proptest"]
+serde = ["dep:serde", "smallvec/serde"]
+
+[rust]
+name = "version_ranges"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+proptest = { loaf = "crates-io/proptest", version = "^1.6.0", optional = true }
+serde = { loaf = "crates-io/serde", version = "^1.0.219", features = ["derive"], optional = true }
+smallvec = { loaf = "crates-io/smallvec", version = "^1.14.0", features = ["union"] }

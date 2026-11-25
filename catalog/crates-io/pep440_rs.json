@@ -1,0 +1,180 @@
+{
+  "name": "crates-io/pep440_rs",
+  "schema": "loaves.pub/catalog-package/1",
+  "upstream": {
+    "package": "pep440_rs",
+    "registry": "crates.io",
+    "url": "https://crates.io/crates/pep440_rs"
+  },
+  "versions": [
+    {
+      "about": {
+        "authors": [],
+        "description": "A library for python version numbers and specifiers, implementing PEP 440",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0 OR BSD-2-Clause",
+        "license-file": "",
+        "readme": "Readme.md",
+        "repository": "https://github.com/konstin/pep440-rs",
+        "rust-version": ""
+      },
+      "adopted": "2026-11-25T20:05:48Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:dedcb0ea3a9f023a3fd1d94f1407a3e95d54d0f281f8167266c735e62b9b2513",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/once_cell",
+          "name": "once_cell",
+          "optional": false,
+          "req": "^1.20.2"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/rkyv",
+          "name": "rkyv",
+          "optional": true,
+          "req": "^0.8.9"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "derive"
+          ],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": false,
+          "req": "^1.0.210"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/tracing",
+          "name": "tracing",
+          "optional": true,
+          "req": "^0.1.40"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/unicode-width",
+          "name": "unicode-width",
+          "optional": false,
+          "req": "^0.2.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/unscanny",
+          "name": "unscanny",
+          "optional": false,
+          "req": "^0.1.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/version-ranges",
+          "name": "version-ranges",
+          "optional": true,
+          "req": "^0.1.1"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 2939,
+          "content": "content/sha256/47a4a1f27101186391b2d95072acc4f61214660935d122d45ee69a768798231e",
+          "digest": "sha256:47a4a1f27101186391b2d95072acc4f61214660935d122d45ee69a768798231e",
+          "format": "markdown",
+          "origin": "package",
+          "path": "Readme.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10173,
+          "content": "content/sha256/a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9",
+          "digest": "sha256:a6cba85bc92e0cff7a450b1d873c0eaa2e9fc96bf472df0247a26bec77bf3ff9",
+          "format": "text",
+          "origin": "package",
+          "path": "License-Apache",
+          "role": "license"
+        },
+        {
+          "bytes": 1293,
+          "content": "content/sha256/349881bddbe385d3febd5ab50e36ea781aefee73bda4b0610918fe73fda29322",
+          "digest": "sha256:349881bddbe385d3febd5ab50e36ea781aefee73bda4b0610918fe73fda29322",
+          "format": "text",
+          "origin": "package",
+          "path": "License-BSD",
+          "role": "license"
+        },
+        {
+          "bytes": 2696,
+          "content": "content/sha256/ce39e23678e720cf1d8a83ca75e930d88e7c5a93f1b4f56e7f6d8affa6f86efc",
+          "digest": "sha256:ce39e23678e720cf1d8a83ca75e930d88e7c5a93f1b4f56e7f6d8affa6f86efc",
+          "format": "markdown",
+          "origin": "package",
+          "path": "Changelog.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "rkyv": [
+          "dep:rkyv"
+        ],
+        "tracing": [
+          "dep:tracing"
+        ],
+        "version-ranges": [
+          "dep:version-ranges"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/pep440_rs/0.7.3/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:48Z",
+          "archive": "sha256:dedcb0ea3a9f023a3fd1d94f1407a3e95d54d0f281f8167266c735e62b9b2513",
+          "manifest": "crates-io/pep440_rs/0.7.3/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2021",
+        "name": "pep440_rs",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:31095ca1f396e3de32745f42b20deef7bc09077f918b085307e8eab6ddd8fb9c",
+        "package": "pep440_rs",
+        "registry": "crates-io",
+        "version": "0.7.3"
+      },
+      "vcs": {
+        "commit": "f8b2449a43ed81d7f14a163c34624d2486ef1e81",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.7.3",
+      "yank-reason": "",
+      "yanked": false
+    }
+  ]
+}

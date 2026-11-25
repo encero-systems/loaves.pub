@@ -1,0 +1,19 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/ruff_index"
+version = "0.0.23"
+
+[project.features]
+salsa = ["dep:salsa"]
+
+[rust]
+name = "ruff_index"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+get-size2 = { loaf = "crates-io/get-size2", version = "^0.11.0", features = ["compact-str", "derive", "hashbrown", "ordermap", "smallvec", "std", "thin-vec"], default-features = false }
+ruff_macros = { loaf = "crates-io/ruff_macros", version = "^0.0.23" }
+salsa = { loaf = "crates-io/salsa", version = "^0.28.5", features = ["compact_str", "inventory", "macros", "salsa_unstable"], default-features = false, optional = true }

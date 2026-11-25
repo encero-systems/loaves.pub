@@ -1,0 +1,85 @@
+{
+  "about": {
+    "authors": [
+      "Charlie Marsh <charlie.r.marsh@gmail.com>"
+    ],
+    "description": "This is an internal component crate of Ruff",
+    "documentation": "https://docs.astral.sh/ruff",
+    "homepage": "https://docs.astral.sh/ruff",
+    "license": "MIT",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/astral-sh/ruff",
+    "rust-version": "1.98"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:a1a72a8791d53b26590ba067b74930926e20bdc50f8928c75dc13662d6b878b2",
+    "package": "ty_static",
+    "registry": "crates-io",
+    "version": "0.0.23"
+  },
+  "archive": "sha256:c662e0d6777d91c5a52d70de3955c4632acb135b7e5d65b1c319030f99602005",
+  "at": "2026-11-25T20:05:55Z",
+  "deps": [
+    {
+      "default-features": true,
+      "features": [],
+      "loaf": "crates-io/ruff_macros",
+      "name": "ruff_macros",
+      "optional": false,
+      "req": "^0.0.23"
+    }
+  ],
+  "documents": [
+    {
+      "bytes": 529,
+      "digest": "sha256:5de263bc9961030547d660d38a89807855ecc9b8e8f2bb5ca37140baa63a7801",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 327,
+      "digest": "sha256:26784f8f2681cce2abcc44900c28c46d94a109f547d4d705e0816f4ba987f647",
+      "format": "text",
+      "origin": "registry",
+      "path": "LICENSE",
+      "role": "license-notice"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "registry",
+    "readme": "package"
+  },
+  "id": "sha256:8548abee1c589257d89f5f4de77a2589ed6f3e2f02f6d5372613a38b17b92c40",
+  "kind": "adopt",
+  "manifest": "sha256:e5367f1f787e91ad54da699291dfeca6141a94041a01e9b2b5344e178236e9b2",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "ty_static",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "ty_static",
+    "scope": "crates-io",
+    "version": "0.0.23"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": []
+  },
+  "tool": "1",
+  "vcs": {
+    "commit": "a7ba68b4919e56b6af949a42b2da38fe4eec67a9",
+    "path": "crates/ty_static",
+    "system": "git"
+  }
+}

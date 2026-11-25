@@ -19,6 +19,232 @@
         "license-file": "",
         "readme": "README.md",
         "repository": "https://github.com/apache/datafusion",
+        "rust-version": "1.94.0"
+      },
+      "adopted": "2026-11-25T20:06:05Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:2a05f9e739c83221bfa942334e96ade025eb5aeb429eb6f362359cd73a820971",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [
+            "chrono-tz",
+            "prettyprint"
+          ],
+          "loaf": "crates-io/arrow",
+          "name": "arrow",
+          "optional": false,
+          "req": "^59.2.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/async-trait",
+          "name": "async-trait",
+          "optional": false,
+          "req": "^0.1.89"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/bytes",
+          "name": "bytes",
+          "optional": false,
+          "req": "^1.11"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "object_store"
+          ],
+          "loaf": "crates-io/datafusion-common",
+          "name": "datafusion-common",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/datafusion-common-runtime",
+          "name": "datafusion-common-runtime",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-datasource",
+          "name": "datafusion-datasource",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-execution",
+          "name": "datafusion-execution",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-expr",
+          "name": "datafusion-expr",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/datafusion-physical-expr-common",
+          "name": "datafusion-physical-expr-common",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/datafusion-physical-plan",
+          "name": "datafusion-physical-plan",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/datafusion-proto-models",
+          "name": "datafusion-proto-models",
+          "optional": true,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/datafusion-session",
+          "name": "datafusion-session",
+          "optional": false,
+          "req": "^55.3.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/futures",
+          "name": "futures",
+          "optional": false,
+          "req": "^0.3"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/object_store",
+          "name": "object_store",
+          "optional": false,
+          "req": "^0.13.2"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "macros",
+            "rt",
+            "sync"
+          ],
+          "loaf": "crates-io/tokio",
+          "name": "tokio",
+          "optional": false,
+          "req": "^1.52"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "sync"
+          ],
+          "loaf": "crates-io/tokio-stream",
+          "name": "tokio-stream",
+          "optional": false,
+          "req": "^0.1"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1402,
+          "content": "content/sha256/b57fa9e673876f806b154f6df05fde755d6b6717c4ff1be2ba8d85b67ea8a693",
+          "digest": "sha256:b57fa9e673876f806b154f6df05fde755d6b6717c4ff1be2ba8d85b67ea8a693",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11645,
+          "content": "content/sha256/232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+          "digest": "sha256:232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "proto": [
+          "dep:datafusion-proto-models",
+          "datafusion-datasource/proto",
+          "datafusion-physical-plan/proto"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/datafusion-datasource-json/55.3.0/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:06:05Z",
+          "archive": "sha256:2a05f9e739c83221bfa942334e96ade025eb5aeb429eb6f362359cd73a820971",
+          "manifest": "crates-io/datafusion-datasource-json/55.3.0/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "datafusion_datasource_json",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:2e8b92ed9c965b5af696e412dada1344a3b925b53ada314deb97ebeab5dbd520",
+        "package": "datafusion-datasource-json",
+        "registry": "crates-io",
+        "version": "55.3.0"
+      },
+      "vcs": null,
+      "version": "55.3.0",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache DataFusion <dev@datafusion.apache.org>"
+        ],
+        "description": "datafusion-datasource-json",
+        "documentation": "",
+        "homepage": "https://datafusion.apache.org",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/apache/datafusion",
         "rust-version": "1.88.0"
       },
       "adopted": "2026-10-06T13:11:49Z",

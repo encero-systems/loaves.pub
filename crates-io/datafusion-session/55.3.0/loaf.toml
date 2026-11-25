@@ -1,0 +1,20 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/datafusion-session"
+version = "55.3.0"
+
+[rust]
+name = "datafusion_session"
+type = "lib"
+edition = "2024"
+build-script = false
+
+[dependencies]
+arrow-schema = { loaf = "crates-io/arrow-schema", version = "^59.2.0", default-features = false }
+async-trait = { loaf = "crates-io/async-trait", version = "^0.1.89" }
+datafusion-common = { loaf = "crates-io/datafusion-common", version = "^55.3.0", default-features = false }
+datafusion-execution = { loaf = "crates-io/datafusion-execution", version = "^55.3.0", default-features = false }
+datafusion-expr = { loaf = "crates-io/datafusion-expr", version = "^55.3.0", default-features = false }
+datafusion-physical-plan = { loaf = "crates-io/datafusion-physical-plan", version = "^55.3.0" }
+parking_lot = { loaf = "crates-io/parking_lot", version = "^0.12" }

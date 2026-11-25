@@ -1,0 +1,76 @@
+{
+  "about": {
+    "authors": [
+      "Apache DataFusion <dev@datafusion.apache.org>"
+    ],
+    "description": "Documentation module for DataFusion query engine",
+    "documentation": "",
+    "homepage": "https://datafusion.apache.org",
+    "license": "Apache-2.0",
+    "license-file": "",
+    "readme": "README.md",
+    "repository": "https://github.com/apache/datafusion",
+    "rust-version": "1.94.0"
+  },
+  "actor": "encero-systems/loaves.pub maintainers",
+  "adopted": {
+    "checksum": "sha256:347363d91e6c0c14ca2affa39434ed40bc7a2b84f2d9adbbb81a68dff406b763",
+    "package": "datafusion-doc",
+    "registry": "crates-io",
+    "version": "55.3.0"
+  },
+  "archive": "sha256:2669cb542ad933dffc61c56c0a7b4795e3e0e16be736e9dddc5692485f2baf00",
+  "at": "2026-11-25T20:05:42Z",
+  "deps": [],
+  "documents": [
+    {
+      "bytes": 1437,
+      "digest": "sha256:687d352e66076a8ed137ef169fb518241e2fdfeae52c685dc75460111fa9e180",
+      "format": "markdown",
+      "origin": "package",
+      "path": "README.md",
+      "role": "readme"
+    },
+    {
+      "bytes": 11645,
+      "digest": "sha256:232588dc9ad2096eb589a4f46bd58aafc3b57a38b146196c3d38dec884359888",
+      "format": "text",
+      "origin": "package",
+      "path": "LICENSE.txt",
+      "role": "license"
+    }
+  ],
+  "features": {},
+  "files": {
+    "license": "package",
+    "readme": "package"
+  },
+  "id": "sha256:81e339c8af47503eeab2c3bc69f037d914f67855ecaf785f0001d41ebf1ca3d0",
+  "kind": "adopt",
+  "manifest": "sha256:8dc511853f1a9d979456181e81374f36c26e5e21b85fcad1a5c7448ef2e814f9",
+  "revision": 1,
+  "rust": {
+    "build-script": false,
+    "edition": "2024",
+    "name": "datafusion_doc",
+    "root": "src/lib.rs",
+    "type": "lib"
+  },
+  "schema": "loaves.pub/event/1",
+  "signature": null,
+  "subject": {
+    "name": "datafusion-doc",
+    "scope": "crates-io",
+    "version": "55.3.0"
+  },
+  "taxonomy": {
+    "categories": [],
+    "keywords": [
+      "datafusion",
+      "query",
+      "sql"
+    ]
+  },
+  "tool": "1",
+  "vcs": null
+}

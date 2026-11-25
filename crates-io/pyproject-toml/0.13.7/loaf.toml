@@ -1,0 +1,25 @@
+# Projection of the loaves.pub event log; regenerate with `loaves-pub build`, never edit.
+
+[project]
+name = "crates-io/pyproject-toml"
+version = "0.13.7"
+
+[project.features]
+glob = ["dep:glob"]
+pep639-glob = ["glob"]
+tracing = ["pep440_rs/tracing", "pep508_rs/tracing"]
+
+[rust]
+name = "pyproject_toml"
+type = "lib"
+edition = "2021"
+build-script = false
+
+[dependencies]
+glob = { loaf = "crates-io/glob", version = "^0.3.1", optional = true }
+indexmap = { loaf = "crates-io/indexmap", version = "^2.6.0", features = ["serde"] }
+pep440_rs = { loaf = "crates-io/pep440_rs", version = "^0.7.2" }
+pep508_rs = { loaf = "crates-io/pep508_rs", version = "^0.9.1" }
+serde = { loaf = "crates-io/serde", version = "^1.0.214", features = ["derive"] }
+thiserror = { loaf = "crates-io/thiserror", version = "^2.0.12" }
+toml = { loaf = "crates-io/toml", version = "^0.9.4", features = ["parse", "serde", "std"], default-features = false }

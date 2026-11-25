@@ -19,6 +19,351 @@
         "license-file": "",
         "readme": "README.md",
         "repository": "https://github.com/salsa-rs/salsa",
+        "rust-version": "1.95"
+      },
+      "adopted": "2026-11-25T20:05:53Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:96b32fb4b71d47869fffa53198ca3efc14b31445dfaf9684934980c101820c19",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/boxcar",
+          "name": "boxcar",
+          "optional": false,
+          "req": "^0.2.14"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/compact_str",
+          "name": "compact_str",
+          "optional": true,
+          "req": "^0.10"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/crossbeam-queue",
+          "name": "crossbeam-queue",
+          "optional": false,
+          "req": "^0.3.12"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/crossbeam-utils",
+          "name": "crossbeam-utils",
+          "optional": false,
+          "req": "^0.8.21"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/erased-serde",
+          "name": "erased-serde",
+          "optional": true,
+          "req": "^0.4.6"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/hashbrown",
+          "name": "hashbrown",
+          "optional": false,
+          "req": "^0.17"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/hashlink",
+          "name": "hashlink",
+          "optional": false,
+          "req": "^0.12"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/indexmap",
+          "name": "indexmap",
+          "optional": false,
+          "req": "^2"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/intrusive-collections",
+          "name": "intrusive-collections",
+          "optional": false,
+          "req": "^0.10.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/inventory",
+          "name": "inventory",
+          "optional": true,
+          "req": "^0.3.24"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/ordermap",
+          "name": "ordermap",
+          "optional": true,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/parking_lot",
+          "name": "parking_lot",
+          "optional": false,
+          "req": "^0.13"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/portable-atomic",
+          "name": "portable-atomic",
+          "optional": false,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/rayon",
+          "name": "rayon",
+          "optional": true,
+          "req": "^1.10.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/rustc-hash",
+          "name": "rustc-hash",
+          "optional": false,
+          "req": "^2"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/salsa-macro-rules",
+          "name": "salsa-macro-rules",
+          "optional": false,
+          "req": "^0.28.6"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/salsa-macros",
+          "name": "salsa-macros",
+          "optional": false,
+          "req": "=0.28.6",
+          "target": "cfg(false)"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/salsa-macros",
+          "name": "salsa-macros",
+          "optional": true,
+          "req": "^0.28.6"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "derive"
+          ],
+          "loaf": "crates-io/serde",
+          "name": "serde",
+          "optional": true,
+          "req": "^1.0.219"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/shuttle",
+          "name": "shuttle",
+          "optional": true,
+          "req": "^0.9.1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "const_new"
+          ],
+          "loaf": "crates-io/smallvec",
+          "name": "smallvec",
+          "optional": false,
+          "req": "^1"
+        },
+        {
+          "default-features": true,
+          "features": [
+            "const_new"
+          ],
+          "loaf": "crates-io/thin-vec",
+          "name": "thin-vec",
+          "optional": false,
+          "req": "^0.2.15"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/tracing",
+          "name": "tracing",
+          "optional": false,
+          "req": "^0.1"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/triomphe",
+          "name": "triomphe",
+          "optional": true,
+          "req": "^0.1"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 2352,
+          "content": "content/sha256/50c7e890c43b6f0dd2e16a35bac2cb6ac942c828ea50f604b8b4500d8994e444",
+          "digest": "sha256:50c7e890c43b6f0dd2e16a35bac2cb6ac942c828ea50f604b8b4500d8994e444",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 10847,
+          "content": "content/sha256/a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "digest": "sha256:a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-APACHE",
+          "role": "license"
+        },
+        {
+          "bytes": 1023,
+          "content": "content/sha256/23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "digest": "sha256:23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE-MIT",
+          "role": "license"
+        },
+        {
+          "bytes": 42030,
+          "content": "content/sha256/69562dd976f0baae0572509fa38bcc2ec7ee85adbc27c4a5950b3eda61a9aa64",
+          "digest": "sha256:69562dd976f0baae0572509fa38bcc2ec7ee85adbc27c4a5950b3eda61a9aa64",
+          "format": "markdown",
+          "origin": "package",
+          "path": "CHANGELOG.md",
+          "role": "changelog"
+        }
+      ],
+      "facts": [],
+      "features": {
+        "accumulator": [
+          "salsa-macro-rules/accumulator"
+        ],
+        "compact_str": [
+          "dep:compact_str"
+        ],
+        "default": [
+          "salsa_unstable",
+          "rayon",
+          "macros",
+          "inventory",
+          "accumulator"
+        ],
+        "detailed-trace": [],
+        "inventory": [
+          "dep:inventory"
+        ],
+        "macros": [
+          "dep:salsa-macros"
+        ],
+        "ordermap": [
+          "dep:ordermap"
+        ],
+        "persistence": [
+          "dep:serde",
+          "dep:erased-serde",
+          "dep:salsa-macros",
+          "salsa-macros/persistence",
+          "thin-vec/serde"
+        ],
+        "rayon": [
+          "dep:rayon"
+        ],
+        "salsa_unstable": [],
+        "shuttle": [
+          "dep:shuttle"
+        ],
+        "triomphe": [
+          "dep:triomphe"
+        ]
+      },
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [],
+      "manifest": "crates-io/salsa/0.28.6/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:05:53Z",
+          "archive": "sha256:96b32fb4b71d47869fffa53198ca3efc14b31445dfaf9684934980c101820c19",
+          "manifest": "crates-io/salsa/0.28.6/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "salsa",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:71bb6122eeb456512d11ce279cbe1eb5f6e2a23f7082ef5f2fb1ad72e9c85533",
+        "package": "salsa",
+        "registry": "crates-io",
+        "version": "0.28.6"
+      },
+      "vcs": {
+        "commit": "6ce831784e8809fadeea6a892837f21368e54c24",
+        "path": "",
+        "system": "git"
+      },
+      "version": "0.28.6",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Salsa developers"
+        ],
+        "description": "A generic framework for on-demand, incrementalized computation (experimental)",
+        "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0 OR MIT",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/salsa-rs/salsa",
         "rust-version": "1.85"
       },
       "adopted": "2026-10-07T15:48:00Z",

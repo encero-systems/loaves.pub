@@ -318,6 +318,233 @@
         ],
         "description": "Support for parsing JSON format to and from the Arrow format",
         "documentation": "",
+        "homepage": "",
+        "license": "Apache-2.0",
+        "license-file": "",
+        "readme": "README.md",
+        "repository": "https://github.com/apache/arrow-rs",
+        "rust-version": "1.85"
+      },
+      "adopted": "2026-11-25T20:06:00Z",
+      "advisories": 0,
+      "advisory-notes": [],
+      "archive": "sha256:55be60e279e659465b9a89273273b17e05324f36a7b7543ac48b7c63dd3e6d1e",
+      "assets": [],
+      "categories": [],
+      "dependencies": [
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-array",
+          "name": "arrow-array",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-buffer",
+          "name": "arrow-buffer",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-cast",
+          "name": "arrow-cast",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-ord",
+          "name": "arrow-ord",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-schema",
+          "name": "arrow-schema",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/arrow-select",
+          "name": "arrow-select",
+          "optional": false,
+          "req": "^59.3.3"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "clock"
+          ],
+          "loaf": "crates-io/chrono",
+          "name": "chrono",
+          "optional": false,
+          "req": "^0.4.40"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/half",
+          "name": "half",
+          "optional": false,
+          "req": "^2.1"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/indexmap",
+          "name": "indexmap",
+          "optional": false,
+          "req": "^2.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/itoa",
+          "name": "itoa",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/lexical-core",
+          "name": "lexical-core",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/memchr",
+          "name": "memchr",
+          "optional": false,
+          "req": "^2.7.4"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/num-traits",
+          "name": "num-traits",
+          "optional": false,
+          "req": "^0.2.19"
+        },
+        {
+          "default-features": true,
+          "features": [],
+          "loaf": "crates-io/ryu",
+          "name": "ryu",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/serde_core",
+          "name": "serde_core",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": false,
+          "features": [
+            "std"
+          ],
+          "loaf": "crates-io/serde_json",
+          "name": "serde_json",
+          "optional": false,
+          "req": "^1.0"
+        },
+        {
+          "default-features": false,
+          "features": [],
+          "loaf": "crates-io/simdutf8",
+          "name": "simdutf8",
+          "optional": false,
+          "req": "^0.1.5"
+        }
+      ],
+      "documents": [
+        {
+          "bytes": 1261,
+          "content": "content/sha256/12f318aa3072b4131a534ea3e69a2180f76046c95319232e8d55b592f99fd611",
+          "digest": "sha256:12f318aa3072b4131a534ea3e69a2180f76046c95319232e8d55b592f99fd611",
+          "format": "markdown",
+          "origin": "package",
+          "path": "README.md",
+          "role": "readme"
+        },
+        {
+          "bytes": 11577,
+          "content": "content/sha256/03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "digest": "sha256:03548525ec3706de58e48ef6e3c455582557a0ad3b54a2da9a3819add35dfb72",
+          "format": "text",
+          "origin": "package",
+          "path": "LICENSE.txt",
+          "role": "license"
+        }
+      ],
+      "facts": [],
+      "features": {},
+      "files": {
+        "license": "package",
+        "readme": "package"
+      },
+      "keywords": [
+        "arrow"
+      ],
+      "manifest": "crates-io/arrow-json/59.3.3/loaf.toml",
+      "registry": {
+        "adopter": "encero-systems/loaves.pub maintainers",
+        "publisher": "encero-systems/loaves.pub maintainers"
+      },
+      "revision": 1,
+      "revisions": [
+        {
+          "adopted": "2026-11-25T20:06:00Z",
+          "archive": "sha256:55be60e279e659465b9a89273273b17e05324f36a7b7543ac48b7c63dd3e6d1e",
+          "manifest": "crates-io/arrow-json/59.3.3/loaf.toml",
+          "reason": "",
+          "revision": 1
+        }
+      ],
+      "rust": {
+        "build-script": false,
+        "edition": "2024",
+        "name": "arrow_json",
+        "type": "lib"
+      },
+      "upstream": {
+        "checksum": "sha256:40baa7ed2527eee2ad6435725d37aaddd2708fcc973319155d5cd1394e9c55bd",
+        "package": "arrow-json",
+        "registry": "crates-io",
+        "version": "59.3.3"
+      },
+      "vcs": null,
+      "version": "59.3.3",
+      "yank-reason": "",
+      "yanked": false
+    },
+    {
+      "about": {
+        "authors": [
+          "Apache Arrow <dev@arrow.apache.org>"
+        ],
+        "description": "Support for parsing JSON format to and from the Arrow format",
+        "documentation": "",
         "homepage": "https://github.com/apache/arrow-rs",
         "license": "Apache-2.0",
         "license-file": "",
