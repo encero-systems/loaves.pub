@@ -16,7 +16,7 @@ from std.fs import Path
 from std.json import JsonValue, parse
 
 from canonical import canonical, digest_text, pretty
-from registry import earlier_event_schema, event_kinds, event_schema, keys_of, parse_digits, scope
+from registry import earlier_event_schema, event_kinds, event_schema, is_package_word, keys_of, parse_digits, scope
 
 
 @derive(Clone)
@@ -29,6 +29,7 @@ pub class Event:
     pub kind: str
     pub at: str
     pub actor: str
+    pub scope: str
     pub name: str
     pub version: str
     pub body: JsonValue
@@ -106,10 +107,18 @@ def load_event(root: Path, name: str, expected: int) -> Result[Event, str]:
     if string_member(event, "id") != event_id(event)?:
         return Err(f"{label}: id does not match the canonical event body")
     subject = member(event, "subject")
+    subject_scope = string_member(subject, "scope")
     subject_name = string_member(subject, "name")
     subject_version = string_member(subject, "version")
-    if string_member(subject, "scope") != scope() or len(subject_name) == 0 or len(subject_version) == 0:
-        return Err(f"{label}: subject must name a crates-io package version")
+    if event_kind == "trusted-publisher":
+        # A trusted publisher belongs to a whole scope, so its subject names the scope alone.
+        if not is_package_word(subject_scope) or subject_scope == scope() or subject.contains_key("name") or subject.contains_key("version"):
+            return Err(f"{label}: a trusted-publisher event's subject names one scope other than {scope()}, and nothing else")
+    elif subject_scope == scope():
+        if len(subject_name) == 0 or len(subject_version) == 0:
+            return Err(f"{label}: subject must name a crates-io package version")
+    elif not is_package_word(subject_scope) or not is_package_word(subject_name) or len(subject_version) == 0:
+        return Err(f"{label}: subject must name a package version: a scope and a name of `[a-z0-9-]`, and a version")
     if subject_name != subject_name.lower():
         return Err(f"{label}: a package name has no capital letter; `{subject_name}` is refused, not folded")
     at = string_member(event, "at")
@@ -123,6 +132,7 @@ def load_event(root: Path, name: str, expected: int) -> Result[Event, str]:
         kind=event_kind,
         at=at,
         actor=actor,
+        scope=subject_scope,
         name=subject_name,
         version=subject_version,
         body=event,
@@ -139,18 +149,29 @@ def file_kind(name: str, expected: int, label: str) -> Result[str, str]:
             if sequence != expected:
                 return Err(shape)
         None => return Err(shape)
+    # The kind is the longest known kind the rest starts with, since `trusted-publisher` holds a hyphen itself.
     rest = name[7:len(name) - 5]
-    parts = rest.split("-")
-    if len(parts) < 2 or len(parts[0]) == 0:
+    mut found = ""
+    for kind in event_kinds():
+        if rest.startswith(kind + "-") and len(kind) > len(found):
+            found = kind
+    if len(found) == 0:
         return Err(shape)
-    for character in parts[0]:
-        if not "abcdefghijklmnopqrstuvwxyz".contains(character):
-            return Err(shape)
-    return Ok(parts[0])
+    return Ok(found)
 
 
 pub def append_event(root: Path, kind: str, name: str, version: str, actor: str, payload: Dict[str, JsonValue]) -> Result[str, str]:
-    """Write the next event of the log and return its path relative to the root."""
+    """Write the next event of the log about a `crates-io` package version and return its path from the root."""
+    return append_scoped_event(root, kind, scope(), name, version, actor, payload)
+
+
+pub def append_scoped_event(
+    root: Path, kind: str, subject_scope: str, name: str, version: str, actor: str, payload: Dict[str, JsonValue]
+) -> Result[str, str]:
+    """
+    Write the next event of the log and return its path relative to the root. An empty `name` and `version` make the
+    subject the scope alone, as a `trusted-publisher` event's is.
+    """
     events_dir = root / "events"
     match events_dir.mkdir(parents=true, exist_ok=true):
         Ok(_) => pass
@@ -161,17 +182,18 @@ pub def append_event(root: Path, kind: str, name: str, version: str, actor: str,
     body["kind"] = JsonValue.string(kind)
     body["at"] = JsonValue.string(timestamp()?)
     body["actor"] = JsonValue.string(actor)
-    body["subject"] = JsonValue.object({
-        "scope": JsonValue.string(scope()),
-        "name": JsonValue.string(name),
-        "version": JsonValue.string(version),
-    })
+    mut subject: Dict[str, JsonValue] = {"scope": JsonValue.string(subject_scope)}
+    mut slug = subject_scope
+    if len(name) > 0:
+        subject["name"] = JsonValue.string(name)
+        subject["version"] = JsonValue.string(version)
+        slug = f"{subject_scope}-{name}-{version}".replace("/", "-")
+    body["subject"] = JsonValue.object(subject)
     for key in keys_of(payload):
         body[key] = payload[key]
     identity = event_id(JsonValue.object(body))?
     body["id"] = JsonValue.string(identity)
     body["signature"] = JsonValue.null()
-    slug = f"{scope()}-{name}-{version}".replace("/", "-")
     file_name = f"{sequence_text(sequence)}-{kind}-{slug}.json"
     relative = f"events/{file_name}"
     write_text(root / "events" / file_name, pretty(JsonValue.object(body))? + "\n", relative)?

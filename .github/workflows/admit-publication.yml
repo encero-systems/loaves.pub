@@ -1,0 +1,118 @@
+name: admit-publication
+
+# Admit one authored Loaf version (docs/authored-loaves.md) from a release of its publisher's repository: verify the
+# release's Sigstore bundle against the scope's trusted publishers with `gh attestation verify`, append the `publish`
+# event, push the source Loaf to the GitHub Container Registry once `check` passes, push `index`, and sign.
+#
+# The job can push to `index` and to the registry, so it runs nothing but this repository's own tool, pulled for this
+# commit's key (see check.yml), and GitHub's `gh`. The publisher's archive is read, never run. It shares the `sign`
+# group, so it never writes `index` while a signing run does.
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: "SCOPE/NAME, as the manifest's [project] name spells it"
+        required: true
+      version:
+        description: The version the release publishes
+        required: true
+      repository:
+        description: "The publisher's repository, OWNER/NAME"
+        required: true
+      tag:
+        description: The release tag that carries the archive and its bundle
+        required: true
+      archive:
+        description: The release asset holding the source Loaf archive
+        required: true
+      bundle:
+        description: The release asset holding the archive's Sigstore bundle
+        required: true
+      attestation-url:
+        description: "The attestation's page, https://github.com/OWNER/NAME/attestations/N"
+        required: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sign
+  cancel-in-progress: false
+
+env:
+  TRIPLE: x86_64-unknown-linux-gnu
+
+jobs:
+  admit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+      # A push made with this job's token starts no workflow, so the job dispatches the signing itself.
+      actions: write
+    steps:
+      - name: Check out the tool
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          path: tool
+          persist-credentials: false
+      - name: Check out the index branch
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+        with:
+          ref: index
+          path: index
+      - name: Install oras
+        uses: oras-project/setup-oras@22ce207df3b08e061f537244349aac6ae1d214f6 # v1.2.4
+      - name: Pull the tool of this commit's key
+        run: |
+          key="$(git -C tool ls-tree HEAD -- build.sh loaf.toml src tests .github/workflows/check.yml | git hash-object --stdin)"
+          oras pull "ghcr.io/encero-systems/loaves.pub/toolchain/loaves-pub:$key-$TRIPLE" --output "$RUNNER_TEMP/tool" \
+            || { echo "::error::no loaves-pub binary for tool key $key yet; the check workflow publishes it when it passes"; exit 1; }
+          tar -xzf "$RUNNER_TEMP/tool/loaves-pub.tar.gz" -C "$RUNNER_TEMP/tool"
+      - name: Download the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ inputs.repository }}
+          TAG: ${{ inputs.tag }}
+          ARCHIVE: ${{ inputs.archive }}
+          BUNDLE: ${{ inputs.bundle }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/release"
+          gh release download "$TAG" --repo "$REPOSITORY" --pattern "$ARCHIVE" --pattern "$BUNDLE" --dir "$RUNNER_TEMP/release"
+      - name: Verify and admit the publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PACKAGE: ${{ inputs.package }}
+          VERSION: ${{ inputs.version }}
+          ARCHIVE: ${{ inputs.archive }}
+          BUNDLE: ${{ inputs.bundle }}
+          URL: ${{ inputs.attestation-url }}
+        run: |
+          "$RUNNER_TEMP/tool/loaves-pub" admit-publication "$PACKAGE" "$VERSION" --archive "$RUNNER_TEMP/release/$ARCHIVE" \
+            --bundle "$RUNNER_TEMP/release/$BUNDLE" --attestation-url "$URL" --blobs "$RUNNER_TEMP/blobs" --root index
+          "$RUNNER_TEMP/tool/loaves-pub" check --blobs "$RUNNER_TEMP/blobs" --root index
+      - name: Push the source Loaf
+        env:
+          LOAVES_PUB_REGISTRY_USER: ${{ github.actor }}
+          LOAVES_PUB_REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PACKAGE: ${{ inputs.package }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          "$RUNNER_TEMP/tool/loaves-pub" push-authored "$PACKAGE" "$VERSION" --blobs "$RUNNER_TEMP/blobs" \
+            --work "$RUNNER_TEMP/work" --root index
+      - name: Push the publication to index
+        working-directory: index
+        env:
+          PACKAGE: ${{ inputs.package }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -q -m "Publish $PACKAGE $VERSION"
+          git push origin HEAD:index
+      - name: Sign the publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run sign.yml --repo "$GITHUB_REPOSITORY" --ref main

@@ -46,6 +46,16 @@ pub def scope() -> str:
     return "crates-io"
 
 
+pub def is_package_word(text: str) -> bool:
+    """A scope or an authored package name (RFC 125): `[a-z0-9][a-z0-9-]*`, at most 64 characters."""
+    if len(text) == 0 or len(text) > 64 or text.startswith("-"):
+        return false
+    for character in text:
+        if not "abcdefghijklmnopqrstuvwxyz0123456789-".contains(character):
+            return false
+    return true
+
+
 pub def status_harvested() -> str:
     return "harvested"
 
@@ -56,7 +66,7 @@ pub def status_attested() -> str:
 
 pub def event_kinds() -> list[str]:
     """The event vocabulary, in the order the documentation lists it."""
-    return ["publish", "adopt", "fact", "attest", "asset", "yank", "unyank", "advisory"]
+    return ["publish", "adopt", "fact", "attest", "asset", "yank", "unyank", "advisory", "trusted-publisher"]
 
 
 pub def binding_keys() -> list[str]:

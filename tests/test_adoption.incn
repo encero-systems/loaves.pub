@@ -589,6 +589,7 @@ def recorded_adoption_refusal(sequence: int, adoption: Adoption, body: JsonValue
         kind="adopt",
         at="now",
         actor="tests",
+        scope="crates-io",
         name="leaf",
         version="1.2.0",
         body=body,

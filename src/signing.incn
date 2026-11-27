@@ -117,7 +117,7 @@ pub def event_payload(event: Event) -> Result[bytes, str]:
         reason = string_member(member(event.body, "advisory"), "text")
         if not plain(reason):
             return Err(f"{event.label}: an advisory the feed signs is one line of text")
-        return Ok(advisory_payload(identity[7:], "crates-io/" + event.name, event.version, "publish", reason))
+        return Ok(advisory_payload(identity[7:], event.scope + "/" + event.name, event.version, "publish", reason))
     mut body: Dict[str, JsonValue] = {}
     for key in event.body.keys():
         if key != "id" and key != "signature":

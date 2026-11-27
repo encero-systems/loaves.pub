@@ -72,9 +72,10 @@ jobs:
             --templates tool/site/templates --checkpoint "$(git -C index rev-parse HEAD)" --out out
           cp -R tool/site/assets tool/site/arcade out/
           cp -R index/catalog index/index index/crates-io index/content index/graphs index/events out/
-          # The signed audit feed (docs/signing.md), at <base>/audit/v1.json, and the root it is verified from.
-          for signed in audit keys; do
-            [ ! -d "index/$signed" ] || cp -R "index/$signed" out/
+          # The signed audit feed (docs/signing.md), at <base>/audit/v1.json, and the root it is verified from, and every
+          # authored scope (docs/authored-loaves.md) that holds a publication.
+          for served in audit keys encero encero-systems incan oven std; do
+            [ ! -d "index/$served" ] || cp -R "index/$served" out/
           done
       - name: Test the design and the rendered site
         working-directory: tool/site
