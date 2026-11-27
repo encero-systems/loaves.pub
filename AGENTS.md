@@ -70,6 +70,17 @@ A package must first be created by a workflow of this repository: it then takes 
 - **Compilers.** The `bake` workflow compiles with an Incan toolchain bundle (`incan`, `incan-lsp` and `toolchain.tar.zst`) pulled from `ghcr.io/encero-systems/loaves.pub/toolchain/incan` by the digest of its image, and installed into a fresh home per root; `record-facts` installs the same bundle to compile build dependencies. `bake/toolchain.json` pins it once for both: `commit` (the commit it was built from) and one image digest per target triple, so moving to another bundle is one change there. `check.yml` builds the tool with a published release instead, its bundles pinned by digest in the same way. Building the compiler or the tool runs third-party build code, so those jobs hold a read-only token and hand the binary to a job that only pushes it. The `check` workflow publishes the tool the same way, `toolchain/loaves-pub:<tool key>-<target triple>` for every push to `main`, keyed by the git hash of what the binary is built from, and `bake` and `publish-sources` pull the one for their commit's key instead of building it. Releases cannot hold it: this repository's releases are immutable once published.
 - **The earlier paths.** Packages were first published under `ghcr.io/encero-systems/incan.pub/*`. The `copy-packages` workflow copies every tagged version to the same name under `ghcr.io/encero-systems/loaves.pub/*` and refuses one whose copy names another digest; a later run only catches up. Artifacts are identified by digest, so a copy changes no identity a lockfile or an attestation records. The earlier paths stay until 0.6 ships, because the 0.6.0-dev.8 release pulls its toolchain from them.
 
+## Authored Loaves
+
+A publisher-authored Loaf publishes under an authored scope ([docs/authored-loaves.md](docs/authored-loaves.md)) once that scope has a trusted publisher:
+
+```sh
+loaves-pub trusted-publisher add incan --repository encero-systems/<repo> --workflow .github/workflows/<file>.yml --ref 'refs/tags/v*'
+loaves-pub check && git commit && git push
+```
+
+The publisher's release carries the source Loaf and its build-provenance bundle; dispatch the `admit-publication` workflow with the package, version, repository, tag, both asset names and the attestation page. It verifies the bundle with `gh attestation verify`, appends the `publish` event, pushes the archive (`push-authored`) and `index`, and dispatches `sign`. Never append an authored event by hand: `trusted-publisher` and `admit-publication` fold the log and remove an event it refuses.
+
 ## Signing the registry
 
 `audit/v1.json` on `index` is the signed audit feed ([docs/signing.md](docs/signing.md)): the root's key envelopes, one statement per event in log order, and a checkpoint over all of it. Two keys sign it, and both are Ed25519 private keys that OpenSSL 3 reads.
@@ -111,5 +122,6 @@ Only `format-documents.mjs` and the browser scripts are JavaScript. What a page 
 | [docs/external-source-record.md](docs/external-source-record.md) | the record, its events, the rendered manifest, the closed vocabulary |
 | [docs/harvest-proposal.md](docs/harvest-proposal.md) | what a harvest emits and what `add-fact` admits |
 | [docs/policy.md](docs/policy.md) | the reserved scopes and supported toolchains the registry publishes |
+| [docs/authored-loaves.md](docs/authored-loaves.md) | publisher-authored Loaves: trusted publishers, the authored `publish` event, admission, the index line |
 | [docs/c-toolchain.md](docs/c-toolchain.md) | the C toolchain release of RFC 159: Clang builds, Linux sysroots, pinned platform flags, the reproduction gate |
 | [encero-systems/incan#1666](https://github.com/encero-systems/incan/issues/1666) | the tracking issue, including the open questions this registry cannot settle alone |

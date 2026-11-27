@@ -1,0 +1,201 @@
+"""
+Authored Loaves (docs/authored-loaves.md): a trusted publisher opens a scope, a publication it signed folds and
+projects, and the fold refuses a publisher out of force, a bundle that does not attest the archive, and a manifest
+that names another package. The bundles here are shaped like GitHub's, without their cryptography, which
+`gh attestation verify` checks at admission.
+"""
+
+from std.encoding import base64
+from std.fs import Path
+from std.json import JsonValue, parse
+from std.testing import assert_eq, assert_true
+
+from authored import fold_authored, render_authored, trusted_publisher_verb, workflow_run
+from adoption import content_path
+from canonical import canonical, digest_bytes
+from events import append_scoped_event, load_events, write_text
+from host import environment_value
+from statements import statement_targets
+
+
+
+def scratch(name: str) -> Path:
+    location = environment_value("TMPDIR").unwrap_or("/tmp").strip() + "/loaves-pub-authored-test-" + name
+    path = Path(location)
+    if path.is_dir():
+        path.remove_tree().unwrap()
+    path.mkdir(parents=true, exist_ok=true).unwrap()
+    return path
+
+
+def commit() -> str:
+    return "0123456789abcdef0123456789abcdef01234567"
+
+
+def manifest(name: str) -> str:
+    return f"[project]\nname = \"{name}\"\nversion = \"0.1.0\"\nrequires-incan = \">=0.6.0\"\n\n[dependencies]\nwidgets = {{ loaf = \"incan/widgets\", version = \"^0.4\" }}\nserde = {{ crate = \"serde\", version = \"1\", features = [\"derive\"] }}\n"
+
+
+def bundle(archive: str, workflow: str, git_ref: str) -> str:
+    """A Sigstore bundle shaped like GitHub's build provenance for `archive`, signed by nobody."""
+    statement = JsonValue.object({
+        "_type": JsonValue.string("https://in-toto.io/Statement/v1"),
+        "subject": JsonValue.array([JsonValue.object({
+            "name": JsonValue.string("graphlib-0.1.0.tar"),
+            "digest": JsonValue.object({"sha256": JsonValue.string(archive[7:])}),
+        })]),
+        "predicateType": JsonValue.string("https://slsa.dev/provenance/v1"),
+        "predicate": JsonValue.object({"buildDefinition": JsonValue.object({
+            "externalParameters": JsonValue.object({"workflow": JsonValue.object({
+                "repository": JsonValue.string("https://github.com/encero-systems/graphlib"),
+                "path": JsonValue.string(workflow),
+                "ref": JsonValue.string(git_ref),
+            })}),
+            "resolvedDependencies": JsonValue.array([JsonValue.object({
+                "uri": JsonValue.string("git+https://github.com/encero-systems/graphlib@" + git_ref),
+                "digest": JsonValue.object({"gitCommit": JsonValue.string(commit())}),
+            })]),
+        })}),
+    })
+    return canonical(JsonValue.object({
+        "mediaType": JsonValue.string("application/vnd.dev.sigstore.bundle.v0.3+json"),
+        "dsseEnvelope": JsonValue.object({
+            "payloadType": JsonValue.string("application/vnd.in-toto+json"),
+            "payload": JsonValue.string(base64.b64encode(canonical(statement).unwrap().encode())),
+            "signatures": JsonValue.array([]),
+        }),
+    })).unwrap()
+
+
+def store(root: Path, text: str) -> str:
+    digest = digest_bytes(text.encode())
+    write_text(root / content_path(digest), text, "content").unwrap()
+    return digest
+
+
+def publish(root: Path, scope_name: str, manifest_text: str, bundle_archive: str, workflow: str, git_ref: str) -> None:
+    """Append a `publish` of `<scope>/graphlib` 0.1.0 whose archive digest is the hash of the word `archive`."""
+    archive = digest_bytes(b"archive")
+    payload: Dict[str, JsonValue] = {
+        "source": JsonValue.object({
+            "archive": JsonValue.string(archive),
+            "bytes": JsonValue.int(7),
+            "location": JsonValue.object({
+                "registry": JsonValue.string("ghcr.io"),
+                "repository": JsonValue.string("encero-systems/loaves.pub/" + scope_name + "/graphlib"),
+                "tag": JsonValue.string("0.1.0"),
+            }),
+        }),
+        "manifest": JsonValue.string(store(root, manifest_text)),
+        "facets": JsonValue.array([JsonValue.string("incan")]),
+        "publisher": JsonValue.object({
+            "identity": JsonValue.string("https://github.com/encero-systems/graphlib/" + workflow + "@" + git_ref),
+            "issuer": JsonValue.string("https://token.actions.githubusercontent.com"),
+            "repository": JsonValue.string("encero-systems/graphlib"),
+            "workflow": JsonValue.string(workflow),
+            "ref": JsonValue.string(git_ref),
+            "commit": JsonValue.string(commit()),
+        }),
+        "attestation": JsonValue.object({
+            "bundle": JsonValue.string(store(root, bundle(bundle_archive, workflow, git_ref))),
+            "url": JsonValue.string("https://github.com/encero-systems/graphlib/attestations/1"),
+        }),
+    }
+    append_scoped_event(root, "publish", scope_name, "graphlib", "0.1.0", "tests", payload).unwrap()
+
+
+def trust(root: Path, action: str, git_ref: str) -> str:
+    match trusted_publisher_verb(root, [action, "incan"], "encero-systems/graphlib", ".github/workflows/publish.yml", git_ref, "tests"):
+        Ok(note) => return note
+        Err(message) => return "refused: " + message
+
+
+def folded(root: Path) -> str:
+    match fold_authored(load_events(root).unwrap(), root):
+        Ok(authored) => return f"{len(authored.publishers)} publisher(s), {len(authored.publications)} publication(s)"
+        Err(message) => return "refused: " + message
+
+
+def test_a_trusted_publisher_opens_a_scope_and_its_publication_projects() -> None:
+    root = scratch("projects")
+    assert_eq(trust(root, "add", "refs/tags/v*"), "recorded: events/000001-trusted-publisher-incan.json")
+    publish(root, "incan", manifest("incan/graphlib"), digest_bytes(b"archive"), ".github/workflows/publish.yml", "refs/tags/v0.1.0")
+    assert_eq(folded(root), "1 publisher(s), 1 publication(s)")
+    files = render_authored(fold_authored(load_events(root).unwrap(), root).unwrap()).unwrap()
+    assert_eq(files["incan/graphlib/0.1.0/loaf.toml"], manifest("incan/graphlib"))
+    line = parse(files["index/incan/graphlib"].strip()).unwrap()
+    assert_eq(line.get("name").unwrap().as_str().unwrap(), "incan/graphlib")
+    assert_eq(line.get("cksum").unwrap().as_str().unwrap(), digest_bytes(b"archive"))
+    assert_eq(canonical(line.get("requires").unwrap()).unwrap(), "{\"incan\":\">=0.6.0\"}")
+    assert_eq(canonical(line.get("facts").unwrap()).unwrap(), "[]")
+    assert_true(line.get("adopted") == None)
+    assert_eq(line.get("publisher").unwrap().as_str().unwrap(), "https://github.com/encero-systems/graphlib/.github/workflows/publish.yml@refs/tags/v0.1.0")
+    assert_eq(
+        canonical(line.get("deps").unwrap()).unwrap(),
+        "[{\"crate\":\"serde\",\"default-features\":true,\"features\":[\"derive\"],\"name\":\"serde\",\"optional\":false,\"req\":\"1\"},"
+        + "{\"default-features\":true,\"features\":[],\"loaf\":\"incan/widgets\",\"name\":\"widgets\",\"optional\":false,\"req\":\"^0.4\"}]",
+    )
+
+
+def test_a_publication_outside_the_trusted_ref_or_after_removal_is_refused() -> None:
+    root = scratch("untrusted")
+    trust(root, "add", "refs/tags/v*")
+    publish(root, "incan", manifest("incan/graphlib"), digest_bytes(b"archive"), ".github/workflows/publish.yml", "refs/heads/main")
+    assert_true(folded(root).contains("000002-publish-incan-graphlib-0.1.0.json: https://github.com/encero-systems/graphlib/.github/workflows/publish.yml@refs/heads/main is not a trusted publisher of `incan` at this position"))
+    other = scratch("removed")
+    trust(other, "add", "refs/tags/v*")
+    assert_eq(trust(other, "remove", "refs/tags/v*"), "recorded: events/000002-trusted-publisher-incan.json")
+    assert_true(trust(other, "remove", "refs/tags/v*").contains("is not a trusted publisher of `incan`"))
+    publish(other, "incan", manifest("incan/graphlib"), digest_bytes(b"archive"), ".github/workflows/publish.yml", "refs/tags/v0.1.0")
+    assert_true(folded(other).contains("is not a trusted publisher of `incan` at this position"))
+
+
+def test_a_bundle_that_does_not_attest_the_archive_is_refused() -> None:
+    root = scratch("bundle")
+    trust(root, "add", "refs/tags/v*")
+    publish(root, "incan", manifest("incan/graphlib"), digest_bytes(b"other"), ".github/workflows/publish.yml", "refs/tags/v0.1.0")
+    assert_true(folded(root).contains("the attestation's subjects do not include the source Loaf " + digest_bytes(b"archive")))
+
+
+def test_a_manifest_naming_another_package_is_refused() -> None:
+    root = scratch("manifest")
+    trust(root, "add", "refs/tags/v*")
+    publish(root, "incan", manifest("incan/other"), digest_bytes(b"archive"), ".github/workflows/publish.yml", "refs/tags/v0.1.0")
+    assert_true(folded(root).contains("the manifest's [project] names `incan/other` 0.1.0, not `incan/graphlib` 0.1.0"))
+
+
+def test_an_adoption_scope_takes_no_trusted_publisher_and_no_authored_publication() -> None:
+    root = scratch("adoption-scope")
+    match trusted_publisher_verb(root, ["add", "c"], "encero-systems/graphlib", ".github/workflows/publish.yml", "refs/tags/v*", "tests"):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_true(message.contains("`c` is not open for authored publication"))
+    assert_eq(len(load_events(root).unwrap()), 0)
+    match trusted_publisher_verb(root, ["add", "crates-io"], "encero-systems/graphlib", ".github/workflows/publish.yml", "refs/tags/v*", "tests"):
+        Ok(_) => assert_true(false)
+        Err(message) => assert_true(message.contains("names one scope other than crates-io"))
+
+
+def test_the_published_manifest_is_a_statement_target() -> None:
+    root = scratch("statements")
+    trust(root, "add", "refs/tags/v*")
+    publish(root, "incan", manifest("incan/graphlib"), digest_bytes(b"archive"), ".github/workflows/publish.yml", "refs/tags/v0.1.0")
+    files = render_authored(fold_authored(load_events(root).unwrap(), root).unwrap()).unwrap()
+    for path in ["index/incan/graphlib", "incan/graphlib/0.1.0/loaf.toml"]:
+        write_text(root / path, files[path], path).unwrap()
+    mut listed: list[str] = []
+    for target in statement_targets(root).unwrap():
+        listed.append(target.kind + " " + target.path)
+    assert_eq(listed, ["index index/incan/graphlib", "manifest incan/graphlib/0.1.0/loaf.toml"])
+
+
+def test_the_run_gh_verified_is_read_from_its_certificate() -> None:
+    text = (
+        "[{\"verificationResult\":{\"signature\":{\"certificate\":{"
+        + "\"subjectAlternativeName\":\"https://github.com/encero-systems/graphlib/.github/workflows/publish.yml@refs/tags/v0.1.0\","
+        + "\"issuer\":\"https://token.actions.githubusercontent.com\",\"sourceRepositoryDigest\":\"" + commit() + "\"}}}}]"
+    )
+    run = workflow_run(text).unwrap()
+    assert_eq(run.repository, "encero-systems/graphlib")
+    assert_eq(run.workflow, ".github/workflows/publish.yml")
+    assert_eq(run.git_ref, "refs/tags/v0.1.0")
+    assert_eq(run.commit, commit())

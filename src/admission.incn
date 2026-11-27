@@ -41,6 +41,7 @@ from registry import (
     name_under,
     profiles,
     record_key,
+    scope,
     sorted_unique,
     status_attested,
     status_harvested,
@@ -63,6 +64,9 @@ pub def replay_onto(initial: Dict[str, Record], events: list[Event], root: Path)
     mut state = initial
     mut adopted = adopted_versions(state)
     for event in events:
+        # Authored scopes fold in src/authored.incn; the records here are the crates.io ones.
+        if event.scope != scope():
+            continue
         key = record_key(event.name, event.version)
         if event.kind == "publish":
             if key in state:
@@ -432,11 +436,22 @@ pub def admit_asset(initial: Record, binding_value: JsonValue, asset: JsonValue,
     A unit compiles from the adopted source Loaf, so the version must be adopted. Facts are not checked: a unit's identity
     retains the cfg facts and generated inputs it compiled under (RFC 119 rule 9), so a unit compiled without the facts
     a plan selects never matches that plan, and only the crate archive, which admission does not read, says whether a
-    binding needs a fact at all (a package without a build script needs none). One unit identity names one archive: a
-    second archive for it is a determinism conflict and is refused, so a consumer is never offered two payloads for one
-    identity (RFC 125).
+    binding needs a fact at all (a package without a build script needs none).
     """
     mut record = initial
+    revision = revision_of(asset, label)?
+    admitted = asset_from_event(binding_value, asset, revision, label)?
+    match record.adopt:
+        Some(_) => pass
+        None => return Err(f"{label}: an asset is compiled from an adopted source Loaf; {record.name} {record.version} is not adopted")
+    if revision > record.revision:
+        return Err(f"{label}: the asset names revision {revision}; {record.name} {record.version} has {record.revision}")
+    record.assets = with_asset(record.assets, admitted, label)?
+    return Ok(record)
+
+
+pub def asset_from_event(binding_value: JsonValue, asset: JsonValue, revision: int, label: str) -> Result[Asset, str]:
+    """One `asset` event's unit, its fields checked: digests, builder kind, registry location, binding and toolchain."""
     for field in ["archive", "unit_identity", "entry", "payload", "builder", "attestation"]:
         if len(string_member(asset, field)) == 0:
             return Err(f"{label}: asset requires `{field}`")
@@ -450,32 +465,13 @@ pub def admit_asset(initial: Record, binding_value: JsonValue, asset: JsonValue,
         if len(string_member(location, field)) == 0:
             return Err(f"{label}: asset location requires `{field}`")
     binding = validate_binding(binding_value, label)?
-    match record.adopt:
-        Some(_) => pass
-        None => return Err(f"{label}: an asset is compiled from an adopted source Loaf; {record.name} {record.version} is not adopted")
     toolchain = string_member(asset, "toolchain")
     if len(toolchain) > 0 and not is_toolchain_identity(toolchain):
         return Err(f"{label}: an asset's toolchain is `incan@` and the 40-digit commit it was built from, not `{toolchain}`")
-    revision = revision_of(asset, label)?
-    if revision > record.revision:
-        return Err(f"{label}: the asset names revision {revision}; {record.name} {record.version} has {record.revision}")
-    unit_identity = string_member(asset, "unit_identity")
-    archive = string_member(asset, "archive")
-    mut index = 0
-    while index < len(record.assets):
-        mut present = record.assets[index]
-        if present.unit_identity == unit_identity:
-            if present.archive != archive:
-                return Err(f"{label}: unit {unit_identity} already has asset {present.archive}; a second archive for one unit is a determinism conflict")
-            if not present.revisions.contains(revision):
-                present.revisions.append(revision)
-                record.assets[index] = present
-            return Ok(record)
-        index += 1
-    record.assets.append(Asset(
+    return Ok(Asset(
         binding=binding,
-        archive=archive,
-        unit_identity=unit_identity,
+        archive=string_member(asset, "archive"),
+        unit_identity=string_member(asset, "unit_identity"),
         entry=string_member(asset, "entry"),
         payload=string_member(asset, "payload"),
         builder=string_member(asset, "builder"),
@@ -484,7 +480,29 @@ pub def admit_asset(initial: Record, binding_value: JsonValue, asset: JsonValue,
         toolchain=toolchain,
         revisions=[revision],
     ))
-    return Ok(record)
+
+
+pub def with_asset(assets: list[Asset], asset: Asset, label: str) -> Result[list[Asset], str]:
+    """
+    `assets` with one more unit, or with the revision added when it already holds that very unit. One unit identity
+    names one archive: a second archive for it is a determinism conflict and is refused, so a consumer is never
+    offered two payloads for one identity (RFC 125).
+    """
+    mut out = assets.clone()
+    mut index = 0
+    while index < len(out):
+        mut present = out[index]
+        if present.unit_identity == asset.unit_identity:
+            if present.archive != asset.archive:
+                return Err(f"{label}: unit {asset.unit_identity} already has asset {present.archive}; a second archive for one unit is a determinism conflict")
+            for revision in asset.revisions:
+                if not present.revisions.contains(revision):
+                    present.revisions.append(revision)
+            out[index] = present
+            return Ok(out)
+        index += 1
+    out.append(asset)
+    return Ok(out)
 
 
 pub def require_toolchain(asset: JsonValue, label: str) -> Result[None, str]:

@@ -1,0 +1,788 @@
+"""
+Authored Loaves (docs/authored-loaves.md): packages their publishers write, package and sign, published under a scope
+the registry opened for authored publication with a `trusted-publisher` event.
+
+They fold from the same log as the crates.io records but apart from them, since a source Loaf is a different
+publication from an external-source record (RFC 125). `fold_authored` checks every rule it can offline: a
+publication's publisher is a trusted publisher in force at its position, its stored Sigstore bundle attests the
+archive's digest from that workflow, and its manifest names the subject. `admit-publication` adds what needs the
+network, the bundle's certificate chain and transparency-log inclusion, through `gh attestation verify`.
+"""
+
+from std.encoding import base64
+from std.fs import Path
+from std.json import JsonValue, parse
+from std.toml import TomlValue
+
+from admission import asset_from_event, require_toolchain, with_asset
+from adoption import content_path
+from canonical import canonical, digest_bytes, is_sha256_identity
+from closure import blob_path
+from events import Event, append_scoped_event, load_events, member, string_list_member, string_member
+from host import environment_value, run_program
+from oci import Layer, Registry, SOURCE_ARTIFACT, SOURCE_LAYER, SOURCE_REPOSITORY, push, repository, version_tag
+from policy import authored_scopes
+from projection import asset_manifest_text
+from registry import Asset, compare_versions, has_key, keys_of, record_key, scope
+from semver import parse_version
+from tar import read_archive
+
+pub def github_issuer() -> str:
+    """The OpenID Connect issuer of a GitHub Actions workflow identity."""
+    return "https://token.actions.githubusercontent.com"
+
+
+pub def github_provider() -> str:
+    return "github-actions"
+
+
+pub def facet_kinds() -> list[str]:
+    return ["incan", "rust"]
+
+
+@derive(Clone)
+pub class TrustedPublisher:
+    """One identity a scope accepts publications from: a GitHub Actions workflow of a repository, at a ref or refs."""
+
+    pub scope: str
+    pub repository: str
+    pub workflow: str
+    pub git_ref: str
+
+    def same_entry(self, other: TrustedPublisher) -> bool:
+        return self.scope == other.scope and self.repository == other.repository and self.workflow == other.workflow and self.git_ref == other.git_ref
+
+    def accepts(self, repository: str, workflow: str, git_ref: str) -> bool:
+        """Whether a run of `repository`'s `workflow` at `git_ref` is this publisher; a `ref` ending in `*` is a prefix."""
+        if repository != self.repository or workflow != self.workflow:
+            return false
+        if self.git_ref.endswith("*"):
+            return git_ref.startswith(self.git_ref[0:len(self.git_ref) - 1])
+        return git_ref == self.git_ref
+
+
+@derive(Clone)
+pub class Publication:
+    """One authored version: its source Loaf, manifest, publisher and attestation, and what accrued to it since."""
+
+    pub scope: str
+    pub name: str
+    pub version: str
+    pub archive: str
+    pub manifest: str
+    pub manifest_text: str
+    pub bundle: str
+    pub facets: list[str]
+    pub publisher: str
+    pub deps: JsonValue
+    pub features: JsonValue
+    pub requires: JsonValue
+    pub yanked: bool
+    pub yank_reason: str
+    pub advisories: list[JsonValue]
+    pub assets: list[Asset]
+
+    def package(self) -> str:
+        return self.scope + "/" + self.name
+
+    def directory(self) -> str:
+        return f"{self.scope}/{self.name}/{self.version}"
+
+    def index_line(self) -> JsonValue:
+        """The version's line of `index/<scope>/<name>` (docs/authored-loaves.md, "The index line")."""
+        mut facets: list[JsonValue] = []
+        for facet in self.facets:
+            facets.append(JsonValue.string(facet))
+        return JsonValue.object({
+            "name": JsonValue.string(self.package()),
+            "vers": JsonValue.string(self.version),
+            "cksum": JsonValue.string(self.archive),
+            "deps": self.deps,
+            "facets": JsonValue.array(facets),
+            "features": self.features,
+            "requires": self.requires,
+            "facts": JsonValue.array([]),
+            "manifest": JsonValue.string(self.directory() + "/loaf.toml"),
+            "publisher": JsonValue.string(self.publisher),
+            "yanked": JsonValue.bool(self.yanked),
+            "advisories": JsonValue.int(len(self.advisories)),
+            "assets": JsonValue.int(len(self.assets)),
+        })
+
+
+@derive(Clone)
+pub class Authored:
+    """The fold of the authored scopes: the trusted publishers in force and every publication, by package and version."""
+
+    pub publishers: list[TrustedPublisher]
+    pub publications: Dict[str, Publication]
+
+    def publishers_of(self, scope_name: str) -> list[TrustedPublisher]:
+        mut out: list[TrustedPublisher] = []
+        for publisher in self.publishers:
+            if publisher.scope == scope_name:
+                out.append(publisher)
+        return out
+
+    def claimed_content(self) -> list[str]:
+        """The `content/` files the publications name: each manifest and attestation bundle."""
+        mut out: list[str] = []
+        for key in keys_of(self.publications):
+            out.append(content_path(self.publications[key].manifest))
+            out.append(content_path(self.publications[key].bundle))
+        return out
+
+
+@derive(Clone)
+pub model ManifestFacts:
+    """What an authored manifest says that its index line carries."""
+
+    pub deps: JsonValue
+    pub features: JsonValue
+    pub requires: JsonValue
+
+
+pub def in_force(publishers: list[TrustedPublisher], scope_name: str, repository: str, workflow: str, git_ref: str) -> bool:
+    for publisher in publishers:
+        if publisher.scope == scope_name and publisher.accepts(repository, workflow, git_ref):
+            return true
+    return false
+
+
+pub def fold_authored(events: list[Event], root: Path) -> Result[Authored, str]:
+    """Fold every event of an authored scope in log order, or say which event breaks which rule."""
+    mut publishers: list[TrustedPublisher] = []
+    mut publications: Dict[str, Publication] = {}
+    for event in events:
+        if event.scope == scope():
+            continue
+        if not authored_scopes().contains(event.scope):
+            return Err(f"{event.label}: `{event.scope}` is not open for authored publication; the authored scopes are the reserved scopes that are not adoption scopes")
+        if event.kind == "trusted-publisher":
+            publishers = fold_trusted_publisher(publishers, event)?
+            continue
+        key = record_key(event.scope + "/" + event.name, event.version)
+        if event.kind == "publish":
+            if has_key(publications, key):
+                return Err(f"{event.label}: {event.scope}/{event.name} {event.version} is already published; versions are immutable")
+            publications[key] = fold_publication(publishers, event, root)?
+            continue
+        if not has_key(publications, key):
+            return Err(f"{event.label}: {event.scope}/{event.name} {event.version} has no publish event before this {event.kind}")
+        publications[key] = fold_publication_event(publishers, publications[key], event)?
+    return Ok(Authored(publishers=publishers, publications=publications))
+
+
+def fold_trusted_publisher(publishers: list[TrustedPublisher], event: Event) -> Result[list[TrustedPublisher], str]:
+    """Add or remove one trusted publisher of the event's scope."""
+    label = event.label
+    body = event.body
+    if string_member(body, "provider") != github_provider() or string_member(body, "issuer") != github_issuer():
+        return Err(f"{label}: a trusted publisher is a GitHub Actions workflow: provider `{github_provider()}`, issuer `{github_issuer()}`")
+    repository = string_member(body, "repository")
+    workflow = string_member(body, "workflow")
+    git_ref = string_member(body, "ref")
+    if not is_repository(repository):
+        return Err(f"{label}: `repository` is `<owner>/<name>`, not `{repository}`")
+    if not is_workflow_path(workflow):
+        return Err(f"{label}: `workflow` is a file under `.github/workflows/`, not `{workflow}`")
+    if not is_ref_pattern(git_ref):
+        return Err(f"{label}: `ref` is a full ref name such as `refs/tags/v1.0.0`, or a prefix of one ending in `*`, not `{git_ref}`")
+    entry = TrustedPublisher(scope=event.scope, repository=repository, workflow=workflow, git_ref=git_ref)
+    mut others: list[TrustedPublisher] = []
+    mut found = false
+    for present in publishers:
+        if present.same_entry(entry):
+            found = true
+        else:
+            others.append(present)
+    action = string_member(body, "action")
+    if action == "add":
+        if found:
+            return Err(f"{label}: {repository} {workflow} at {git_ref} is already a trusted publisher of `{event.scope}`")
+        mut out = publishers.clone()
+        out.append(entry)
+        return Ok(out)
+    if action == "remove":
+        if not found:
+            return Err(f"{label}: {repository} {workflow} at {git_ref} is not a trusted publisher of `{event.scope}`")
+        return Ok(others)
+    return Err(f"{label}: `action` is `add` or `remove`")
+
+
+def fold_publication(publishers: list[TrustedPublisher], event: Event, root: Path) -> Result[Publication, str]:
+    """An authored `publish` event, checked against the trusted publishers in force and the stored content."""
+    label = event.label
+    match parse_version(event.version):
+        Ok(_) => pass
+        Err(error) => return Err(f"{label}: an authored version is SemVer: {error}")
+    package = event.scope + "/" + event.name
+    source = member(event.body, "source")
+    archive = string_member(source, "archive")
+    if not is_sha256_identity(archive):
+        return Err(f"{label}: `source.archive` is the source Loaf's `sha256:` digest")
+    match source.get("bytes"):
+        Some(value) =>
+            if value.as_int().unwrap_or(0) < 1:
+                return Err(f"{label}: `source.bytes` is the source Loaf's size")
+        None => return Err(f"{label}: `source.bytes` is the source Loaf's size")
+    location = member(source, "location")
+    repository_path = "encero-systems/loaves.pub/" + package
+    tag = event.version.replace("+", "_")
+    if string_member(location, "registry") != "ghcr.io" or string_member(location, "repository") != repository_path or string_member(location, "tag") != tag:
+        return Err(f"{label}: a source Loaf is stored at ghcr.io/{repository_path}:{tag}")
+    manifest = string_member(event.body, "manifest")
+    manifest_text = stored_text(root, manifest, "manifest", label)?
+    facts = manifest_facts(manifest_text, package, event.version, label)?
+    facets = recorded_facets(event.body, label)?
+    publisher = member(event.body, "publisher")
+    repository = string_member(publisher, "repository")
+    workflow = string_member(publisher, "workflow")
+    git_ref = string_member(publisher, "ref")
+    commit = string_member(publisher, "commit")
+    identity = string_member(publisher, "identity")
+    if string_member(publisher, "issuer") != github_issuer() or identity != f"https://github.com/{repository}/{workflow}@{git_ref}":
+        return Err(f"{label}: `publisher.identity` is `https://github.com/<repository>/<workflow>@<ref>`, issued by `{github_issuer()}`")
+    if not is_commit(commit):
+        return Err(f"{label}: `publisher.commit` is the 40-digit commit the workflow ran on")
+    if not in_force(publishers, event.scope, repository, workflow, git_ref):
+        return Err(f"{label}: {identity} is not a trusted publisher of `{event.scope}` at this position")
+    attestation = member(event.body, "attestation")
+    bundle = string_member(attestation, "bundle")
+    if not string_member(attestation, "url").startswith(f"https://github.com/{repository}/attestations/"):
+        return Err(f"{label}: `attestation.url` is the attestation's page under https://github.com/{repository}/attestations/")
+    check_bundle(stored_text(root, bundle, "attestation bundle", label)?, archive, repository, workflow, git_ref, commit, label)?
+    return Ok(Publication(
+        scope=event.scope,
+        name=event.name,
+        version=event.version,
+        archive=archive,
+        manifest=manifest,
+        manifest_text=manifest_text,
+        bundle=bundle,
+        facets=facets,
+        publisher=identity,
+        deps=facts.deps,
+        features=facts.features,
+        requires=facts.requires,
+        yanked=false,
+        yank_reason="",
+        advisories=[],
+        assets=[],
+    ))
+
+
+def fold_publication_event(publishers: list[TrustedPublisher], initial: Publication, event: Event) -> Result[Publication, str]:
+    """An asset, a yank or an advisory about a published authored version."""
+    mut publication = initial
+    if event.kind == "asset":
+        require_toolchain(event.payload("asset"), event.label)?
+        asset = asset_from_event(event.payload("binding"), event.payload("asset"), 1, event.label)?
+        if asset.builder == "publisher":
+            builder = member(event.payload("asset"), "publisher")
+            if not in_force(publishers, event.scope, string_member(builder, "repository"), string_member(builder, "workflow"), string_member(builder, "ref")):
+                return Err(f"{event.label}: a publisher-built asset names, in `publisher`, a trusted publisher of `{event.scope}` in force")
+        publication.assets = with_asset(publication.assets, asset, event.label)?
+    elif event.kind == "yank":
+        publication.yanked = true
+        publication.yank_reason = string_member(event.body, "reason")
+    elif event.kind == "unyank":
+        publication.yanked = false
+        publication.yank_reason = ""
+    elif event.kind == "advisory":
+        advisory = event.payload("advisory")
+        if len(string_member(advisory, "text").strip()) == 0:
+            return Err(f"{event.label}: an advisory carries a non-empty `text`")
+        publication.advisories.append(advisory)
+    else:
+        return Err(f"{event.label}: an authored Loaf takes no `{event.kind}` event")
+    return Ok(publication)
+
+
+def stored_text(root: Path, digest: str, what: str, label: str) -> Result[str, str]:
+    """The UTF-8 text `content/` holds under `digest`, refused unless its bytes have that digest."""
+    if not is_sha256_identity(digest):
+        return Err(f"{label}: the {what} is named by its `sha256:` digest")
+    path = content_path(digest)
+    if not (root / path).is_file():
+        return Err(f"{label}: the {what} {digest} is not stored at {path}")
+    match (root / path).read_bytes():
+        Ok(data) =>
+            if digest_bytes(data) != digest:
+                return Err(f"{label}: {path} does not hold the bytes of {digest}")
+            match data.decode():
+                Ok(text) => return Ok(text)
+                Err(_) => return Err(f"{label}: the {what} is not UTF-8")
+        Err(error) => return Err(f"{label}: {path}: {error.message()}")
+
+
+pub def manifest_facts(text: str, package: str, version: str, label: str) -> Result[ManifestFacts, str]:
+    """
+    Check that an authored manifest names `package` at `version` and has no `path` dependency, and return the
+    dependencies and features its index line carries.
+    """
+    document = parse_manifest(text, label)?
+    name = manifest_text_at(document, "project.name")
+    declared = manifest_text_at(document, "project.version")
+    if name != package or declared != version:
+        return Err(f"{label}: the manifest's [project] names `{name}` {declared}, not `{package}` {version}")
+    mut deps: list[JsonValue] = []
+    match document.get_value("dependencies"):
+        Ok(value) =>
+            match value.as_table():
+                Ok(table) =>
+                    for key in sorted(keys_of(table)):
+                        deps.append(dependency_json(key, table[key], label)?)
+                Err(_) => return Err(f"{label}: [dependencies] is a table")
+        Err(_) => pass
+    mut features: Dict[str, JsonValue] = {}
+    match document.get_value("features"):
+        Ok(value) =>
+            match value.as_table():
+                Ok(table) =>
+                    for key in sorted(keys_of(table)):
+                        features[key] = JsonValue.array(toml_strings(table[key], f"{label}: feature `{key}`")?)
+                Err(_) => return Err(f"{label}: [features] is a table")
+        Err(_) => pass
+    mut requires: Dict[str, JsonValue] = {}
+    incan_range = manifest_text_at(document, "project.requires-incan")
+    if len(incan_range) > 0:
+        requires["incan"] = JsonValue.string(incan_range)
+    return Ok(ManifestFacts(deps=JsonValue.array(deps), features=JsonValue.object(features), requires=JsonValue.object(requires)))
+
+
+def dependency_json(key: str, value: TomlValue, label: str) -> Result[JsonValue, str]:
+    """One `[dependencies]` entry as an index line types it: a `loaf` or a `crate`, with its requirement."""
+    where = f"{label}: dependency `{key}`"
+    mut table: Dict[str, TomlValue] = {}
+    match value.as_table():
+        Ok(found) => table = found
+        Err(_) => return Err(f"{where} is a table naming `loaf` or `crate` and `version`")
+    if has_key(table, "path"):
+        return Err(f"{where}: a published Loaf has no `path` dependency")
+    mut fields: Dict[str, JsonValue] = {"name": JsonValue.string(key)}
+    mut sources = 0
+    for source in ["loaf", "crate"]:
+        if has_key(table, source):
+            sources += 1
+            fields[source] = JsonValue.string(toml_string(table[source], f"{where}: `{source}`")?)
+    if sources != 1 or not has_key(table, "version"):
+        return Err(f"{where} names exactly one of `loaf` and `crate`, and a `version`")
+    fields["req"] = JsonValue.string(toml_string(table["version"], f"{where}: `version`")?)
+    mut features: list[JsonValue] = []
+    if has_key(table, "features"):
+        features = toml_strings(table["features"], f"{where}: `features`")?
+    fields["features"] = JsonValue.array(features)
+    fields["default-features"] = JsonValue.bool(toml_flag(table, "default-features", true, where)?)
+    fields["optional"] = JsonValue.bool(toml_flag(table, "optional", false, where)?)
+    return Ok(JsonValue.object(fields))
+
+
+def toml_string(value: TomlValue, where: str) -> Result[str, str]:
+    match value.as_str():
+        Ok(text) => return Ok(text)
+        Err(_) => return Err(f"{where} is a string")
+
+
+def toml_strings(value: TomlValue, where: str) -> Result[list[JsonValue], str]:
+    mut out: list[JsonValue] = []
+    match value.as_array():
+        Ok(items) =>
+            for item in items:
+                out.append(JsonValue.string(toml_string(item, where)?))
+        Err(_) => return Err(f"{where} is a list of strings")
+    return Ok(out)
+
+
+def toml_flag(table: Dict[str, TomlValue], key: str, absent: bool, where: str) -> Result[bool, str]:
+    if not has_key(table, key):
+        return Ok(absent)
+    match table[key].as_bool():
+        Ok(flag) => return Ok(flag)
+        Err(_) => return Err(f"{where}: `{key}` is true or false")
+
+
+def recorded_facets(body: JsonValue, label: str) -> Result[list[str], str]:
+    match string_list_member(body, "facets"):
+        Some(facets) =>
+            if len(facets) == 0 or sorted(facets) != facets:
+                return Err(f"{label}: `facets` is a sorted, non-empty list")
+            for facet in facets:
+                if not facet_kinds().contains(facet):
+                    return Err(f"{label}: a facet is one of incan, rust; not `{facet}`")
+            return Ok(facets)
+        None => return Err(f"{label}: `facets` lists the facet kinds the source Loaf carries")
+
+
+pub def check_bundle(text: str, archive: str, repository: str, workflow: str, git_ref: str, commit: str, label: str) -> Result[None, str]:
+    """
+    A stored Sigstore bundle, read without its cryptography (`gh attestation verify` checked that at admission): its
+    in-toto statement names the archive among its subjects, and its provenance names the publisher's workflow run.
+    """
+    mut bundle = JsonValue.null()
+    match parse(text):
+        Ok(value) => bundle = value
+        Err(_) => return Err(f"{label}: the attestation bundle is not JSON")
+    envelope = member(bundle, "dsseEnvelope")
+    if string_member(envelope, "payloadType") != "application/vnd.in-toto+json":
+        return Err(f"{label}: the attestation bundle carries an in-toto statement in a DSSE envelope")
+    mut statement = JsonValue.null()
+    match base64.b64decode(string_member(envelope, "payload")):
+        Ok(data) =>
+            match data.decode():
+                Ok(decoded) =>
+                    match parse(decoded):
+                        Ok(value) => statement = value
+                        Err(_) => return Err(f"{label}: the attested statement is not JSON")
+                Err(_) => return Err(f"{label}: the attested statement is not UTF-8")
+        Err(_) => return Err(f"{label}: the DSSE payload is not base64")
+    mut covered = false
+    match statement.get("subject"):
+        Some(subjects) =>
+            for subject in subjects.as_array().unwrap_or([]):
+                if string_member(member(subject, "digest"), "sha256") == archive[7:]:
+                    covered = true
+        None => pass
+    if not covered:
+        return Err(f"{label}: the attestation's subjects do not include the source Loaf {archive}")
+    definition = member(member(statement, "predicate"), "buildDefinition")
+    run = member(member(definition, "externalParameters"), "workflow")
+    if string_member(run, "repository") != f"https://github.com/{repository}" or string_member(run, "path") != workflow or string_member(run, "ref") != git_ref:
+        made_by = string_member(run, "repository") + " " + string_member(run, "path") + " at " + string_member(run, "ref")
+        return Err(f"{label}: the attestation was made by {made_by}, not the recorded publisher")
+    mut at_commit = false
+    match definition.get("resolvedDependencies"):
+        Some(dependencies) =>
+            for dependency in dependencies.as_array().unwrap_or([]):
+                if string_member(member(dependency, "digest"), "gitCommit") == commit:
+                    at_commit = true
+        None => pass
+    if not at_commit:
+        return Err(f"{label}: the attestation's build did not run on commit {commit}")
+    return Ok(None)
+
+
+pub def render_authored(authored: Authored) -> Result[Dict[str, str], str]:
+    """Every authored projection: each version's manifest and asset manifest, and each package's index file."""
+    mut files: Dict[str, str] = {}
+    mut versions: Dict[str, list[str]] = {}
+    for key in sorted(keys_of(authored.publications)):
+        publication = authored.publications[key]
+        files[publication.directory() + "/loaf.toml"] = publication.manifest_text
+        if len(publication.assets) > 0:
+            files[publication.directory() + "/assets.json"] = asset_manifest_text(publication.package(), publication.version, publication.assets, None)?
+        mut known: list[str] = []
+        if has_key(versions, publication.package()):
+            known = versions[publication.package()]
+        known.append(publication.version)
+        versions[publication.package()] = known
+    for package in sorted(keys_of(versions)):
+        mut text = ""
+        for version in ascending(versions[package]):
+            text = text + canonical(authored.publications[record_key(package, version)].index_line())? + "\n"
+        files["index/" + package] = text
+    return Ok(files)
+
+
+def ascending(versions: list[str]) -> list[str]:
+    mut out: list[str] = []
+    for version in versions:
+        mut placed = false
+        mut ordered: list[str] = []
+        for present in out:
+            if not placed and compare_versions(version, present) < 0:
+                ordered.append(version)
+                placed = true
+            ordered.append(present)
+        if not placed:
+            ordered.append(version)
+        out = ordered
+    return out
+
+
+def is_repository(text: str) -> bool:
+    parts = text.split("/")
+    if len(parts) != 2:
+        return false
+    for part in parts:
+        if len(part) == 0:
+            return false
+        for character in part:
+            if not "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789._-".contains(character):
+                return false
+    return true
+
+
+def is_workflow_path(text: str) -> bool:
+    if not text.startswith(".github/workflows/") or text.contains("..") or text.contains(" ") or text.contains("@"):
+        return false
+    return text.endswith(".yml") or text.endswith(".yaml")
+
+
+def is_ref_pattern(text: str) -> bool:
+    if not text.startswith("refs/") or len(text) < 6 or text.contains(" ") or text.contains("@"):
+        return false
+    mut stem = text
+    if text.endswith("*"):
+        stem = text[0:len(text) - 1]
+    return not stem.contains("*")
+
+
+def is_commit(text: str) -> bool:
+    if len(text) != 40:
+        return false
+    for character in text:
+        if not "0123456789abcdef".contains(character):
+            return false
+    return true
+
+
+def parse_manifest(text: str, label: str) -> Result[TomlValue, str]:
+    match TomlValue.parse(text):
+        Ok(document) => return Ok(document)
+        Err(error) => return Err(f"{label}: the manifest does not parse: {error.message()}")
+
+
+def manifest_text_at(document: TomlValue, path: str) -> str:
+    match document.get_optional[str](path):
+        Ok(found) =>
+            match found:
+                Some(text) => return text
+                None => return ""
+        Err(_) => return ""
+
+
+@derive(Clone)
+pub model WorkflowRun:
+    """The workflow run a verified bundle's certificate names."""
+
+    pub identity: str
+    pub repository: str
+    pub workflow: str
+    pub git_ref: str
+    pub commit: str
+
+
+pub def trusted_publisher_verb(root: Path, positional: list[str], repository: str, workflow: str, git_ref: str, actor: str) -> Result[str, str]:
+    """`trusted-publisher add|remove SCOPE`: record the event, then fold the log so a refused one is not left behind."""
+    if len(positional) != 2 or not ["add", "remove"].contains(positional[0]):
+        return Err("usage: loaves-pub trusted-publisher add|remove SCOPE --repository OWNER/NAME --workflow PATH --ref REF")
+    payload: Dict[str, JsonValue] = {
+        "action": JsonValue.string(positional[0]),
+        "provider": JsonValue.string(github_provider()),
+        "issuer": JsonValue.string(github_issuer()),
+        "repository": JsonValue.string(repository),
+        "workflow": JsonValue.string(workflow),
+        "ref": JsonValue.string(git_ref),
+    }
+    written = append_scoped_event(root, "trusted-publisher", positional[1], "", "", actor, payload)?
+    kept(root, written)?
+    return Ok(f"recorded: {written}")
+
+
+pub def admit_publication_verb(
+    root: Path, positional: list[str], archive_file: str, bundle_file: str, url: str, blobs: str, gh: str, actor: str
+) -> Result[str, str]:
+    """
+    `admit-publication SCOPE/NAME VERSION`: verify a publisher's release with `gh attestation verify` against the
+    scope's trusted publishers, store its archive, manifest and bundle, and append its `publish` event.
+    """
+    usage = "usage: loaves-pub admit-publication SCOPE/NAME VERSION --archive FILE --bundle FILE --attestation-url URL --blobs DIR [--gh PATH]"
+    if len(positional) != 2 or len(positional[0].split("/")) != 2:
+        return Err(usage)
+    scope_name = positional[0].split("/")[0]
+    name = positional[0].split("/")[1]
+    version = positional[1]
+    publishers = fold_authored(load_events(root)?, root)?.publishers_of(scope_name)
+    if len(publishers) == 0:
+        return Err(f"`{scope_name}` has no trusted publisher; record one with loaves-pub trusted-publisher add")
+    data = file_bytes(Path(archive_file), archive_file)?
+    mut manifest_data = b""
+    mut has_manifest = false
+    mut facets: list[str] = []
+    for entry in read_archive(data)?:
+        if entry.path == "loaf.toml":
+            manifest_data = entry.data
+            has_manifest = true
+        if entry.path.endswith(".incn") and not facets.contains("incan"):
+            facets.append("incan")
+    if not has_manifest:
+        return Err(f"{archive_file}: a source Loaf holds its `loaf.toml` at the root")
+    match parse_manifest(manifest_data.decode().unwrap_or(""), archive_file)?.get_value("rust"):
+        Ok(_) => facets.append("rust")
+        Err(_) => pass
+    if len(facets) == 0:
+        return Err(f"{archive_file}: the source Loaf carries no Incan source and declares no Rust facet")
+    run = verified_run(gh, archive_file, bundle_file, publishers)?
+    bundle_data = file_bytes(Path(bundle_file), bundle_file)?
+    archive = digest_bytes(data)
+    manifest = digest_bytes(manifest_data)
+    bundle = digest_bytes(bundle_data)
+    write_file(root / content_path(manifest), manifest_data, content_path(manifest))?
+    write_file(root / content_path(bundle), bundle_data, content_path(bundle))?
+    write_file(blob_path(Path(blobs), archive), data, archive_file)?
+    mut facet_values: list[JsonValue] = []
+    for facet in sorted(facets):
+        facet_values.append(JsonValue.string(facet))
+    payload: Dict[str, JsonValue] = {
+        "source": JsonValue.object({
+            "archive": JsonValue.string(archive),
+            "bytes": JsonValue.int(len(data)),
+            "location": JsonValue.object({
+                "registry": JsonValue.string("ghcr.io"),
+                "repository": JsonValue.string("encero-systems/loaves.pub/" + scope_name + "/" + name),
+                "tag": JsonValue.string(version.replace("+", "_")),
+            }),
+        }),
+        "manifest": JsonValue.string(manifest),
+        "facets": JsonValue.array(facet_values),
+        "publisher": JsonValue.object({
+            "identity": JsonValue.string(run.identity),
+            "issuer": JsonValue.string(github_issuer()),
+            "repository": JsonValue.string(run.repository),
+            "workflow": JsonValue.string(run.workflow),
+            "ref": JsonValue.string(run.git_ref),
+            "commit": JsonValue.string(run.commit),
+        }),
+        "attestation": JsonValue.object({"bundle": JsonValue.string(bundle), "url": JsonValue.string(url)}),
+    }
+    written = append_scoped_event(root, "publish", scope_name, name, version, actor, payload)?
+    kept(root, written)?
+    return Ok(f"published: {written}")
+
+
+def verified_run(gh: str, archive_file: str, bundle_file: str, publishers: list[TrustedPublisher]) -> Result[WorkflowRun, str]:
+    """The workflow run a trusted publisher's bundle verifies as, through `gh attestation verify`."""
+    mut environment: Dict[str, str] = {}
+    for key in ["HOME", "PATH", "GH_TOKEN", "GITHUB_TOKEN", "XDG_CACHE_HOME", "XDG_CONFIG_HOME"]:
+        match environment_value(key):
+            Some(value) => environment[key] = value
+            None => pass
+    mut refusals: list[str] = []
+    for publisher in publishers:
+        arguments = [
+            "attestation", "verify", archive_file, "--bundle", bundle_file, "--repo", publisher.repository,
+            "--signer-workflow", publisher.repository + "/" + publisher.workflow, "--format", "json",
+        ]
+        ran = run_program(gh, arguments, environment, ".")?
+        if not ran.success:
+            refusals.append(publisher.repository + " " + publisher.workflow + ": " + ran.stderr.decode().unwrap_or("").strip())
+            continue
+        run = workflow_run(ran.stdout.decode().unwrap_or(""))?
+        if publisher.accepts(run.repository, run.workflow, run.git_ref):
+            return Ok(run)
+        refusals.append(f"{publisher.repository} {publisher.workflow}: signed at {run.git_ref}, outside {publisher.git_ref}")
+    return Err("no trusted publisher verifies this bundle: " + "; ".join(refusals))
+
+
+pub def workflow_run(text: str) -> Result[WorkflowRun, str]:
+    """The run `gh attestation verify --format json` reports: the certificate's identity, issuer and source commit."""
+    mut results: list[JsonValue] = []
+    match parse(text):
+        Ok(value) => results = value.as_array().unwrap_or([])
+        Err(_) => return Err("gh attestation verify printed no JSON")
+    if len(results) == 0:
+        return Err("gh attestation verify reported no verified attestation")
+    certificate = member(member(member(results[0], "verificationResult"), "signature"), "certificate")
+    identity = string_member(certificate, "subjectAlternativeName")
+    if string_member(certificate, "issuer") != github_issuer() or not identity.startswith("https://github.com/"):
+        return Err(f"the bundle's certificate is not a GitHub Actions workflow identity: {identity}")
+    halves = identity[19:].split("@")
+    segments = halves[0].split("/")
+    if len(halves) != 2 or len(segments) < 3:
+        return Err(f"the bundle's certificate names no workflow run: {identity}")
+    return Ok(WorkflowRun(
+        identity=identity,
+        repository=segments[0] + "/" + segments[1],
+        workflow="/".join(segments[2:]),
+        git_ref=halves[1],
+        commit=string_member(certificate, "sourceRepositoryDigest"),
+    ))
+
+
+def kept(root: Path, written: str) -> Result[None, str]:
+    """Fold the log with the event just written; a refused event is removed again, so the log stays admissible."""
+    mut problem = ""
+    match load_events(root):
+        Ok(events) =>
+            match fold_authored(events, root):
+                Ok(_) => return Ok(None)
+                Err(message) => problem = message
+        Err(message) => problem = message
+    match (root / written).unlink():
+        Ok(_) => pass
+        Err(error) => return Err(f"{problem}; and {written} could not be removed: {error.message()}")
+    return Err(problem)
+
+
+def file_bytes(path: Path, label: str) -> Result[bytes, str]:
+    match path.read_bytes():
+        Ok(data) => return Ok(data)
+        Err(error) => return Err(f"{label}: {error.message()}")
+
+
+def write_file(path: Path, data: bytes, label: str) -> Result[None, str]:
+    match path.parent().mkdir(parents=true, exist_ok=true):
+        Ok(_) => pass
+        Err(error) => return Err(f"{label}: {error.message()}")
+    match path.write_bytes(data):
+        Ok(_) => return Ok(None)
+        Err(error) => return Err(f"{label}: {error.message()}")
+
+
+pub def verify_authored_archives(authored: Authored, blobs: Path) -> Result[list[str], str]:
+    """Every authored source Loaf the blob store lacks, or holds other bytes for."""
+    mut problems: list[str] = []
+    for key in sorted(keys_of(authored.publications)):
+        publication = authored.publications[key]
+        label = f"{publication.package()} {publication.version}"
+        path = blob_path(blobs, publication.archive)
+        if not path.is_file():
+            problems.append(f"{label}: the blob store has no source Loaf {publication.archive}")
+            continue
+        if digest_bytes(file_bytes(path, label)?) != publication.archive:
+            problems.append(f"{label}: the blob store holds other bytes for {publication.archive}")
+    return Ok(problems)
+
+
+pub def push_authored(root: Path, positional: list[str], blobs: str, registry: Registry) -> Result[str, str]:
+    """
+    `push-authored SCOPE/NAME VERSION`: push a published version's source Loaf from the blob store to
+    `<namespace>/<scope>/<name>:<version>`, refused unless the store holds exactly the archive the index names.
+    """
+    if len(positional) != 2 or len(positional[0].split("/")) != 2:
+        return Err("usage: loaves-pub push-authored SCOPE/NAME VERSION --blobs DIR --work DIR [--registry HOST] [--namespace NS]")
+    package = positional[0]
+    version = positional[1]
+    authored = fold_authored(load_events(root)?, root)?
+    key = record_key(package, version)
+    if not has_key(authored.publications, key):
+        return Err(f"{package} {version} is not published")
+    publication = authored.publications[key]
+    archive = blob_path(Path(blobs), publication.archive)
+    if digest_bytes(file_bytes(archive, f"{package} {version}")?) != publication.archive:
+        return Err(f"{package} {version}: the blob store holds other bytes for {publication.archive}")
+    repository_name = repository(registry, publication.scope, publication.name)
+    tag = version_tag(version)?
+    layer = Layer(
+        path=blobs + "/sha256/" + publication.archive[7:] + ".tar",
+        media_type=SOURCE_LAYER,
+        annotations={"org.opencontainers.image.title": f"{publication.name}-{version}.tar", "dev.incan.loaf.archive": publication.archive},
+    )
+    annotations: Dict[str, str] = {
+        "org.opencontainers.image.source": SOURCE_REPOSITORY,
+        "org.opencontainers.image.description": authored_description(package),
+        "dev.incan.loaf.name": package,
+        "dev.incan.loaf.version": version,
+    }
+    pushed = push(registry, repository_name, tag, SOURCE_ARTIFACT, [layer], annotations, false)?
+    return Ok(f"pushed: {registry.host}/{repository_name}:{tag} {pushed}")
+
+
+pub def authored_description(package: str) -> str:
+    """What an authored package's registry page says about itself, as `package_description` does for an adoption."""
+    return (
+        f"{package} on loaves.pub: a Loaf its publisher authored and signed. A <version> tag holds its source Loaf "
+        + "archive; a <version>-<12 hex> tag holds the units compiled for one binding. The loaves.pub index names every "
+        + f"digest; verify what you pull against it: https://loaves.pub/packages/{package}/"
+    )

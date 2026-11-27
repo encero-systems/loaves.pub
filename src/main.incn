@@ -29,6 +29,10 @@ loaves-pub: the interim registry's tool. Admission (`check`), projection (`build
     loaves-pub delegate --root-key PEM --key ed25519:... [--root DIR]
     loaves-pub revoke-key --root-key PEM --key KEY-ID --reason TEXT [--root DIR]
     loaves-pub sign --key PEM [--root DIR]
+    loaves-pub trusted-publisher add|remove SCOPE --repository OWNER/NAME --workflow PATH --ref REF [--actor ACTOR] [--root DIR]
+    loaves-pub admit-publication SCOPE/NAME VERSION --archive FILE --bundle FILE --attestation-url URL --blobs DIR
+        [--gh PATH] [--actor ACTOR] [--root DIR]
+    loaves-pub push-authored SCOPE/NAME VERSION --blobs DIR --work DIR [--registry HOST] [--namespace NS] [--root DIR]
 
 `--root` is the checkout of the `index` branch; the current directory when omitted. A refusal prints
 `refused: <rule>` and exits non-zero. `adopt` adopts the named versions (with `--features`, built with those features
@@ -98,6 +102,7 @@ from oci import (
 from tar import TarEntry, read_archive
 from units import Packed, pack_closure, push_units, read_units, reproduction_differences, write_units
 from events import (
+    Event,
     append_event,
     event_files,
     load_events,
@@ -107,6 +112,15 @@ from events import (
     read_text,
     string_list_member,
     string_member,
+)
+from authored import (
+    Authored,
+    admit_publication_verb,
+    fold_authored,
+    push_authored,
+    render_authored,
+    trusted_publisher_verb,
+    verify_authored_archives,
 )
 from host import argv, canonical_path, exit_with, run_program
 from projection import (
@@ -257,6 +271,8 @@ def run(arguments: list[str]) -> Result[None, str]:
         return key_verb(invocation)
     if invocation.command == "site":
         return write_site(invocation)
+    if ["trusted-publisher", "admit-publication", "push-authored"].contains(invocation.command):
+        return authored_verb(invocation)
     return Err(f"unknown command `{invocation.command}`; see the usage at the top of src/main.incn")
 
 
@@ -264,13 +280,14 @@ def check(invocation: Invocation) -> Result[None, str]:
     root = invocation.root()
     events = load_events(root)?
     state = replay(events, root)?
-    wanted = render_projections(state, events)?
+    authored = fold_authored(events, root)?
+    wanted = projections(state, authored, events)?
     committed = committed_projections(root)?
     stale = stale_projections(committed, wanted)
     if len(stale) > 0:
         listed = ", ".join(stale)
         return Err(f"projections are out of date for [{listed}]; run loaves-pub build")
-    unclaimed = unclaimed_generated_inputs(root, state)? + unclaimed_graphs(root, events)? + unclaimed_content(root, state)?
+    unclaimed = unclaimed_generated_inputs(root, state)? + unclaimed_graphs(root, events)? + unclaimed_content(root, state, authored.claimed_content())?
     if len(unclaimed) > 0:
         listed = ", ".join(unclaimed)
         return Err(f"committed bytes no record names: [{listed}]; remove them or admit the fact that names them")
@@ -285,7 +302,7 @@ def check(invocation: Invocation) -> Result[None, str]:
     mut verification = verification_note(verified)
     match invocation.option("blobs"):
         Some(directory) =>
-            missing = verify_archives(state, Path(directory))?
+            missing = verify_archives(state, Path(directory))? + verify_authored_archives(authored, Path(directory))?
             if len(missing) > 0:
                 return Err("the blob store disagrees with the log: " + "; ".join(missing))
             verification = verification + ", source Loaf archives verified"
@@ -333,7 +350,7 @@ def build(invocation: Invocation) -> Result[None, str]:
     root = invocation.root()
     events = load_events(root)?
     state = replay(events, root)?
-    wanted = render_projections(state, events)?
+    wanted = projections(state, fold_authored(events, root)?, events)?
     write_projections(root, committed_projections(root)?, wanted)?
     mut facts = 0
     for key in keys_of(state):
@@ -341,6 +358,32 @@ def build(invocation: Invocation) -> Result[None, str]:
     println(f"built: {len(state)} record(s), {facts} bound fact(s)")
     return Ok(None)
 
+
+def projections(state: Dict[str, Record], authored: Authored, events: list[Event]) -> Result[Dict[str, str], str]:
+    """Every projection file: the crates.io records' and the authored scopes'."""
+    mut wanted = render_projections(state, events)?
+    authored_files = render_authored(authored)?
+    for path in keys_of(authored_files):
+        wanted[path] = authored_files[path]
+    return Ok(wanted)
+
+
+def authored_verb(invocation: Invocation) -> Result[None, str]:
+    """`trusted-publisher` and `admit-publication`: the authored route (src/authored.incn)."""
+    root = invocation.root()
+    if invocation.command == "push-authored":
+        println(push_authored(root, invocation.positional, invocation.require("blobs")?, registry_of(invocation)?)?)
+        return Ok(None)
+    if invocation.command == "trusted-publisher":
+        repository = invocation.require("repository")?
+        println(trusted_publisher_verb(root, invocation.positional, repository, invocation.require("workflow")?, invocation.require("ref")?, invocation.actor())?)
+    else:
+        archive = invocation.require("archive")?
+        bundle = invocation.require("bundle")?
+        url = invocation.require("attestation-url")?
+        gh = invocation.option("gh").unwrap_or("gh")
+        println(admit_publication_verb(root, invocation.positional, archive, bundle, url, invocation.require("blobs")?, gh, invocation.actor())?)
+    return build(invocation)
 
 def publish(invocation: Invocation) -> Result[None, str]:
     if len(invocation.positional) != 3:

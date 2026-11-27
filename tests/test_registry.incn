@@ -232,7 +232,7 @@ def test_the_file_name_must_carry_the_event_kind() -> None:
     directory = scratch()
     root = directory.path()
     write_raw_event(root, "000001", "fact", "{\"schema\": \"incan.pub/event/1\", \"kind\": \"publish\", \"at\": \"t\", \"actor\": \"tests\", \"subject\": {\"scope\": \"crates-io\", \"name\": \"libm\", \"version\": \"0.2.16\"}, \"source\": {\"registry\": \"https://github.com/rust-lang/crates.io-index\", \"checksum\": \"" + libm_checksum() + "\"}}")
-    assert_eq(refusal(root), "events/000001-fact-crates-io-libm-0.2.16.json: kind must be one of publish, adopt, fact, attest, asset, yank, unyank, advisory and match the file name")
+    assert_eq(refusal(root), "events/000001-fact-crates-io-libm-0.2.16.json: kind must be one of publish, adopt, fact, attest, asset, yank, unyank, advisory, trusted-publisher and match the file name")
 
 
 def raw_publish(schema: str) -> str:

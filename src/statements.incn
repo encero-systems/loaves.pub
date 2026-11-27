@@ -16,6 +16,7 @@ from std.json import JsonValue, parse
 from canonical import canonical
 from events import read_text, string_member, write_text
 from projection import is_projection_file
+from policy import authored_scopes
 from signing import (
     OpenSsl,
     PublicKey,
@@ -39,14 +40,18 @@ pub model Target:
 
 
 pub def statement_targets(root: Path) -> Result[list[Target], str]:
-    """Every index file, and every rendered manifest under `crates-io/` (`loaf.toml` and `assets.json`), sorted."""
+    """
+    Every index file, and every rendered manifest (`loaf.toml` and `assets.json`) under `crates-io/` and the authored
+    scopes, sorted within each.
+    """
     mut targets: list[Target] = []
     for path in files_below(root / "index", "index")?:
         targets.append(Target(path=path, kind="index"))
-    for path in files_below(root / "crates-io", "crates-io")?:
-        name = path.split("/")[len(path.split("/")) - 1]
-        if (name == "loaf.toml" or name == "assets.json") and is_projection_file(path):
-            targets.append(Target(path=path, kind="manifest"))
+    for directory in ["crates-io"] + authored_scopes():
+        for path in files_below(root / directory, directory)?:
+            name = path.split("/")[len(path.split("/")) - 1]
+            if (name == "loaf.toml" or name == "assets.json") and is_projection_file(path):
+                targets.append(Target(path=path, kind="manifest"))
     return Ok(targets)
 
 
@@ -149,7 +154,7 @@ def verify_statement(
 def statement_files(root: Path) -> Result[list[str], str]:
     """Every `.statement` file under `index/` and `crates-io/`, by path from the index root."""
     mut out: list[str] = []
-    for directory in ["index", "crates-io"]:
+    for directory in ["index", "crates-io"] + authored_scopes():
         for path in all_files(root / directory, directory)?:
             if path.endswith(STATEMENT_SUFFIX):
                 out.append(path)

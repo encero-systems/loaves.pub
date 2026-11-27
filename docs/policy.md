@@ -1,6 +1,6 @@
 # The registry's published policy
 
-RFC 125 leaves four things to a registry's published policy: which scopes beyond its own it reserves, which of them hold adopted Loaves, how old a release must be before it is adopted, and which toolchains it supports. [`src/policy.incn`](../src/policy.incn) holds them, and `catalog/policy.json` on the `index` branch publishes them, so a reader gets the policy from the same checkpoint as everything else.
+RFC 125 leaves four things to a registry's published policy: which scopes beyond its own it reserves, which of them hold adopted Loaves and which take authored ones, how old a release must be before it is adopted, and which toolchains it supports. [`src/policy.incn`](../src/policy.incn) holds them, and `catalog/policy.json` on the `index` branch publishes them, so a reader gets the policy from the same checkpoint as everything else.
 
 ## Reserved scopes
 
@@ -19,6 +19,10 @@ A scope is the first part of a package name. A reserved scope can't be claimed b
 ## Adoption scopes
 
 `c` and `crates-io` are adoption scopes: the registry adopts their Loaves from an upstream release rather than taking them from a publisher, so no single publisher stands behind the scope. A consumer refuses a publisher-wide trust entry for an adoption scope (RFC 117, "Compile-time code trust"); trust in an adopted Loaf is per version.
+
+## Authored scopes
+
+`encero`, `encero-systems`, `incan`, `oven` and `std` are authored scopes (`authored-scopes` in `catalog/policy.json`): the reserved scopes that are not adoption scopes. One opens for authored publication once the registry records a trusted publisher for it, and then takes publications only from a trusted publisher in force ([authored-loaves.md](authored-loaves.md)).
 
 ## Release-age floor and selection hazards
 

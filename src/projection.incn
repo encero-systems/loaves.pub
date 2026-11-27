@@ -22,7 +22,7 @@ from adoption import (
 )
 from canonical import canonical, json_string, pretty
 from events import Event, member, read_text, string_member, write_text
-from policy import render_policy
+from policy import authored_scopes, render_policy
 from registry import Asset, Record, compare_versions, has_key, keys_of, parse_digits, producer_key_order, record_key
 
 
@@ -341,24 +341,34 @@ def index_line(record: Record, adopted: Option[RevisionView]) -> JsonValue:
 
 pub def render_asset_manifest(record: Record, revision: int) -> Result[str, str]:
     """
-    One revision's asset manifest (RFC 125): every admitted asset that serves it, with its binding, archive digest, unit
-    and entry identities, payload digest, builder kind, attestation, registry location and, where recorded, its full
-    toolchain, ordered by binding and unit. A client decides from it which units it can fetch before it downloads
-    anything. A version with one revision names none.
+    One revision's asset manifest (RFC 125); a version with one revision names none (`asset_manifest_text`).
+    """
+    mut named: Option[int] = None
+    if record.revision > 1:
+        named = Some(revision)
+    return asset_manifest_text(loaf_name(record.name), record.version, assets_of(record, revision), named)
+
+
+pub def asset_manifest_text(name: str, version: str, assets: list[Asset], revision: Option[int]) -> Result[str, str]:
+    """
+    An asset manifest: every admitted asset that serves the version, with its binding, archive digest, unit and entry
+    identities, payload digest, builder kind, attestation, registry location and, where recorded, its full toolchain,
+    ordered by binding and unit. A client decides from it which units it can fetch before it downloads anything.
     """
     mut by_key: Dict[str, JsonValue] = {}
-    for asset in assets_of(record, revision):
+    for asset in assets:
         by_key[asset.binding.key() + "\n\n" + asset.unit_identity] = asset.to_json()
-    mut assets: list[JsonValue] = []
+    mut ordered: list[JsonValue] = []
     for key in sorted(keys_of(by_key)):
-        assets.append(by_key[key])
+        ordered.append(by_key[key])
     mut fields: Dict[str, JsonValue] = {
-        "name": JsonValue.string(loaf_name(record.name)),
-        "vers": JsonValue.string(record.version),
-        "assets": JsonValue.array(assets),
+        "name": JsonValue.string(name),
+        "vers": JsonValue.string(version),
+        "assets": JsonValue.array(ordered),
     }
-    if record.revision > 1:
-        fields["revision"] = JsonValue.int(revision)
+    match revision:
+        Some(number) => fields["revision"] = JsonValue.int(number)
+        None => pass
     return Ok(pretty(JsonValue.object(fields))? + "\n")
 
 
@@ -520,6 +530,8 @@ pub def committed_projections(root: Path) -> Result[Dict[str, str], str]:
     mut files: Dict[str, str] = {}
     collect_files(root / "index", "index", files, false)?
     collect_files(root / "crates-io", "crates-io", files, true)?
+    for authored in authored_scopes():
+        collect_files(root / authored, authored, files, true)?
     collect_files(root / "catalog", "catalog", files, false)?
     return Ok(files)
 
@@ -545,9 +557,11 @@ def member_or_empty_list(value: JsonValue, key: str) -> JsonValue:
         None => return JsonValue.array([])
 
 
-pub def unclaimed_content(root: Path, state: Dict[str, Record]) -> Result[list[str], str]:
-    """Committed bytes under `content/` that no adoption's documents name."""
+pub def unclaimed_content(root: Path, state: Dict[str, Record], also: list[str]) -> Result[list[str], str]:
+    """Committed bytes under `content/` that no adoption's documents name, nor `also` (what authored Loaves name)."""
     mut claimed: Dict[str, bool] = {}
+    for path in also:
+        claimed[path] = true
     for key in keys_of(state):
         for view in revision_views(state[key]):
             for document in member(view.payload, "documents").as_array().unwrap_or([]):

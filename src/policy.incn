@@ -30,6 +30,18 @@ pub def adoption_scopes() -> list[str]:
     return ["c", "crates-io"]
 
 
+pub def authored_scopes() -> list[str]:
+    """
+    The scopes that may open for authored publication (docs/authored-loaves.md), sorted: the reserved scopes that are
+    not adoption scopes. A scope opens once a trusted publisher is in force for it.
+    """
+    mut out: list[str] = []
+    for reserved in reserved_scopes():
+        if not adoption_scopes().contains(reserved):
+            out.append(reserved)
+    return out
+
+
 pub def supported_toolchains() -> list[str]:
     """
     The toolchains an asset is kept for, as an asset's record names them, sorted. An asset whose toolchain has left this
@@ -47,6 +59,7 @@ pub def render_policy() -> Result[str, str]:
     return Ok(pretty(JsonValue.object({
         "schema": JsonValue.string(POLICY_SCHEMA),
         "adoption-scopes": string_list_json(adoption_scopes()),
+        "authored-scopes": string_list_json(authored_scopes()),
         "release-age-floor-hours": JsonValue.int(RELEASE_AGE_FLOOR_HOURS),
         "reserved-scopes": string_list_json(reserved_scopes()),
         "supported-toolchains": string_list_json(supported_toolchains()),
